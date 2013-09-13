@@ -281,6 +281,7 @@
 				A77871C017E391E000A4938C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
