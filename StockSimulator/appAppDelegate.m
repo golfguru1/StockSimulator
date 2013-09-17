@@ -7,6 +7,7 @@
 //
 
 #import "appAppDelegate.h"
+#import "MainViewController.h"
 
 @implementation appAppDelegate
 
@@ -16,39 +17,14 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    NSArray *symbols=@[@"AAPL", @"YHOO",@"GOOG"];
-    NSDictionary *results=[self fetchQuotesFor:symbols];
-    NSLog(@"%@",results);
+    
+    MainViewController *mVc=[[MainViewController alloc]init];
+    self.window.rootViewController=mVc;
+    
     
     return YES;
 }
-#define QUOTE_QUERY_PREFIX @"http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20("
-#define QUOTE_QUERY_SUFFIX @")&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
 
-- (NSDictionary *)fetchQuotesFor:(NSArray *)tickers {
-    NSMutableDictionary *quotes;
-    
-    if (tickers && [tickers count] > 0) {
-        NSMutableString *query = [[NSMutableString alloc] init];
-        [query appendString:QUOTE_QUERY_PREFIX];
-        
-        for (int i = 0; i < [tickers count]; i++) {
-            NSString *ticker = [tickers objectAtIndex:i];
-            [query appendFormat:@"%%22%@%%22", ticker];
-            if (i != [tickers count] - 1) [query appendString:@"%2C"];
-        }
-        
-        [query appendString:QUOTE_QUERY_SUFFIX];
-        NSLog(@"%@",query);
-        
-        NSData *jsonData = [[NSString stringWithContentsOfURL:[NSURL URLWithString:query] encoding:NSUTF8StringEncoding error:nil] dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil] : nil;
-        
-        NSDictionary *quoteEntry = [results valueForKeyPath:@"query.results.quote"];
-        return quoteEntry;
-    }
-    return quotes;
-}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

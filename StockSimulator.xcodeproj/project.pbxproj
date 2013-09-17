@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74DB3B617E7F0F20056DDA8 /* MainViewController.m */; };
 		A77871A517E391E000A4938C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A417E391E000A4938C /* UIKit.framework */; };
 		A77871A717E391E000A4938C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A617E391E000A4938C /* Foundation.framework */; };
 		A77871A917E391E000A4938C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A817E391E000A4938C /* CoreGraphics.framework */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A74DB3B517E7F0F20056DDA8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		A74DB3B617E7F0F20056DDA8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		A77871A117E391E000A4938C /* StockSimulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockSimulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77871A417E391E000A4938C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A77871A617E391E000A4938C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -80,6 +83,8 @@
 			children = (
 				A77871B317E391E000A4938C /* appAppDelegate.h */,
 				A77871B417E391E000A4938C /* appAppDelegate.m */,
+				A74DB3B517E7F0F20056DDA8 /* MainViewController.h */,
+				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
 			);
 			path = StockSimulator;
@@ -167,6 +172,7 @@
 			files = (
 				A77871B117E391E000A4938C /* main.m in Sources */,
 				A77871B517E391E000A4938C /* appAppDelegate.m in Sources */,
+				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
