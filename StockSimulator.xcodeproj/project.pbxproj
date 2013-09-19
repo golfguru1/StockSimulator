@@ -17,6 +17,7 @@
 		A77871B717E391E000A4938C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B617E391E000A4938C /* Default.png */; };
 		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
 		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
+		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,8 @@
 		A77871B617E391E000A4938C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		A77871B817E391E000A4938C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				A77871B417E391E000A4938C /* appAppDelegate.m */,
 				A74DB3B517E7F0F20056DDA8 /* MainViewController.h */,
 				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
+				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
+				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
 			);
 			path = StockSimulator;
@@ -172,6 +177,7 @@
 			files = (
 				A77871B117E391E000A4938C /* main.m in Sources */,
 				A77871B517E391E000A4938C /* appAppDelegate.m in Sources */,
+				A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */,
 				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,6 +255,7 @@
 		A77871BF17E391E000A4938C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StockSimulator/StockSimulator-Prefix.pch";
 				INFOPLIST_FILE = "StockSimulator/StockSimulator-Info.plist";
@@ -260,6 +267,7 @@
 		A77871C017E391E000A4938C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StockSimulator/StockSimulator-Prefix.pch";
 				INFOPLIST_FILE = "StockSimulator/StockSimulator-Info.plist";

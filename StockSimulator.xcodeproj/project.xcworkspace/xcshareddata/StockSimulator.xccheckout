@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4A3E882A-97BD-4A00-A1F0-7A7976DB0BA9</string>
+	<key>IDESourceControlProjectName</key>
+	<string>StockSimulator</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>39988267-4E3D-4D39-8185-76B69098642F</key>
+		<string>ssh://github.com/golfguru1/StockSimulator.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>StockSimulator.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>39988267-4E3D-4D39-8185-76B69098642F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/golfguru1/StockSimulator.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>39988267-4E3D-4D39-8185-76B69098642F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>39988267-4E3D-4D39-8185-76B69098642F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>StockSimulator</string>
+		</dict>
+	</array>
+</dict>
+</plist>
