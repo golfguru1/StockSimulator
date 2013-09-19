@@ -9,7 +9,7 @@
 #import "SearchViewController.h"
 
 @interface SearchViewController (){
-    NSArray *searchResults;
+    NSMutableArray *searchResults;
     UITableView *table;
     UISearchBar *bar;
 }
@@ -23,10 +23,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        searchResults=[[NSArray alloc]initWithObjects:@"Test",@"Test2", nil];
-        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70) style:UITableViewStylePlain];
+        searchResults=[[NSMutableArray alloc]initWithObjects:@"Test",@"Test2", nil];
+        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70) style:UITableViewStyleGrouped];
         [table setDataSource:self];
         [table setDelegate:self];
+        [table setIndicatorStyle:UIScrollViewIndicatorStyleBlack];
+        [table setEditing:YES animated:YES];
         [self.view addSubview:table];
         
         bar=[[UISearchBar alloc]initWithFrame:CGRectMake(0, 22, self.view.frame.size.width, 50)];
@@ -43,10 +45,36 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [searchResults count];
 }
-
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return TRUE;
+}
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [searchResults removeObjectAtIndex:indexPath.row];
+        [table reloadData];
+    }
+}
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
+    // fetch the object at the row being moved
+    NSString *r = [searchResults objectAtIndex:fromIndexPath.row];
+    
+    // remove the original from the data structure
+    [searchResults removeObjectAtIndex:fromIndexPath.row];
+    
+    // insert the object at the target row
+    [searchResults insertObject:r atIndex:toIndexPath.row];
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *MyIdentifier = @"MyIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
@@ -57,7 +85,9 @@
     cell.textLabel.text = searchResults[indexPath.row];
     return cell;
 }
-
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //[tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
@@ -65,20 +95,20 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    return 50;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [cell.contentView setBackgroundColor:[UIColor clearColor]];
-}
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     
+}
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    [bar resignFirstResponder];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    
+    [bar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     [_parent hideSearch];
