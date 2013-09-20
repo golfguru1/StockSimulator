@@ -51,13 +51,13 @@
     return self;
 }
 -(void)refresh{
+    NSLog(@"in refresh %@",[[UserSettings sharedManager]stockTickers]);
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     NSMutableString *resultsString=[[NSMutableString alloc]init];
     for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]mutableCopy] count];++i){
         [resultsString appendString:[NSString stringWithFormat:@"%@ : %@\n",[results valueForKey:@"Symbol"][i],[results valueForKey:@"LastTradePriceOnly"][i]]];
     }
     field.text=resultsString;
-    //[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]mutableCopy]];
 }
 -(void)search{
     if(!sVc) sVc=[[SearchViewController alloc]init];

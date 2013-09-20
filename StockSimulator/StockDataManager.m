@@ -32,7 +32,6 @@
     return self;
 }
 - (NSDictionary *)fetchQuotesFor:(NSArray *)tickers {
-    NSLog(@"IN FETCH: %@",tickers);
     NSMutableDictionary *quotes;
     
     if (tickers && [tickers count] > 0) {
@@ -51,7 +50,6 @@
         NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil] : nil;
         
         NSDictionary *quoteEntry = [results valueForKeyPath:@"query.results.quote"];
-        //NSLog(@"%@",quoteEntry);
         return quoteEntry;
     }
     return quotes;

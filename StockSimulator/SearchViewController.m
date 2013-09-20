@@ -23,7 +23,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70) style:UITableViewStylePlain];
+        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, self.view.frame.size.height-65) style:UITableViewStylePlain];
         [table setDataSource:self];
         [table setDelegate:self];
         [table setIndicatorStyle:UIScrollViewIndicatorStyleBlack];
@@ -32,13 +32,13 @@
         
         UIBarButtonItem *mySettingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
         UIBarButtonItem *mySpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIToolbar *myTopToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,70)];
+        UIToolbar *myTopToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,65)];
         
         [myTopToolbar setItems:[NSArray arrayWithObjects:mySettingsButton,mySpacer, nil] animated:NO];
         myTopToolbar.backgroundColor=[UIColor grayColor];
         [self.view addSubview:myTopToolbar];
         
-        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(70, 22, self.view.frame.size.width-70, 50)];
+        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(50, 20, self.view.frame.size.width-50, 50)];
         bar.delegate=self;
         [bar setBackgroundImage:[UIImage new]];
         [bar setTranslucent:YES];
@@ -72,18 +72,15 @@
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:indexPath.row];
+        NSMutableArray *stocks= [[[UserSettings sharedManager]stockTickers]mutableCopy];
+        [stocks removeObjectAtIndex:indexPath.row];
+        [[UserSettings sharedManager]setStockList:stocks];
         [table reloadData];
     }
 }
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
-    // fetch the object at the row being moved
     NSString *r = [[[UserSettings sharedManager]stockTickers] objectAtIndex:fromIndexPath.row];
-    
-    // remove the original from the data structure
     [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:fromIndexPath.row];
-    
-    // insert the object at the target row
     [[[UserSettings sharedManager]stockTickers] insertObject:r atIndex:toIndexPath.row];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -100,7 +97,6 @@
     return 1;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //[tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
     NSLog(@"%@",selected.textLabel.text);
 }
