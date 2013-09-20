@@ -10,7 +10,6 @@
 #import "UserSettings.h"
 
 @interface SearchViewController (){
-    NSMutableArray *searchResults;
     UITableView *table;
     UISearchBar *bar;
 }
@@ -24,7 +23,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        searchResults=[[UserSettings sharedManager]stockTickers];
         table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70) style:UITableViewStylePlain];
         [table setDataSource:self];
         [table setDelegate:self];
@@ -63,7 +61,7 @@
     return UITableViewCellEditingStyleDelete;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [searchResults count];
+    return [[[UserSettings sharedManager]stockTickers] count];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -74,19 +72,19 @@
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [searchResults removeObjectAtIndex:indexPath.row];
+        [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:indexPath.row];
         [table reloadData];
     }
 }
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
     // fetch the object at the row being moved
-    NSString *r = [searchResults objectAtIndex:fromIndexPath.row];
+    NSString *r = [[[UserSettings sharedManager]stockTickers] objectAtIndex:fromIndexPath.row];
     
     // remove the original from the data structure
-    [searchResults removeObjectAtIndex:fromIndexPath.row];
+    [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:fromIndexPath.row];
     
     // insert the object at the target row
-    [searchResults insertObject:r atIndex:toIndexPath.row];
+    [[[UserSettings sharedManager]stockTickers] insertObject:r atIndex:toIndexPath.row];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *MyIdentifier = @"MyIdentifier";
@@ -95,7 +93,7 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
-    cell.textLabel.text = searchResults[indexPath.row];
+    cell.textLabel.text = [[UserSettings sharedManager]stockTickers][indexPath.row];
     return cell;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -125,6 +123,7 @@
     [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text]];
     [[UserSettings sharedManager]setStockList:stocks];
     [bar resignFirstResponder];
+    [table reloadData];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     [bar resignFirstResponder];

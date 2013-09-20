@@ -27,7 +27,6 @@
 - (id)init{
     self = [super init];
     if (self) {
-        symbols=[[[UserSettings sharedManager]stockTickers]mutableCopy];
         self.view.backgroundColor=[UIColor redColor];
         
         field=[[UITextView alloc]initWithFrame:CGRectMake(10, 22, self.view.frame.size.width-20, self.view.frame.size.height/2-40)];
@@ -52,7 +51,7 @@
     return self;
 }
 -(void)refresh{
-    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]mutableCopy]];
+    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     NSMutableString *resultsString=[[NSMutableString alloc]init];
     for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]mutableCopy] count];++i){
         [resultsString appendString:[NSString stringWithFormat:@"%@ : %@\n",[results valueForKey:@"Symbol"][i],[results valueForKey:@"LastTradePriceOnly"][i]]];
