@@ -7,6 +7,7 @@
 //
 
 #import "SearchViewController.h"
+#import "UserSettings.h"
 
 @interface SearchViewController (){
     NSMutableArray *searchResults;
@@ -108,6 +109,9 @@
     
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+    [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text]];
+    [[UserSettings sharedManager]setStockList:stocks];
     [bar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{

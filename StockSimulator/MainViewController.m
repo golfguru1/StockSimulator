@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "SearchViewController.h"
 #import "StockDataManager.h"
+#import "UserSettings.h"
 
 
 
@@ -26,7 +27,8 @@
 - (id)init{
     self = [super init];
     if (self) {
-        symbols=@[@"AAPL", @"YHOO",@"INTC"];
+        symbols=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+        //NSLog(@"%@",symbols);
         self.view.backgroundColor=[UIColor redColor];
         
         field=[[UITextView alloc]initWithFrame:CGRectMake(10, 22, self.view.frame.size.width-20, self.view.frame.size.height/2-40)];
@@ -51,14 +53,15 @@
     return self;
 }
 -(void)refresh{
-    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:symbols];
+    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]mutableCopy]];
     //NSLog(@"%@",results);
     NSMutableString *resultsString=[[NSMutableString alloc]init];
-    for(int i=0;i<[symbols count];++i){
+    for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]mutableCopy] count];++i){
         [resultsString appendString:[NSString stringWithFormat:@"%@ : %@\n",[results valueForKey:@"Symbol"][i],[results valueForKey:@"LastTradePriceOnly"][i]]];
     }
+    NSLog(@"%@",resultsString);
     field.text=resultsString;
-    [[StockDataManager sharedManager] fetchQuotesFor:symbols];
+    //[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]mutableCopy]];
 }
 -(void)search{
     if(!sVc) sVc=[[SearchViewController alloc]init];

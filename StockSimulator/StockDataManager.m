@@ -7,6 +7,7 @@
 //
 
 #import "StockDataManager.h"
+#import "UserSettings.h"
 
 #define QUOTE_QUERY_PREFIX @"http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20("
 #define QUOTE_QUERY_SUFFIX @")&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
@@ -25,12 +26,13 @@
 {
     self = [super init];
     if ( self ) {
-        stockTickers=[[NSMutableArray alloc]initWithArray:[[NSUserDefaults standardUserDefaults]objectForKey:@"stocks"]];
+        stockTickers=[[[NSUserDefaults standardUserDefaults]objectForKey:@"stocks"]mutableCopy];
     }
     
     return self;
 }
 - (NSDictionary *)fetchQuotesFor:(NSArray *)tickers {
+    NSLog(@"IN FETCH: %@",tickers);
     NSMutableDictionary *quotes;
     
     if (tickers && [tickers count] > 0) {
@@ -49,7 +51,7 @@
         NSDictionary *results = jsonData ? [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil] : nil;
         
         NSDictionary *quoteEntry = [results valueForKeyPath:@"query.results.quote"];
-        NSLog(@"%@",quoteEntry);
+        //NSLog(@"%@",quoteEntry);
         return quoteEntry;
     }
     return quotes;

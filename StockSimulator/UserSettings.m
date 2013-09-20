@@ -10,7 +10,16 @@
 
 @implementation UserSettings
 
-
+- (id)init
+{
+    self = [super init];
+    
+    if (self) {
+        [self loadUserSettings];
+    }
+    
+    return self;
+}
 + (id)sharedManager{
     static dispatch_once_t pred = 0;
     static id instance = nil;
