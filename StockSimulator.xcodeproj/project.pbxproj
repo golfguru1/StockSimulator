@@ -18,6 +18,8 @@
 		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
 		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
 		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
+		A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */; };
+		A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,10 @@
 		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDataManager.h; sourceTree = "<group>"; };
+		A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockDataManager.m; sourceTree = "<group>"; };
+		A7DBDA6E17EBDC220082ACC4 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
+		A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,10 @@
 				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
 				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
 				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
+				A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */,
+				A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */,
+				A7DBDA6E17EBDC220082ACC4 /* UserSettings.h */,
+				A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
 			);
 			path = StockSimulator;
@@ -178,7 +188,9 @@
 				A77871B117E391E000A4938C /* main.m in Sources */,
 				A77871B517E391E000A4938C /* appAppDelegate.m in Sources */,
 				A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */,
+				A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */,
 				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
+				A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
