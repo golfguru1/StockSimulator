@@ -24,23 +24,35 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        searchResults=[[NSMutableArray alloc]initWithObjects:@"Test",@"Test2", nil];
-        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70) style:UITableViewStyleGrouped];
+        searchResults=[[UserSettings sharedManager]stockTickers];
+        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70) style:UITableViewStylePlain];
         [table setDataSource:self];
         [table setDelegate:self];
         [table setIndicatorStyle:UIScrollViewIndicatorStyleBlack];
         [table setEditing:YES animated:YES];
         [self.view addSubview:table];
         
-        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(0, 22, self.view.frame.size.width, 50)];
+        UIBarButtonItem *mySettingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        UIBarButtonItem *mySpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIToolbar *myTopToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,70)];
+        
+        [myTopToolbar setItems:[NSArray arrayWithObjects:mySettingsButton,mySpacer, nil] animated:NO];
+        myTopToolbar.backgroundColor=[UIColor grayColor];
+        [self.view addSubview:myTopToolbar];
+        
+        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(70, 22, self.view.frame.size.width-70, 50)];
         bar.delegate=self;
+        [bar setBackgroundImage:[UIImage new]];
+        [bar setTranslucent:YES];
         bar.showsCancelButton=YES;
         [self.view addSubview:bar];
         
     }
     return self;
 }
-
+-(void)back{
+    [_parent hideSearch];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -115,7 +127,7 @@
     [bar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
-    [_parent hideSearch];
+    [bar resignFirstResponder];
 }
 - (void)didReceiveMemoryWarning
 {

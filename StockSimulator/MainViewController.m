@@ -28,7 +28,6 @@
     self = [super init];
     if (self) {
         symbols=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-        //NSLog(@"%@",symbols);
         self.view.backgroundColor=[UIColor redColor];
         
         field=[[UITextView alloc]initWithFrame:CGRectMake(10, 22, self.view.frame.size.width-20, self.view.frame.size.height/2-40)];
@@ -54,12 +53,10 @@
 }
 -(void)refresh{
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]mutableCopy]];
-    //NSLog(@"%@",results);
     NSMutableString *resultsString=[[NSMutableString alloc]init];
     for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]mutableCopy] count];++i){
         [resultsString appendString:[NSString stringWithFormat:@"%@ : %@\n",[results valueForKey:@"Symbol"][i],[results valueForKey:@"LastTradePriceOnly"][i]]];
     }
-    NSLog(@"%@",resultsString);
     field.text=resultsString;
     //[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]mutableCopy]];
 }
@@ -72,6 +69,7 @@
 -(void)hideSearch{
     if([sVc.view superview]){
         [sVc.view removeFromSuperview];
+        [self refresh];
     }
 }
 - (void)viewDidLoad
