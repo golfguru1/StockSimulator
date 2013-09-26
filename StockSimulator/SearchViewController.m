@@ -26,7 +26,8 @@
         table=[[UITableView alloc]initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, self.view.frame.size.height-65) style:UITableViewStylePlain];
         [table setDataSource:self];
         [table setDelegate:self];
-        [table setIndicatorStyle:UIScrollViewIndicatorStyleBlack];
+        [table setIndicatorStyle:UIScrollViewIndicatorStyleWhite];
+        table.backgroundColor=[UIColor blackColor];
         [table setEditing:YES animated:YES];
         [self.view addSubview:table];
         
@@ -43,6 +44,7 @@
         [bar setBackgroundImage:[UIImage new]];
         [bar setTranslucent:YES];
         bar.showsCancelButton=YES;
+        bar.placeholder=@"Search for a Ticker";
         [self.view addSubview:bar];
         
     }
@@ -91,6 +93,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     cell.textLabel.text = [[UserSettings sharedManager]stockTickers][indexPath.row];
+    cell.textLabel.textColor=[UIColor whiteColor];
+    cell.backgroundColor=[UIColor blackColor];
     return cell;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -100,7 +104,6 @@
     UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
     NSLog(@"%@",selected.textLabel.text);
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50;
 }
@@ -116,10 +119,11 @@
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-    [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text]];
+    [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text.uppercaseString]];
     [[UserSettings sharedManager]setStockList:stocks];
     [bar resignFirstResponder];
     [table reloadData];
+    searchBar.text=@"";
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     [bar resignFirstResponder];
