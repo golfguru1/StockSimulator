@@ -10,7 +10,7 @@
 #import "SearchViewController.h"
 #import "StockDataManager.h"
 #import "UserSettings.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 
 @interface MainViewController (){
@@ -25,6 +25,7 @@
     UILabel *tickerLabel;
     UILabel *costLabel;
     UILabel *changeLabel;
+    UILabel *indexLabel;
     
     NSMutableArray *tickerLabelsArray;
     NSMutableArray *costLabelsArray;
@@ -36,26 +37,26 @@
 - (id)init{
     self = [super init];
     if (self) {
-        self.view.backgroundColor=[UIColor blackColor];
+        self.view.backgroundColor=[UIColor darkGrayColor];
         
-        UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 25, 50, 15)];
+        UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 55, 50, 15)];
         titleLabel.backgroundColor=[UIColor clearColor];
         titleLabel.text=@"Ticker";
-        titleLabel.textColor=[UIColor redColor];
+        titleLabel.textColor=[UIColor yellowColor];
         titleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:titleLabel];
         
-        UILabel *priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 25, 50, 15)];
+        UILabel *priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 55, 50, 15)];
         priceLabel.backgroundColor=[UIColor clearColor];
         priceLabel.text=@"Price";
-        priceLabel.textColor=[UIColor redColor];
+        priceLabel.textColor=[UIColor yellowColor];
         priceLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:priceLabel];
         
-        UILabel *changeTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(125, 25, 50, 15)];
+        UILabel *changeTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(125, 55, 50, 15)];
         changeTitleLabel.backgroundColor=[UIColor clearColor];
         changeTitleLabel.text=@"Change";
-        changeTitleLabel.textColor=[UIColor redColor];
+        changeTitleLabel.textColor=[UIColor yellowColor];
         changeTitleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:changeTitleLabel];
         
@@ -76,6 +77,16 @@
         [search addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:search];
         
+        UIView *marquee=[[UIView alloc]initWithFrame:CGRectMake(0,25, self.view.frame.size.width,20)];
+        marquee.backgroundColor=[UIColor redColor];
+        
+        indexLabel=[[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width+10, 2, 1000, 15)];
+        indexLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        [self getIndex];
+        [marquee addSubview:indexLabel];
+        [self animateMarquee];
+        [self.view addSubview:marquee];
+        
         [self refresh];
     }
     return self;
@@ -88,21 +99,21 @@
         }
     }
     for(int i=0;i<[[[UserSettings sharedManager]stockTickers]count];++i){
-        tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 50+i*20, 50, 15)];
+        tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
         tickerLabel.textColor=[UIColor whiteColor];
         tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
         [tickerLabelsArray addObject:tickerLabel];
         tickerLabel.tag=7;
         [self.view addSubview:tickerLabel];
         
-        costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 50+i*20, 50, 15)];
+        costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
         costLabel.textColor=[UIColor whiteColor];
         costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
         [costLabelsArray addObject:costLabel];
         costLabel.tag=7;
         [self.view addSubview:costLabel];
         
-        changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 50+i*20, 50, 15)];
+        changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
         changeLabel.textColor=[UIColor whiteColor];
         changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
         [changeLabelsArray addObject:changeLabel];
@@ -114,14 +125,35 @@
         costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
         NSString *changeSt=[results valueForKey:@"Change"][i];
         if([changeSt floatValue]>=0){
-            changeLabel.textColor=[UIColor greenColor];
+            changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
             changeLabel.text=[NSString stringWithFormat:@"+%.02f",[changeSt floatValue]];
         }
         else{
-            changeLabel.textColor=[UIColor redColor];
+            changeLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
             changeLabel.text=[NSString stringWithFormat:@"%.02f",[changeSt floatValue]];
         }
     }
+}
+-(void)getIndex{
+    NSDictionary *indexes=[[StockDataManager sharedManager]getIndex];
+    NSMutableString *resultsString=[[NSMutableString alloc]init];
+    for(int i=0;i<[indexes count];++i){
+        [resultsString appendString:[indexes valueForKey:@"Name"][i]];
+        [resultsString appendString:@" "];
+        [resultsString appendString:[indexes valueForKey:@"LastTradePriceOnly"][i]];
+        [resultsString appendString:@" ("];
+        [resultsString appendString:[indexes valueForKey:@"Change"][i]];
+        [resultsString appendString:@")   "];
+    }
+    indexLabel.text=resultsString;
+}
+-(void)animateMarquee{
+    [UIView animateWithDuration:20 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        [indexLabel setFrame:CGRectMake(-indexLabel.frame.size.width, 2, indexLabel.frame.size.width, indexLabel.frame.size.height)];
+    } completion:^(BOOL finished) {
+        [indexLabel setFrame:CGRectMake(self.view.frame.size.width, 2, indexLabel.frame.size.width, indexLabel.frame.size.height)];
+        [self animateMarquee];
+    }];
 }
 -(void)search{
     if(!sVc) sVc=[[SearchViewController alloc]init];
