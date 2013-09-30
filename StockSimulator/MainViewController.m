@@ -78,16 +78,19 @@
         [self.view addSubview:search];
         
         UIView *marquee=[[UIView alloc]initWithFrame:CGRectMake(0,25, self.view.frame.size.width,20)];
-        marquee.backgroundColor=[UIColor redColor];
+        marquee.backgroundColor=[UIColor clearColor];
         
         indexLabel=[[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width+10, 2, 1000, 15)];
         indexLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        indexLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
         [self getIndex];
         [marquee addSubview:indexLabel];
         [self animateMarquee];
         [self.view addSubview:marquee];
-        
+
         [self refresh];
+        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+
     }
     return self;
 }
