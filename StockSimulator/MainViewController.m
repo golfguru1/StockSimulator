@@ -38,7 +38,7 @@
     self = [super init];
     if (self) {
         self.view.backgroundColor=[UIColor darkGrayColor];
-        
+#warning NEED TO MAKE THIS A SCROLL VIEW
         UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 55, 50, 15)];
         titleLabel.backgroundColor=[UIColor clearColor];
         titleLabel.text=@"Ticker";
@@ -90,6 +90,7 @@
 
         [self refresh];
         [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(getIndex) userInfo:nil repeats:YES];
 
     }
     return self;
@@ -108,6 +109,7 @@
         [tickerLabelsArray addObject:tickerLabel];
         tickerLabel.tag=7;
         [self.view addSubview:tickerLabel];
+        [self.view sendSubviewToBack:tickerLabel];
         
         costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
         costLabel.textColor=[UIColor whiteColor];
@@ -115,6 +117,7 @@
         [costLabelsArray addObject:costLabel];
         costLabel.tag=7;
         [self.view addSubview:costLabel];
+        [self.view sendSubviewToBack:costLabel];
         
         changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
         changeLabel.textColor=[UIColor whiteColor];
@@ -122,6 +125,7 @@
         [changeLabelsArray addObject:changeLabel];
         changeLabel.tag=7;
         [self.view addSubview:changeLabel];
+        [self.view sendSubviewToBack:changeLabel];
         
         tickerLabel.text=[results valueForKey:@"Symbol"][i];
         NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
