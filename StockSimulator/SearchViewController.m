@@ -8,6 +8,7 @@
 
 #import "SearchViewController.h"
 #import "UserSettings.h"
+#import "StockDataManager.h"
 
 @interface SearchViewController (){
     UITableView *table;
@@ -135,9 +136,17 @@
     
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-    [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text.uppercaseString]];
-    [[UserSettings sharedManager]setStockList:stocks];
+    NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
+    NSLog(@"%@",[check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]);
+    if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
+        NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+        [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text.uppercaseString]];
+        [[UserSettings sharedManager]setStockList:stocks];
+    }
+    else{
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
     [bar resignFirstResponder];
     [table reloadData];
     searchBar.text=@"";

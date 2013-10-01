@@ -65,12 +65,6 @@
         costLabelsArray=[[NSMutableArray alloc]init];
         changeLabelsArray=[[NSMutableArray alloc]init];
         
-        UIButton *refresh=[UIButton buttonWithType:UIButtonTypeCustom];
-        refresh.frame=CGRectMake(self.view.frame.size.width/2, self.view.frame.size.height/2+20, 100, 20);
-        [refresh setTitle:@"Refresh" forState:UIControlStateNormal];
-        [refresh addTarget:self action:@selector(refresh) forControlEvents:UIControlEventTouchDown];
-        [self.view addSubview:refresh];
-        
         UIButton *search=[UIButton buttonWithType:UIButtonTypeCustom];
         search.frame=CGRectMake(10, self.view.frame.size.height/2+20, 100, 20);
         [search setTitle:@"Search" forState:UIControlStateNormal];
@@ -96,13 +90,14 @@
     return self;
 }
 -(void)refresh{
-    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
+    //NSLog(@"%@",[[[UserSettings sharedManager]stockTickers]copy]);
+    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]copy]];
     for (UIView *subview in [self.view subviews]) {
         if (subview.tag == 7) {
             [subview removeFromSuperview];
         }
     }
-    for(int i=0;i<[[[UserSettings sharedManager]stockTickers]count];++i){
+    for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]copy]count];++i){
         tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
         tickerLabel.textColor=[UIColor whiteColor];
         tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
