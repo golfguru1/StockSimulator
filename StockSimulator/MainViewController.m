@@ -83,71 +83,77 @@
         [self.view addSubview:marquee];
 
         [self refresh];
-        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(getIndex) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(getIndex) userInfo:nil repeats:YES];
 
     }
     return self;
 }
 -(void)refresh{
-    //NSLog(@"%@",[[[UserSettings sharedManager]stockTickers]copy]);
-    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[[UserSettings sharedManager]stockTickers]copy]];
-    for (UIView *subview in [self.view subviews]) {
-        if (subview.tag == 7) {
-            [subview removeFromSuperview];
+    NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
+    if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
+        for (UIView *subview in [self.view subviews]) {
+            if (subview.tag == 7) {
+                [subview removeFromSuperview];
+            }
+        }
+        for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]copy]count];++i){
+            tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
+            tickerLabel.textColor=[UIColor whiteColor];
+            tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            [tickerLabelsArray addObject:tickerLabel];
+            tickerLabel.tag=7;
+            [self.view addSubview:tickerLabel];
+            [self.view sendSubviewToBack:tickerLabel];
+            
+            costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
+            costLabel.textColor=[UIColor whiteColor];
+            costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            [costLabelsArray addObject:costLabel];
+            costLabel.tag=7;
+            [self.view addSubview:costLabel];
+            [self.view sendSubviewToBack:costLabel];
+            
+            changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
+            changeLabel.textColor=[UIColor whiteColor];
+            changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            [changeLabelsArray addObject:changeLabel];
+            changeLabel.tag=7;
+            [self.view addSubview:changeLabel];
+            [self.view sendSubviewToBack:changeLabel];
+            
+            tickerLabel.text=[results valueForKey:@"Symbol"][i];
+            NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
+            costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
+            NSString *changeSt=[results valueForKey:@"Change"][i];
+            if([changeSt floatValue]>=0){
+                changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
+                changeLabel.text=[NSString stringWithFormat:@"+%.02f",[changeSt floatValue]];
+            }
+            else{
+                changeLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
+                changeLabel.text=[NSString stringWithFormat:@"%.02f",[changeSt floatValue]];
+            }
         }
     }
-    for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]copy]count];++i){
-        tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
-        tickerLabel.textColor=[UIColor whiteColor];
-        tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-        [tickerLabelsArray addObject:tickerLabel];
-        tickerLabel.tag=7;
-        [self.view addSubview:tickerLabel];
-        [self.view sendSubviewToBack:tickerLabel];
-        
-        costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
-        costLabel.textColor=[UIColor whiteColor];
-        costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-        [costLabelsArray addObject:costLabel];
-        costLabel.tag=7;
-        [self.view addSubview:costLabel];
-        [self.view sendSubviewToBack:costLabel];
-        
-        changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
-        changeLabel.textColor=[UIColor whiteColor];
-        changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-        [changeLabelsArray addObject:changeLabel];
-        changeLabel.tag=7;
-        [self.view addSubview:changeLabel];
-        [self.view sendSubviewToBack:changeLabel];
-        
-        tickerLabel.text=[results valueForKey:@"Symbol"][i];
-        NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
-        costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
-        NSString *changeSt=[results valueForKey:@"Change"][i];
-        if([changeSt floatValue]>=0){
-            changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
-            changeLabel.text=[NSString stringWithFormat:@"+%.02f",[changeSt floatValue]];
-        }
-        else{
-            changeLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-            changeLabel.text=[NSString stringWithFormat:@"%.02f",[changeSt floatValue]];
-        }
+    else{
+        NSLog(@"gg");
     }
 }
 -(void)getIndex{
     NSDictionary *indexes=[[StockDataManager sharedManager]getIndex];
     NSMutableString *resultsString=[[NSMutableString alloc]init];
-    for(int i=0;i<[indexes count];++i){
-        [resultsString appendString:[indexes valueForKey:@"Name"][i]];
-        [resultsString appendString:@" "];
-        [resultsString appendString:[indexes valueForKey:@"LastTradePriceOnly"][i]];
-        [resultsString appendString:@" ("];
-        [resultsString appendString:[indexes valueForKey:@"Change"][i]];
-        [resultsString appendString:@")   "];
+    if([indexes valueForKey:@"Name"]!=(id)[NSNull null] && [indexes valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [indexes valueForKey:@"Change"]){
+        for(int i=0;i<[indexes count];++i){
+            [resultsString appendString:[indexes valueForKey:@"Name"][i]];
+            [resultsString appendString:@" "];
+            [resultsString appendString:[indexes valueForKey:@"LastTradePriceOnly"][i]];
+            [resultsString appendString:@" ("];
+            [resultsString appendString:[indexes valueForKey:@"Change"][i]];
+            [resultsString appendString:@")   "];
+        }
+        indexLabel.text=resultsString;
     }
-    indexLabel.text=resultsString;
 }
 -(void)animateMarquee{
     [UIView animateWithDuration:20 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{

@@ -21,12 +21,12 @@
 
 @implementation SearchViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
         // Custom initialization
-        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-65) style:UITableViewStylePlain];
+        table=[[UITableView alloc]initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-60) style:UITableViewStyleGrouped];
         [table setDataSource:self];
         [table setDelegate:self];
         [table setIndicatorStyle:UIScrollViewIndicatorStyleWhite];
@@ -34,13 +34,28 @@
         [table setEditing:YES animated:YES];
         [self.view addSubview:table];
         
-        UIBarButtonItem *mySettingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-        UIBarButtonItem *mySpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIToolbar *myTopToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,60)];
-        UIBarButtonItem *addButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add)];
-        [myTopToolbar setItems:[NSArray arrayWithObjects:mySettingsButton,mySpacer,addButton, nil] animated:NO];
-        myTopToolbar.backgroundColor=[UIColor grayColor];
-        [self.view addSubview:myTopToolbar];
+        UIView *topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
+        topView.backgroundColor=[UIColor grayColor];
+        
+        UIButton *backButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        backButton.frame=CGRectMake(5, 20, 60, 40);
+        [backButton setTitle:@"Back" forState:UIControlStateNormal];
+        backButton.titleLabel.font=[UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+        [backButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+        [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [topView addSubview:backButton];
+        
+        UIButton *addButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        addButton.frame=CGRectMake(self.view.frame.size.width-40, 17, 40, 40);
+        [addButton setTitle:@"+" forState:UIControlStateNormal];
+        addButton.titleLabel.font=[UIFont fontWithName:@"HelveticaNeue-Light" size:27];
+        [addButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+        [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        [addButton addTarget:self action:@selector(add) forControlEvents:UIControlEventTouchUpInside];
+        [topView addSubview:addButton];
+        
+        [self.view addSubview:topView];
     }
     return self;
 }
@@ -137,7 +152,6 @@
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
-    NSLog(@"%@",[check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]);
     if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
         NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
         [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text.uppercaseString]];
