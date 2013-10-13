@@ -97,8 +97,48 @@
                 [subview removeFromSuperview];
             }
         }
-        for(int i=0;i<[[[[UserSettings sharedManager]stockTickers]copy]count];++i){
-            tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
+        if([[[UserSettings sharedManager]stockTickers]count]>1){
+            for(int i=0;i<[[[UserSettings sharedManager]stockTickers]count];++i){
+                tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
+                tickerLabel.textColor=[UIColor whiteColor];
+                tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+                [tickerLabelsArray addObject:tickerLabel];
+                tickerLabel.tag=7;
+                [self.view addSubview:tickerLabel];
+                [self.view sendSubviewToBack:tickerLabel];
+                
+                costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
+                costLabel.textColor=[UIColor whiteColor];
+                costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+                [costLabelsArray addObject:costLabel];
+                costLabel.tag=7;
+                [self.view addSubview:costLabel];
+                [self.view sendSubviewToBack:costLabel];
+                
+                changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
+                changeLabel.textColor=[UIColor whiteColor];
+                changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+                [changeLabelsArray addObject:changeLabel];
+                changeLabel.tag=7;
+                [self.view addSubview:changeLabel];
+                [self.view sendSubviewToBack:changeLabel];
+                
+                tickerLabel.text=[results valueForKey:@"Symbol"][i];
+                NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
+                costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
+                NSString *changeSt=[results valueForKey:@"Change"][i];
+                if([changeSt floatValue]>=0){
+                    changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
+                    changeLabel.text=[NSString stringWithFormat:@"+%.02f",[changeSt floatValue]];
+                }
+                else{
+                    changeLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
+                    changeLabel.text=[NSString stringWithFormat:@"%.02f",[changeSt floatValue]];
+                }
+            }
+        }
+        else{
+            tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80, 50, 15)];
             tickerLabel.textColor=[UIColor whiteColor];
             tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
             [tickerLabelsArray addObject:tickerLabel];
@@ -106,7 +146,7 @@
             [self.view addSubview:tickerLabel];
             [self.view sendSubviewToBack:tickerLabel];
             
-            costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
+            costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80, 50, 15)];
             costLabel.textColor=[UIColor whiteColor];
             costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
             [costLabelsArray addObject:costLabel];
@@ -114,7 +154,7 @@
             [self.view addSubview:costLabel];
             [self.view sendSubviewToBack:costLabel];
             
-            changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
+            changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80, 50, 15)];
             changeLabel.textColor=[UIColor whiteColor];
             changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
             [changeLabelsArray addObject:changeLabel];
@@ -122,10 +162,10 @@
             [self.view addSubview:changeLabel];
             [self.view sendSubviewToBack:changeLabel];
             
-            tickerLabel.text=[results valueForKey:@"Symbol"][i];
-            NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
+            tickerLabel.text=[results valueForKey:@"Symbol"];
+            NSString *price=[results valueForKey:@"LastTradePriceOnly"];
             costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
-            NSString *changeSt=[results valueForKey:@"Change"][i];
+            NSString *changeSt=[results valueForKey:@"Change"];
             if([changeSt floatValue]>=0){
                 changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
                 changeLabel.text=[NSString stringWithFormat:@"+%.02f",[changeSt floatValue]];

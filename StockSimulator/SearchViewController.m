@@ -9,12 +9,13 @@
 #import "SearchViewController.h"
 #import "UserSettings.h"
 #import "StockDataManager.h"
+#import "AddTickerView.h"
 
 @interface SearchViewController (){
     UITableView *table;
     UISearchBar *bar;
     
-    UIView *addItemView;
+    AddTickerView *addItemView;
 }
 
 @end
@@ -60,10 +61,9 @@
     return self;
 }
 -(void)add{
-    addItemView=[[UIView alloc]initWithFrame:self.view.frame];
-    addItemView.backgroundColor=[UIColor blackColor];
+    addItemView=[[AddTickerView alloc]initWithFrame:self.view.frame];
     
-    UIBarButtonItem *mySettingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(done)];
+    UIBarButtonItem *mySettingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(done)];
     UIBarButtonItem *mySpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIToolbar *myTopToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,65)];
     [myTopToolbar setItems:[NSArray arrayWithObjects:mySettingsButton,mySpacer, nil] animated:NO];
@@ -98,8 +98,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [[[UserSettings sharedManager]stockTickers] count];
 }
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return TRUE;
 }
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -156,6 +155,9 @@
         NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
         [stocks addObject:[NSString stringWithFormat:@"%@",searchBar.text.uppercaseString]];
         [[UserSettings sharedManager]setStockList:stocks];
+//        NSLog(@"%@",searchBar.text.uppercaseString);
+//        [addItemView.tickerTitle setText:searchBar.text.uppercaseString];
+
     }
     else{
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
