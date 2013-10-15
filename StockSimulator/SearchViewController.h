@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
 
-@interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property MainViewController *parent;
+@property (nonatomic, retain)UITableView *table;
 
 @end

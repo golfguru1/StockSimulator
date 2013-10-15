@@ -90,6 +90,8 @@
     return self;
 }
 -(void)refresh{
+#warning THIS IS REALLY BAD!!!!!!
+#warning YOU REALLY NEED TO FIX THIS!!!!
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
         for (UIView *subview in [self.view subviews]) {
