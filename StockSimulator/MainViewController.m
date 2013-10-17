@@ -26,10 +26,12 @@
     UILabel *costLabel;
     UILabel *changeLabel;
     UILabel *indexLabel;
+    UILabel *shareLabel;
     
     NSMutableArray *tickerLabelsArray;
     NSMutableArray *costLabelsArray;
     NSMutableArray *changeLabelsArray;
+    NSMutableArray *sharesLabelsArray;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -60,10 +62,17 @@
         changeTitleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:changeTitleLabel];
         
+        UILabel *ownedLabel=[[UILabel alloc]initWithFrame:CGRectMake(195, 55, 100, 15)];
+        ownedLabel.backgroundColor=[UIColor clearColor];
+        ownedLabel.text=@"Shares Owned";
+        ownedLabel.textColor=[UIColor yellowColor];
+        ownedLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        [self.view addSubview:ownedLabel];
         
         tickerLabelsArray=[[NSMutableArray alloc]init];
         costLabelsArray=[[NSMutableArray alloc]init];
         changeLabelsArray=[[NSMutableArray alloc]init];
+        sharesLabelsArray=[[NSMutableArray alloc]init];
         
         UIButton *search=[UIButton buttonWithType:UIButtonTypeCustom];
         search.frame=CGRectMake(10, self.view.frame.size.height/2+20, 100, 20);
@@ -125,7 +134,17 @@
                 [self.view addSubview:changeLabel];
                 [self.view sendSubviewToBack:changeLabel];
                 
-                tickerLabel.text=[results valueForKey:@"Symbol"][i];
+                shareLabel=[[UILabel alloc]initWithFrame:CGRectMake(195, 80+i*20, 50, 15)];
+                shareLabel.textColor=[UIColor whiteColor];
+                shareLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+                [sharesLabelsArray addObject:shareLabel];
+                shareLabel.tag=7;
+                [self.view addSubview:shareLabel];
+                [self.view sendSubviewToBack:shareLabel];
+                
+                NSString *name=[results valueForKey:@"Symbol"][i];
+                shareLabel.text=[NSString stringWithFormat:@"%@",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
+                tickerLabel.text=name;
                 NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
                 costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
                 NSString *changeSt=[results valueForKey:@"Change"][i];

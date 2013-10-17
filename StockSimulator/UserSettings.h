@@ -9,11 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface UserSettings : NSObject
-@property (nonatomic, strong) NSMutableArray *stockTickers;
+@property (nonatomic, strong)NSMutableArray *stockTickers;
+@property (nonatomic, strong)NSNumber *userCash;
+@property (nonatomic, strong)NSMutableDictionary *sharesOwned;
 
 + (id)sharedManager;
 -(void)setStockList:(NSMutableArray *)stockTickers;
-- (void)loadUserSettings;
-- (void)saveUserSettings;
+-(void)loadUserSettings;
+-(void)setUserCash:(NSNumber*)cash;
+-(void)setSharesOwned:(NSMutableDictionary *)sharesOwned;
 
 @end

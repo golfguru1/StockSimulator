@@ -15,5 +15,6 @@
 @property (nonatomic, retain)UITextField *numOfShares;
 @property (nonatomic, retain)UILabel *companyLabel;
 @property (nonatomic, retain)SearchViewController *parent;
+@property (nonatomic, retain)UILabel *cash;
 
 @end

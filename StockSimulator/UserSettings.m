@@ -39,10 +39,26 @@
 {
     _stockTickers = [[NSUserDefaults standardUserDefaults] objectForKey:@"stocks"];
     if (!_stockTickers) _stockTickers = [[NSMutableArray alloc]initWithObjects:@"AAPL",@"GOOG",@"YHOO", nil];
+    
+    _userCash=[[NSUserDefaults standardUserDefaults]objectForKey:@"cash"];
+    if(!_userCash)_userCash=[NSNumber numberWithFloat:100000.00f];
+    
+    _sharesOwned=[[NSUserDefaults standardUserDefaults]objectForKey:@"owned"];
+    if(!_sharesOwned){
+        for(NSString *string in _stockTickers){
+            [_sharesOwned setObject:@"0" forKey:string];
+        }
+    }
+    NSLog(@"%@",_sharesOwned);
 }
-- (void)saveUserSettings
-{
-    [[NSUserDefaults standardUserDefaults] setObject:_stockTickers forKey:@"stocks"];
+- (void)setUserCash:(NSNumber*)cash{
+    _userCash=cash;
+    [[NSUserDefaults standardUserDefaults]setObject:_userCash forKey:@"cash"];
+    [self sync];
+}
+-(void)setSharesOwned:(NSMutableDictionary *)sharesOwned{
+    _sharesOwned=sharesOwned;
+    [[NSUserDefaults standardUserDefaults]setObject:_sharesOwned forKey:@"owned"];
 }
 -(void)sync{
     [[NSUserDefaults standardUserDefaults]synchronize];
