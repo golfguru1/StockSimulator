@@ -196,6 +196,10 @@
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]sharesOwned]copy]];
     [dict setObject:_numOfShares.text forKey:_tickerTitle.text];
     [[UserSettings sharedManager]setSharesOwned:dict];
+    
+    NSMutableDictionary *dict2=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]priceBought]copy]];
+    [dict2 setObject:_currentPrice.text forKey:_tickerTitle.text];
+    [[UserSettings sharedManager]setPriceBought:dict2];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

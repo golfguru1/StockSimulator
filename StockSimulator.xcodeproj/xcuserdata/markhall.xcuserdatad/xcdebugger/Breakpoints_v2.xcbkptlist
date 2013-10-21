@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StockSimulator/MainViewController.m"
-            timestampString = "404055447.42142"
+            timestampString = "404066117.640942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "-refresh"
             landmarkType = "5">
          </BreakpointContent>

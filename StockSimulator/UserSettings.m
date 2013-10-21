@@ -27,14 +27,6 @@
     dispatch_once(&pred, ^{ instance = [[self alloc] init]; });
     return instance;
 }
-
-- (void)setStockList:(NSMutableArray *)stockTickers
-{
-    _stockTickers=stockTickers;
-    [[NSUserDefaults standardUserDefaults] setObject:_stockTickers forKey:@"stocks"];
-    [self sync];
-}
-
 - (void)loadUserSettings
 {
     _stockTickers = [[NSUserDefaults standardUserDefaults] objectForKey:@"stocks"];
@@ -50,7 +42,20 @@
         [_sharesOwned setObject:@"0" forKey:@"GOOG"];
         [_sharesOwned setObject:@"0" forKey:@"YHOO"];
     }
-    NSLog(@"%@",_sharesOwned);
+    _priceBought=[[NSUserDefaults standardUserDefaults]objectForKey:@"bought"];
+    if(!_priceBought){
+        _priceBought=[[NSMutableDictionary alloc]init];
+        [_priceBought setObject:@"-" forKey:@"AAPL"];
+        [_priceBought setObject:@"-" forKey:@"GOOG"];
+        [_priceBought setObject:@"-" forKey:@"YHOO"];
+    }
+    
+}
+- (void)setStockList:(NSMutableArray *)stockTickers
+{
+    _stockTickers=stockTickers;
+    [[NSUserDefaults standardUserDefaults] setObject:_stockTickers forKey:@"stocks"];
+    [self sync];
 }
 - (void)setUserCash:(NSNumber*)cash{
     _userCash=cash;
@@ -60,6 +65,11 @@
 -(void)setSharesOwned:(NSMutableDictionary *)sharesOwned{
     _sharesOwned=sharesOwned;
     [[NSUserDefaults standardUserDefaults]setObject:_sharesOwned forKey:@"owned"];
+    [self sync];
+}
+-(void)setPriceBought:(NSMutableDictionary *)priceBought{
+    _priceBought=priceBought;
+    [[NSUserDefaults standardUserDefaults]setObject:_priceBought forKey:@"bought"];
     [self sync];
 }
 -(void)sync{

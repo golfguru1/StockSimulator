@@ -27,6 +27,7 @@
     UILabel *changeLabel;
     UILabel *indexLabel;
     UILabel *shareLabel;
+    UILabel *priceLabel;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -136,8 +137,16 @@
                 [self.view addSubview:shareLabel];
                 [self.view sendSubviewToBack:shareLabel];
                 
+                priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(245, 80+i*20, 70, 15)];
+                priceLabel.textColor=[UIColor whiteColor];
+                priceLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+                priceLabel.tag=7;
+                [self.view addSubview:priceLabel];
+                [self.view sendSubviewToBack:priceLabel];
+                
                 NSString *name=[results valueForKey:@"Symbol"][i];
                 shareLabel.text=[NSString stringWithFormat:@"%@",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
+                priceLabel.text=[NSString stringWithFormat:@"%@",[[[UserSettings sharedManager]priceBought]valueForKey:name]];
                 tickerLabel.text=name;
                 NSString *price=[results valueForKey:@"LastTradePriceOnly"][i];
                 costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
