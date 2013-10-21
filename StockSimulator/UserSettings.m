@@ -45,9 +45,10 @@
     
     _sharesOwned=[[NSUserDefaults standardUserDefaults]objectForKey:@"owned"];
     if(!_sharesOwned){
-        for(NSString *string in _stockTickers){
-            [_sharesOwned setObject:@"0" forKey:string];
-        }
+        _sharesOwned=[[NSMutableDictionary alloc]init];
+        [_sharesOwned setObject:@"0" forKey:@"AAPL"];
+        [_sharesOwned setObject:@"0" forKey:@"GOOG"];
+        [_sharesOwned setObject:@"0" forKey:@"YHOO"];
     }
     NSLog(@"%@",_sharesOwned);
 }
