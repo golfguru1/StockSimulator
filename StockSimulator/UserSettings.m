@@ -59,6 +59,7 @@
 -(void)setSharesOwned:(NSMutableDictionary *)sharesOwned{
     _sharesOwned=sharesOwned;
     [[NSUserDefaults standardUserDefaults]setObject:_sharesOwned forKey:@"owned"];
+    [self sync];
 }
 -(void)sync{
     [[NSUserDefaults standardUserDefaults]synchronize];

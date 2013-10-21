@@ -86,9 +86,13 @@
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
         NSMutableArray *stocks= [[[UserSettings sharedManager]stockTickers]mutableCopy];
         [stocks removeObjectAtIndex:indexPath.row];
         [[UserSettings sharedManager]setStockList:stocks];
+        NSMutableDictionary *owned=[[[UserSettings sharedManager]sharesOwned]mutableCopy];
+        [owned removeObjectForKey:selected.textLabel.text];
+        [[UserSettings sharedManager]setSharesOwned:owned];
         [_table reloadData];
     }
 }

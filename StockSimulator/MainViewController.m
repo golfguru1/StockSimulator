@@ -27,11 +27,6 @@
     UILabel *changeLabel;
     UILabel *indexLabel;
     UILabel *shareLabel;
-    
-    NSMutableArray *tickerLabelsArray;
-    NSMutableArray *costLabelsArray;
-    NSMutableArray *changeLabelsArray;
-    NSMutableArray *sharesLabelsArray;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -62,17 +57,20 @@
         changeTitleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:changeTitleLabel];
         
-        UILabel *ownedLabel=[[UILabel alloc]initWithFrame:CGRectMake(195, 55, 100, 15)];
+        UILabel *ownedLabel=[[UILabel alloc]initWithFrame:CGRectMake(185, 55, 100, 15)];
         ownedLabel.backgroundColor=[UIColor clearColor];
-        ownedLabel.text=@"Shares Owned";
+        ownedLabel.text=@"Shares";
         ownedLabel.textColor=[UIColor yellowColor];
         ownedLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:ownedLabel];
         
-        tickerLabelsArray=[[NSMutableArray alloc]init];
-        costLabelsArray=[[NSMutableArray alloc]init];
-        changeLabelsArray=[[NSMutableArray alloc]init];
-        sharesLabelsArray=[[NSMutableArray alloc]init];
+        UILabel *boughtLabel=[[UILabel alloc]initWithFrame:CGRectMake(245, 55, 100, 15)];
+        boughtLabel.backgroundColor=[UIColor clearColor];
+        boughtLabel.text=@"Bought at";
+        boughtLabel.textColor=[UIColor yellowColor];
+        boughtLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        [self.view addSubview:boughtLabel];
+        
         
         UIButton *search=[UIButton buttonWithType:UIButtonTypeCustom];
         search.frame=CGRectMake(10, self.view.frame.size.height/2+20, 100, 20);
@@ -113,7 +111,6 @@
                 tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
                 tickerLabel.textColor=[UIColor whiteColor];
                 tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-                [tickerLabelsArray addObject:tickerLabel];
                 tickerLabel.tag=7;
                 [self.view addSubview:tickerLabel];
                 [self.view sendSubviewToBack:tickerLabel];
@@ -121,7 +118,6 @@
                 costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
                 costLabel.textColor=[UIColor whiteColor];
                 costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-                [costLabelsArray addObject:costLabel];
                 costLabel.tag=7;
                 [self.view addSubview:costLabel];
                 [self.view sendSubviewToBack:costLabel];
@@ -129,7 +125,6 @@
                 changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
                 changeLabel.textColor=[UIColor whiteColor];
                 changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-                [changeLabelsArray addObject:changeLabel];
                 changeLabel.tag=7;
                 [self.view addSubview:changeLabel];
                 [self.view sendSubviewToBack:changeLabel];
@@ -137,7 +132,6 @@
                 shareLabel=[[UILabel alloc]initWithFrame:CGRectMake(195, 80+i*20, 50, 15)];
                 shareLabel.textColor=[UIColor whiteColor];
                 shareLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-                [sharesLabelsArray addObject:shareLabel];
                 shareLabel.tag=7;
                 [self.view addSubview:shareLabel];
                 [self.view sendSubviewToBack:shareLabel];
@@ -162,7 +156,6 @@
             tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80, 50, 15)];
             tickerLabel.textColor=[UIColor whiteColor];
             tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-            [tickerLabelsArray addObject:tickerLabel];
             tickerLabel.tag=7;
             [self.view addSubview:tickerLabel];
             [self.view sendSubviewToBack:tickerLabel];
@@ -170,7 +163,6 @@
             costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80, 50, 15)];
             costLabel.textColor=[UIColor whiteColor];
             costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-            [costLabelsArray addObject:costLabel];
             costLabel.tag=7;
             [self.view addSubview:costLabel];
             [self.view sendSubviewToBack:costLabel];
@@ -178,13 +170,14 @@
             changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80, 50, 15)];
             changeLabel.textColor=[UIColor whiteColor];
             changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
-            [changeLabelsArray addObject:changeLabel];
             changeLabel.tag=7;
             [self.view addSubview:changeLabel];
             [self.view sendSubviewToBack:changeLabel];
             
             tickerLabel.text=[results valueForKey:@"Symbol"];
             NSString *price=[results valueForKey:@"LastTradePriceOnly"];
+            NSString *name=[results valueForKey:@"Symbol"];
+            shareLabel.text=[NSString stringWithFormat:@"%@",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
             costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
             NSString *changeSt=[results valueForKey:@"Change"];
             if([changeSt floatValue]>=0){
