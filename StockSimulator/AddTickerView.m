@@ -198,7 +198,7 @@
     [[UserSettings sharedManager]setSharesOwned:dict];
     
     NSMutableDictionary *dict2=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]priceBought]copy]];
-    [dict2 setObject:_currentPrice.text forKey:_tickerTitle.text];
+    [dict2 setObject:[_currentPrice.text substringFromIndex:1] forKey:_tickerTitle.text];
     [[UserSettings sharedManager]setPriceBought:dict2];
 }
 /*

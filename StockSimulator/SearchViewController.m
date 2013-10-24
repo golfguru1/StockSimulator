@@ -23,13 +23,14 @@
 {
     self = [super init];
     if (self) {
+#warning add loading animation
         // Custom initialization
-        _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-60) style:UITableViewStyleGrouped];
+        self.view.backgroundColor=[UIColor blackColor];
+        _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 85, self.view.frame.size.width, self.view.frame.size.height-60) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
         [_table setDelegate:self];
         [_table setIndicatorStyle:UIScrollViewIndicatorStyleWhite];
         _table.backgroundColor=[UIColor blackColor];
-        [_table setEditing:YES animated:YES];
         [self.view addSubview:_table];
         
         UIView *topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
@@ -44,6 +45,17 @@
         [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [topView addSubview:backButton];
         
+        UIButton *editButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        editButton.frame=CGRectMake(self.view.frame.size.width/2-40, 65, 60, 20);
+        [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+        [editButton setTitle:@"Done" forState:UIControlStateSelected];
+        editButton.titleLabel.font=[UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+        [editButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+        [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        [editButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:editButton];
+        
+        
         UIButton *addButton=[UIButton buttonWithType:UIButtonTypeCustom];
         addButton.frame=CGRectMake(self.view.frame.size.width-40, 17, 40, 40);
         [addButton setTitle:@"+" forState:UIControlStateNormal];
@@ -56,6 +68,15 @@
         [self.view addSubview:topView];
     }
     return self;
+}
+-(void)edit:(UIButton *)sender{
+    sender.selected=!sender.selected;
+    if(sender.selected){
+        [_table setEditing:YES animated:YES];
+    }
+    else{
+        [_table setEditing:NO animated:YES];
+    }
 }
 -(void)add{
     addItemView=[[AddTickerView alloc]initWithFrame:self.view.frame];

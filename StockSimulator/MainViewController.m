@@ -44,12 +44,12 @@
         titleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
         [self.view addSubview:titleLabel];
         
-        UILabel *priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 55, 50, 15)];
-        priceLabel.backgroundColor=[UIColor clearColor];
-        priceLabel.text=@"Price";
-        priceLabel.textColor=[UIColor yellowColor];
-        priceLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
-        [self.view addSubview:priceLabel];
+        UILabel *priceTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 55, 50, 15)];
+        priceTitleLabel.backgroundColor=[UIColor clearColor];
+        priceTitleLabel.text=@"Price";
+        priceTitleLabel.textColor=[UIColor yellowColor];
+        priceTitleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        [self.view addSubview:priceTitleLabel];
         
         UILabel *changeTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(125, 55, 50, 15)];
         changeTitleLabel.backgroundColor=[UIColor clearColor];
@@ -98,8 +98,7 @@
     return self;
 }
 -(void)refresh{
-#warning THIS IS REALLY BAD!!!!!!
-#warning YOU REALLY NEED TO FIX THIS!!!!
+#warning THIS IS REALLY BAD!!!!!! YOU REALLY NEED TO FIX THIS!!!!
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
         for (UIView *subview in [self.view subviews]) {
