@@ -46,7 +46,8 @@
         [topView addSubview:backButton];
         
         UIButton *editButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        editButton.frame=CGRectMake(self.view.frame.size.width/2-40, 65, 60, 20);
+        editButton.frame=CGRectMake(0, 60, self.view.frame.size.width, 60);
+        editButton.backgroundColor=[UIColor blackColor];
         [editButton setTitle:@"Edit" forState:UIControlStateNormal];
         [editButton setTitle:@"Done" forState:UIControlStateSelected];
         editButton.titleLabel.font=[UIFont fontWithName:@"HelveticaNeue-Light" size:18];

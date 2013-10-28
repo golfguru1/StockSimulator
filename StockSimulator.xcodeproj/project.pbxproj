@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A703E77A181EAF73006BD790 /* EditCurrentStocks.m in Sources */ = {isa = PBXBuildFile; fileRef = A703E779181EAF73006BD790 /* EditCurrentStocks.m */; };
 		A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A718C0B11806E8B70040D2CF /* AddTickerView.m */; };
 		A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74DB3B617E7F0F20056DDA8 /* MainViewController.m */; };
 		A77871A517E391E000A4938C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A417E391E000A4938C /* UIKit.framework */; };
@@ -24,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A703E778181EAF73006BD790 /* EditCurrentStocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCurrentStocks.h; sourceTree = "<group>"; };
+		A703E779181EAF73006BD790 /* EditCurrentStocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCurrentStocks.m; sourceTree = "<group>"; };
 		A718C0B01806E8B70040D2CF /* AddTickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTickerView.h; sourceTree = "<group>"; };
 		A718C0B11806E8B70040D2CF /* AddTickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTickerView.m; sourceTree = "<group>"; };
 		A74DB3B517E7F0F20056DDA8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */,
 				A718C0B01806E8B70040D2CF /* AddTickerView.h */,
 				A718C0B11806E8B70040D2CF /* AddTickerView.m */,
+				A703E778181EAF73006BD790 /* EditCurrentStocks.h */,
+				A703E779181EAF73006BD790 /* EditCurrentStocks.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
 			);
 			path = StockSimulator;
@@ -196,6 +201,7 @@
 				A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */,
 				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
 				A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */,
+				A703E77A181EAF73006BD790 /* EditCurrentStocks.m in Sources */,
 				A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

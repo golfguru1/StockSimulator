@@ -153,19 +153,26 @@
     
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    for(UIView *subview in self.subviews)
-        if(subview.tag==1)
-            subview.hidden=NO;
-    NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
-    if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
-        [_tickerTitle setText:searchBar.text.uppercaseString];
-        [_currentPrice setText:[NSString stringWithFormat:@"$%@",[check valueForKey:@"LastTradePriceOnly"]]];
-        [_companyLabel setText:[check valueForKey:@"Name"]];
-        
+    NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+    if([stocks containsObject:searchBar.text.uppercaseString]){
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You already own some of these stocks." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
     }
     else{
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
+        if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
+            for(UIView *subview in self.subviews)
+                if(subview.tag==1)
+                    subview.hidden=NO;
+            [_tickerTitle setText:searchBar.text.uppercaseString];
+            [_currentPrice setText:[NSString stringWithFormat:@"$%@",[check valueForKey:@"LastTradePriceOnly"]]];
+            [_companyLabel setText:[check valueForKey:@"Name"]];
+            
+        }
+        else{
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
     }
     [bar resignFirstResponder];
     [_parent.table reloadData];
