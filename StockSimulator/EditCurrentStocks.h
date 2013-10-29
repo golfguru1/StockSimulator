@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SearchViewController.h"
 
 @interface EditCurrentStocks : UIView
-
+@property (nonatomic, strong)SearchViewController *parent;
 @end

@@ -10,9 +10,11 @@
 #import "UserSettings.h"
 #import "StockDataManager.h"
 #import "AddTickerView.h"
+#import "EditCurrentStocks.h"
 
 @interface SearchViewController (){    
     AddTickerView *addItemView;
+    EditCurrentStocks *editView;
 }
 
 @end
@@ -29,7 +31,6 @@
         _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 85, self.view.frame.size.width, self.view.frame.size.height-60) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
         [_table setDelegate:self];
-        [_table setIndicatorStyle:UIScrollViewIndicatorStyleWhite];
         _table.backgroundColor=[UIColor blackColor];
         [self.view addSubview:_table];
         
@@ -101,7 +102,7 @@
     return [[[UserSettings sharedManager]stockTickers] count];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    return TRUE;
+    return YES;
 }
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
@@ -133,14 +134,32 @@
     cell.textLabel.text = [[UserSettings sharedManager]stockTickers][indexPath.row];
     cell.textLabel.textColor=[UIColor whiteColor];
     cell.backgroundColor=[UIColor blackColor];
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%@",selected.textLabel.text);
+    //UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
+    editView=[[EditCurrentStocks alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
+    if(![editView superview]){
+        [self.view addSubview:editView];
+        editView.parent=self;
+        [UIView animateWithDuration:0.5 animations:^{
+            editView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        }];
+    }
+
+}
+-(void)removeEditView{
+    if([editView superview]){
+        [UIView animateWithDuration:0.5 animations:^{
+            editView.frame=CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        }completion:^(BOOL finished){
+            [editView removeFromSuperview];
+        }];
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50;
