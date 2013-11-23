@@ -119,11 +119,13 @@
         [_table reloadData];
     }
 }
+
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
     NSString *r = [[[UserSettings sharedManager]stockTickers] objectAtIndex:fromIndexPath.row];
     [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:fromIndexPath.row];
     [[[UserSettings sharedManager]stockTickers] insertObject:r atIndex:toIndexPath.row];
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *MyIdentifier = @"MyIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
@@ -141,13 +143,17 @@
     return 1;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *selected=[tableView cellForRowAtIndexPath:indexPath];
     editView=[[EditCurrentStocks alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
     if(![editView superview]){
+        NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[selected.textLabel.text.uppercaseString]];
         [self.view addSubview:editView];
         editView.parent=self;
+        editView.tickerTitle.text=selected.textLabel.text;
         [UIView animateWithDuration:0.5 animations:^{
             editView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+            [editView.currentPrice setText:[NSString stringWithFormat:@"$%@",[check valueForKey:@"LastTradePriceOnly"]]];
+            [editView.companyLabel setText:[check valueForKey:@"Name"]];
         }];
     }
 

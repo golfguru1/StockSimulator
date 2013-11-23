@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "SearchViewController.h"
 
-@interface EditCurrentStocks : UIView
+@interface EditCurrentStocks : UIView <UITextFieldDelegate>
 @property (nonatomic, strong)SearchViewController *parent;
+@property (nonatomic, retain)UILabel *tickerTitle;
+@property (nonatomic, retain)UILabel *currentPrice;
+@property (nonatomic, retain)UITextField *numOfShares;
+@property (nonatomic, retain)UITextField *numOfSharesSell;
+@property (nonatomic, retain)UILabel *companyLabel;
+@property (nonatomic, retain)UILabel *cash;
 @end
