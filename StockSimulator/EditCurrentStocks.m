@@ -97,11 +97,7 @@
         _cash.backgroundColor=[UIColor clearColor];
         _cash.adjustsFontSizeToFitWidth = YES;
         _cash.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        NSNumberFormatter *formatter = [NSNumberFormatter new];
-        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        [formatter setMinimumFractionDigits:2];
-        [formatter setMaximumFractionDigits:2];
-        _cash.text=[NSString stringWithFormat:@"$%@",[formatter stringFromNumber:[[UserSettings sharedManager]userCash]]];
+        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]]];
         _cash.font=[UIFont fontWithName:@"Helvetica" size:14];
         _cash.tag=1;
         [self addSubview:_cash];
@@ -156,6 +152,21 @@
 -(void)doneButtonDidPressed:(id)sender{
     [_numOfShares resignFirstResponder];
     [_numOfSharesSell resignFirstResponder];    
+}
+-(NSString*)formatNumber:(float)num{
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setGroupingSize:3];
+    [nf setGroupingSeparator:@","];
+    [nf setUsesGroupingSeparator:YES];
+    [nf setMaximumFractionDigits:2];
+    [nf setMinimumFractionDigits:2];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    // you should create a string from number
+    NSNumber *n = [NSNumber numberWithFloat: num];
+    NSString *str = [nf stringFromNumber:n];
+    
+    return str;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

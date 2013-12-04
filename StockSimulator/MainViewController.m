@@ -98,7 +98,7 @@
     return self;
 }
 -(void)refresh{
-#warning THIS IS REALLY BAD!!!!!! YOU REALLY NEED TO FIX THIS!!!!
+#warning its less bad now
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
         for (UIView *subview in [self.view subviews]) {
@@ -144,28 +144,30 @@
             NSString *name;
             NSString *price;
             NSString *changeSt;
+            
+            
             if([[[UserSettings sharedManager]stockTickers]count]>1){
                 name=[results valueForKey:@"Symbol"][i];
-                price=[results valueForKey:@"LastTradePriceOnly"][i];
-                changeSt=[results valueForKey:@"Change"][i];
+                price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"][i] floatValue]];
+                changeSt=[self formatNumber:[[results valueForKey:@"Change"][i] floatValue]];
             }
             else{
                 name=[results valueForKey:@"Symbol"];
-                price=[results valueForKey:@"LastTradePriceOnly"];
-                changeSt=[results valueForKey:@"Change"];
+                price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"]floatValue]];
+                changeSt=[self formatNumber:[[results valueForKey:@"Change"]floatValue]];;
             }
             shareLabel.text=[NSString stringWithFormat:@"%@",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
-            priceLabel.text=[NSString stringWithFormat:@"%@",[[[UserSettings sharedManager]priceBought]valueForKey:name]];
+            priceLabel.text=[self formatNumber:[[[[UserSettings sharedManager]priceBought]valueForKey:name]floatValue]];
             tickerLabel.text=name;
-            costLabel.text=[NSString stringWithFormat:@"%.02f",[price floatValue]];
+            costLabel.text=price;
             
             if([changeSt floatValue]>=0){
                 changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
-                changeLabel.text=[NSString stringWithFormat:@"+%.02f",[changeSt floatValue]];
+                changeLabel.text=[NSString stringWithFormat:@"+%@",changeSt];
             }
             else{
                 changeLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-                changeLabel.text=[NSString stringWithFormat:@"%.02f",[changeSt floatValue]];
+                changeLabel.text=[NSString stringWithFormat:@"%@",changeSt];
             }
         }
     }
@@ -180,9 +182,14 @@
         for(int i=0;i<[indexes count];++i){
             [resultsString appendString:[indexes valueForKey:@"Name"][i]];
             [resultsString appendString:@" "];
-            [resultsString appendString:[indexes valueForKey:@"LastTradePriceOnly"][i]];
+            NSString *price=[self formatNumber:[[indexes valueForKey:@"LastTradePriceOnly"][i]floatValue]];
+            [resultsString appendString:price];
             [resultsString appendString:@" ("];
-            [resultsString appendString:[indexes valueForKey:@"Change"][i]];
+            NSString *changeString=[self formatNumber:[[indexes valueForKey:@"Change"][i]floatValue]];
+            if ([changeString floatValue]>0)
+                [resultsString appendString:[NSString stringWithFormat:@"+%@",changeString]];
+            else
+                [resultsString appendString:[NSString stringWithFormat:@"%@",changeString]];
             [resultsString appendString:@")   "];
         }
         indexLabel.text=resultsString;
@@ -216,5 +223,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(NSString*)formatNumber:(float)num{
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setGroupingSize:3];
+    [nf setGroupingSeparator:@","];
+    [nf setUsesGroupingSeparator:YES];
+    [nf setMaximumFractionDigits:2];
+    [nf setMinimumFractionDigits:2];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    // you should create a string from number
+    NSNumber *n = [NSNumber numberWithFloat: num];
+    NSString *str = [nf stringFromNumber:n];
+    
+    return str;
+}
 @end

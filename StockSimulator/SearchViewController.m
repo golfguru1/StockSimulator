@@ -152,7 +152,7 @@
         editView.tickerTitle.text=selected.textLabel.text;
         [UIView animateWithDuration:0.5 animations:^{
             editView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-            [editView.currentPrice setText:[NSString stringWithFormat:@"$%@",[check valueForKey:@"LastTradePriceOnly"]]];
+            [editView.currentPrice setText:[NSString stringWithFormat:@"$%@",[self formatNumber:[[check valueForKey:@"LastTradePriceOnly"]floatValue]]]];
             [editView.companyLabel setText:[check valueForKey:@"Name"]];
         }];
     }
@@ -174,6 +174,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(NSString*)formatNumber:(float)num{
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setGroupingSize:3];
+    [nf setGroupingSeparator:@","];
+    [nf setUsesGroupingSeparator:YES];
+    [nf setMaximumFractionDigits:2];
+    [nf setMinimumFractionDigits:2];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    // you should create a string from number
+    NSNumber *n = [NSNumber numberWithFloat: num];
+    NSString *str = [nf stringFromNumber:n];
+    
+    return str;
 }
 
 @end

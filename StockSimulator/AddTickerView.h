@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SearchViewController.h"
 
-@interface AddTickerView : UIView <UITextFieldDelegate, UISearchBarDelegate>
+@interface AddTickerView : UIView <UITextFieldDelegate, UISearchBarDelegate, UIAlertViewDelegate>
 @property (nonatomic, retain)UILabel *tickerTitle;
 @property (nonatomic, retain)UILabel *currentPrice;
 @property (nonatomic, retain)UITextField *numOfShares;
