@@ -10,8 +10,8 @@
 #import "SearchViewController.h"
 #import "StockDataManager.h"
 #import "UserSettings.h"
+#import "StockSimulatorConstants.h"
 #import <QuartzCore/QuartzCore.h>
-
 
 @interface MainViewController (){
     SearchViewController *sVc;
@@ -35,41 +35,43 @@
 - (id)init{
     self = [super init];
     if (self) {
-        self.view.backgroundColor=[UIColor darkGrayColor];
+        int menuFontSize=14;
+        UIColor *menuColor=[UIColor stockSimulatorOrange];
+        self.view.backgroundColor=[UIColor stockSimulatorDarkGrey];
 #warning NEED TO MAKE THIS A SCROLL VIEW
         UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 55, 50, 15)];
         titleLabel.backgroundColor=[UIColor clearColor];
         titleLabel.text=@"Ticker";
-        titleLabel.textColor=[UIColor yellowColor];
-        titleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        titleLabel.textColor=menuColor;
+        titleLabel.font=[UIFont stockSimulatorFontWithSize:menuFontSize];
         [self.view addSubview:titleLabel];
         
         UILabel *priceTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 55, 50, 15)];
         priceTitleLabel.backgroundColor=[UIColor clearColor];
         priceTitleLabel.text=@"Price";
-        priceTitleLabel.textColor=[UIColor yellowColor];
-        priceTitleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        priceTitleLabel.textColor=menuColor;
+        priceTitleLabel.font=[UIFont stockSimulatorFontWithSize:menuFontSize];
         [self.view addSubview:priceTitleLabel];
         
-        UILabel *changeTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(125, 55, 50, 15)];
+        UILabel *changeTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(120, 55, 55, 15)];
         changeTitleLabel.backgroundColor=[UIColor clearColor];
         changeTitleLabel.text=@"Change";
-        changeTitleLabel.textColor=[UIColor yellowColor];
-        changeTitleLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        changeTitleLabel.textColor=menuColor;
+        changeTitleLabel.font=[UIFont stockSimulatorFontWithSize:menuFontSize];
         [self.view addSubview:changeTitleLabel];
         
         UILabel *ownedLabel=[[UILabel alloc]initWithFrame:CGRectMake(185, 55, 100, 15)];
         ownedLabel.backgroundColor=[UIColor clearColor];
         ownedLabel.text=@"Shares";
-        ownedLabel.textColor=[UIColor yellowColor];
-        ownedLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        ownedLabel.textColor=menuColor;
+        ownedLabel.font=[UIFont stockSimulatorFontWithSize:menuFontSize];
         [self.view addSubview:ownedLabel];
         
         UILabel *boughtLabel=[[UILabel alloc]initWithFrame:CGRectMake(245, 55, 100, 15)];
         boughtLabel.backgroundColor=[UIColor clearColor];
         boughtLabel.text=@"Bought at";
-        boughtLabel.textColor=[UIColor yellowColor];
-        boughtLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        boughtLabel.textColor=menuColor;
+        boughtLabel.font=[UIFont stockSimulatorFontWithSize:menuFontSize];
         [self.view addSubview:boughtLabel];
         
         
@@ -80,11 +82,11 @@
         [self.view addSubview:search];
         
         UIView *marquee=[[UIView alloc]initWithFrame:CGRectMake(0,25, self.view.frame.size.width,20)];
-        marquee.backgroundColor=[UIColor clearColor];
+        marquee.backgroundColor=[UIColor stockSimulatorOrange];
         
         indexLabel=[[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width+10, 2, 1000, 15)];
-        indexLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
-        indexLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
+        indexLabel.font=[UIFont stockSimulatorFontWithSize:12];
+        indexLabel.textColor=[UIColor stockSimulatorDarkGrey];
         [self getIndex];
         [marquee addSubview:indexLabel];
         [self animateMarquee];
@@ -98,6 +100,7 @@
     return self;
 }
 -(void)refresh{
+    UIFont *tickerFont=[UIFont stockSimulatorFontWithSize:12];
 #warning its less bad now
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
@@ -109,38 +112,39 @@
         for(int i=0;i<[[[UserSettings sharedManager]stockTickers]count];++i){
             tickerLabel=[[UILabel alloc]initWithFrame:CGRectMake(17, 80+i*20, 50, 15)];
             tickerLabel.textColor=[UIColor whiteColor];
-            tickerLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            tickerLabel.font=tickerFont;
             tickerLabel.tag=7;
             [self.view addSubview:tickerLabel];
             [self.view sendSubviewToBack:tickerLabel];
             
             costLabel=[[UILabel alloc]initWithFrame:CGRectMake(72, 80+i*20, 50, 15)];
             costLabel.textColor=[UIColor whiteColor];
-            costLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            costLabel.font=tickerFont;
             costLabel.tag=7;
             [self.view addSubview:costLabel];
             [self.view sendSubviewToBack:costLabel];
             
             changeLabel=[[UILabel alloc]initWithFrame:CGRectMake(140, 80+i*20, 50, 15)];
             changeLabel.textColor=[UIColor whiteColor];
-            changeLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            changeLabel.font=tickerFont;
             changeLabel.tag=7;
             [self.view addSubview:changeLabel];
             [self.view sendSubviewToBack:changeLabel];
             
             shareLabel=[[UILabel alloc]initWithFrame:CGRectMake(195, 80+i*20, 50, 15)];
             shareLabel.textColor=[UIColor whiteColor];
-            shareLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            shareLabel.font=tickerFont;
             shareLabel.tag=7;
             [self.view addSubview:shareLabel];
             [self.view sendSubviewToBack:shareLabel];
             
             priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(245, 80+i*20, 70, 15)];
             priceLabel.textColor=[UIColor whiteColor];
-            priceLabel.font=[UIFont fontWithName:@"Helvetica" size:13];
+            priceLabel.font=tickerFont;
             priceLabel.tag=7;
             [self.view addSubview:priceLabel];
             [self.view sendSubviewToBack:priceLabel];
+            
             NSString *name;
             NSString *price;
             NSString *changeSt;
@@ -162,11 +166,11 @@
             costLabel.text=price;
             
             if([changeSt floatValue]>=0){
-                changeLabel.textColor=[UIColor colorWithRed:58.0/255.0f green:169.0/255.0f blue:234.0/255.0f alpha:1.0f];
+                changeLabel.textColor=[UIColor stockSimulatorGreen];
                 changeLabel.text=[NSString stringWithFormat:@"+%@",changeSt];
             }
             else{
-                changeLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
+                changeLabel.textColor=[UIColor stockSimulatorRed];
                 changeLabel.text=[NSString stringWithFormat:@"%@",changeSt];
             }
         }
@@ -196,7 +200,7 @@
     }
 }
 -(void)animateMarquee{
-    [UIView animateWithDuration:20 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         [indexLabel setFrame:CGRectMake(-indexLabel.frame.size.width, 2, indexLabel.frame.size.width, indexLabel.frame.size.height)];
     } completion:^(BOOL finished) {
         [indexLabel setFrame:CGRectMake(self.view.frame.size.width, 2, indexLabel.frame.size.width, indexLabel.frame.size.height)];

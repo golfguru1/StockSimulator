@@ -19,6 +19,7 @@
 		A77871B717E391E000A4938C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B617E391E000A4938C /* Default.png */; };
 		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
 		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
+		A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C521852328000DA51AE /* StockSimulatorConstants.m */; };
 		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
 		A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */; };
 		A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */; };
@@ -44,6 +45,8 @@
 		A77871B617E391E000A4938C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		A77871B817E391E000A4938C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A7B19C511852328000DA51AE /* StockSimulatorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSimulatorConstants.h; sourceTree = "<group>"; };
+		A7B19C521852328000DA51AE /* StockSimulatorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSimulatorConstants.m; sourceTree = "<group>"; };
 		A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDataManager.h; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 				A77871B417E391E000A4938C /* appAppDelegate.m */,
 				A74DB3B517E7F0F20056DDA8 /* MainViewController.h */,
 				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
+				A7B19C511852328000DA51AE /* StockSimulatorConstants.h */,
+				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
 				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
 				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
 				A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */,
@@ -199,6 +204,7 @@
 				A77871B517E391E000A4938C /* appAppDelegate.m in Sources */,
 				A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */,
 				A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */,
+				A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */,
 				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
 				A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */,
 				A703E77A181EAF73006BD790 /* EditCurrentStocks.m in Sources */,
