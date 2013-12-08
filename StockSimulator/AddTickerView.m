@@ -9,9 +9,13 @@
 #import "AddTickerView.h"
 #import "StockDataManager.h"
 #import "UserSettings.h"
+#import "StockSimulatorConstants.h"
 
 @implementation AddTickerView{
-        UISearchBar *bar;
+    UISearchBar *bar;
+    
+    UIAlertView *alert1;
+    UIAlertView *alert2;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -19,15 +23,15 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor=[UIColor blackColor];
+#warning get rid of this stupid top tool bar and make your own!
+        self.backgroundColor=[UIColor stockSimulatorLightGrey];
+        UIButton *backButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        backButton.frame=CGRectMake(10, 32, 25, 25);
+        [backButton setImage:[UIImage imageNamed:@"Back.png"] forState:UIControlStateNormal];
+        [backButton addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchDown];
+        [self addSubview:backButton];
         
-        UIBarButtonItem *mySettingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(done)];
-        UIBarButtonItem *mySpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIToolbar *myTopToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0,0,self.frame.size.width,65)];
-        [myTopToolbar setItems:[NSArray arrayWithObjects:mySettingsButton,mySpacer, nil] animated:NO];
-        myTopToolbar.backgroundColor=[UIColor grayColor];
-        [self addSubview:myTopToolbar];
-        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(50, 20, self.frame.size.width-50, 50)];
+        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(50, 30, self.frame.size.width-50, 30)];
         bar.delegate=self;
         [bar setBackgroundImage:[UIImage new]];
         [bar setTranslucent:YES];
@@ -37,9 +41,10 @@
         [self addSubview:bar];
         
         UIButton *submit=[UIButton buttonWithType:UIButtonTypeCustom];
-        submit.frame=CGRectMake(40, self.frame.size.height-50, 70, 20);
+        submit.backgroundColor=[UIColor stockSimulatorBlue];
+        submit.frame=CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 40);
         [submit setTitle:@"Submit" forState:UIControlStateNormal];
-        [submit setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+        [submit setTitleColor:[UIColor stockSimulatorLightGrey]forState:UIControlStateNormal];
         [submit addTarget:self action:@selector(submit) forControlEvents:UIControlEventTouchUpInside];
         submit.tag=1;
         [self addSubview:submit];
@@ -50,7 +55,6 @@
         _tickerTitle.font=[UIFont fontWithName:@"Helvetica" size:32];
         _tickerTitle.tag=1;
         [self addSubview:_tickerTitle];
-        
         
         UILabel *priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 130, 90, 30)];
         priceLabel.backgroundColor=[UIColor clearColor];
@@ -151,8 +155,9 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
     if([stocks containsObject:searchBar.text.uppercaseString]){
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You already own some of these stocks." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        alert2=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You already own some of these stocks." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert2 show];
+        alert2.tag=1;
     }
     else{
         NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
@@ -166,8 +171,9 @@
             
         }
         else{
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            alert1=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            alert1.tag=1;
+            [alert1 show];
         }
     }
     [bar resignFirstResponder];
@@ -175,7 +181,8 @@
     searchBar.text=@"";
 }
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    [bar becomeFirstResponder];
+    if (alertView.tag==1)
+        [bar becomeFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     [bar resignFirstResponder];
@@ -184,28 +191,36 @@
     [self removeFromSuperview];
 }
 -(void)submit{
-    NSString *priceString=[_currentPrice.text substringFromIndex:1];
     int numShares=_numOfShares.text.intValue;
-    double currentCash=[[[UserSettings sharedManager]userCash]doubleValue];
-    double newCash=currentCash-priceString.doubleValue*numShares;
-    [[UserSettings sharedManager]setUserCash:[NSNumber numberWithDouble:newCash]];
-    
-    NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-    if(![stocks containsObject:_tickerTitle.text.uppercaseString]){
-        [stocks addObject:[NSString stringWithFormat:@"%@",_tickerTitle.text.uppercaseString]];
-        [[UserSettings sharedManager]setStockList:stocks];
+    if (numShares>0){
+        NSString *priceString=[_currentPrice.text substringFromIndex:1];
+        
+        double currentCash=[[[UserSettings sharedManager]userCash]doubleValue];
+        double newCash=currentCash-priceString.doubleValue*numShares;
+        [[UserSettings sharedManager]setUserCash:[NSNumber numberWithDouble:newCash]];
+        
+        NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+        if(![stocks containsObject:_tickerTitle.text.uppercaseString]){
+            [stocks addObject:[NSString stringWithFormat:@"%@",_tickerTitle.text.uppercaseString]];
+            [[UserSettings sharedManager]setStockList:stocks];
+        }
+        
+        [self removeFromSuperview];
+        [_parent refresh];
+        [_parent.table reloadData];
+        
+        NSMutableDictionary *dict=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]sharesOwned]copy]];
+        [dict setObject:_numOfShares.text forKey:_tickerTitle.text];
+        [[UserSettings sharedManager]setSharesOwned:dict];
+        
+        NSMutableDictionary *dict2=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]priceBought]copy]];
+        [dict2 setObject:[_currentPrice.text substringFromIndex:1] forKey:_tickerTitle.text];
+        [[UserSettings sharedManager]setPriceBought:dict2];
     }
-    
-    [self removeFromSuperview];
-    [_parent.table reloadData];
-    
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]sharesOwned]copy]];
-    [dict setObject:_numOfShares.text forKey:_tickerTitle.text];
-    [[UserSettings sharedManager]setSharesOwned:dict];
-    
-    NSMutableDictionary *dict2=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]priceBought]copy]];
-    [dict2 setObject:[_currentPrice.text substringFromIndex:1] forKey:_tickerTitle.text];
-    [[UserSettings sharedManager]setPriceBought:dict2];
+    else{
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a valid number of stocks." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alert show];
+    }
 }
 -(NSString*)formatNumber:(float)num{
     NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];

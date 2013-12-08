@@ -20,6 +20,15 @@
 		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
 		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
 		A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C521852328000DA51AE /* StockSimulatorConstants.m */; };
+		A7B19C5618526B8400DA51AE /* TickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C5518526B8400DA51AE /* TickerCell.m */; };
+		A7B19C5E18528FC500DA51AE /* Download.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5718528FC500DA51AE /* Download.png */; };
+		A7B19C6018528FC500DA51AE /* Green_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5918528FC500DA51AE /* Green_Button.png */; };
+		A7B19C6118528FC500DA51AE /* LightBlue_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */; };
+		A7B19C6318528FC500DA51AE /* Red_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5C18528FC500DA51AE /* Red_Button.png */; };
+		A7B19C6418528FC500DA51AE /* Textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5D18528FC500DA51AE /* Textbox.png */; };
+		A7B19C66185292B300DA51AE /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C65185292B300DA51AE /* Gear.png */; };
+		A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C67185292BD00DA51AE /* Plus_03.png */; };
+		A7B19C6A1852939600DA51AE /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C691852939600DA51AE /* Back.png */; };
 		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
 		A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */; };
 		A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */; };
@@ -47,6 +56,16 @@
 		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A7B19C511852328000DA51AE /* StockSimulatorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSimulatorConstants.h; sourceTree = "<group>"; };
 		A7B19C521852328000DA51AE /* StockSimulatorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSimulatorConstants.m; sourceTree = "<group>"; };
+		A7B19C5418526B8400DA51AE /* TickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerCell.h; sourceTree = "<group>"; };
+		A7B19C5518526B8400DA51AE /* TickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickerCell.m; sourceTree = "<group>"; };
+		A7B19C5718528FC500DA51AE /* Download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Download.png; sourceTree = "<group>"; };
+		A7B19C5918528FC500DA51AE /* Green_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_Button.png; sourceTree = "<group>"; };
+		A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightBlue_Button.png; sourceTree = "<group>"; };
+		A7B19C5C18528FC500DA51AE /* Red_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Red_Button.png; sourceTree = "<group>"; };
+		A7B19C5D18528FC500DA51AE /* Textbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Textbox.png; sourceTree = "<group>"; };
+		A7B19C65185292B300DA51AE /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Gear.png; path = ../../../Dropbox/images/Gear.png; sourceTree = "<group>"; };
+		A7B19C67185292BD00DA51AE /* Plus_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Plus_03.png; sourceTree = "<group>"; };
+		A7B19C691852939600DA51AE /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
 		A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDataManager.h; sourceTree = "<group>"; };
@@ -107,6 +126,8 @@
 				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
 				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
 				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
+				A7B19C5418526B8400DA51AE /* TickerCell.h */,
+				A7B19C5518526B8400DA51AE /* TickerCell.m */,
 				A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */,
 				A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */,
 				A7DBDA6E17EBDC220082ACC4 /* UserSettings.h */,
@@ -123,6 +144,14 @@
 		A77871AB17E391E000A4938C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7B19C5718528FC500DA51AE /* Download.png */,
+				A7B19C5918528FC500DA51AE /* Green_Button.png */,
+				A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */,
+				A7B19C67185292BD00DA51AE /* Plus_03.png */,
+				A7B19C65185292B300DA51AE /* Gear.png */,
+				A7B19C5C18528FC500DA51AE /* Red_Button.png */,
+				A7B19C5D18528FC500DA51AE /* Textbox.png */,
+				A7B19C691852939600DA51AE /* Back.png */,
 				A77871AC17E391E000A4938C /* StockSimulator-Info.plist */,
 				A77871AD17E391E000A4938C /* InfoPlist.strings */,
 				A77871B017E391E000A4938C /* main.m */,
@@ -186,6 +215,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7B19C6A1852939600DA51AE /* Back.png in Resources */,
+				A7B19C6418528FC500DA51AE /* Textbox.png in Resources */,
+				A7B19C6318528FC500DA51AE /* Red_Button.png in Resources */,
+				A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */,
+				A7B19C66185292B300DA51AE /* Gear.png in Resources */,
+				A7B19C5E18528FC500DA51AE /* Download.png in Resources */,
+				A7B19C6118528FC500DA51AE /* LightBlue_Button.png in Resources */,
+				A7B19C6018528FC500DA51AE /* Green_Button.png in Resources */,
 				A77871AF17E391E000A4938C /* InfoPlist.strings in Resources */,
 				A77871B717E391E000A4938C /* Default.png in Resources */,
 				A77871B917E391E000A4938C /* Default@2x.png in Resources */,
@@ -207,6 +244,7 @@
 				A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */,
 				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
 				A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */,
+				A7B19C5618526B8400DA51AE /* TickerCell.m in Sources */,
 				A703E77A181EAF73006BD790 /* EditCurrentStocks.m in Sources */,
 				A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */,
 			);

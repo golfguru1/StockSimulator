@@ -8,6 +8,7 @@
 
 #import "appAppDelegate.h"
 #import "MainViewController.h"
+#import "SearchViewController.h"
 
 @implementation appAppDelegate
 
@@ -18,9 +19,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    MainViewController *mVc=[[MainViewController alloc]init];
-    self.window.rootViewController=mVc;
-    
+//    MainViewController *mVc=[[MainViewController alloc]init];
+//    self.window.rootViewController=mVc;
+    SearchViewController *sVc=[[SearchViewController alloc]init];
+    self.window.rootViewController=sVc;
     
     return YES;
 }

@@ -38,7 +38,6 @@
         int menuFontSize=14;
         UIColor *menuColor=[UIColor stockSimulatorOrange];
         self.view.backgroundColor=[UIColor stockSimulatorDarkGrey];
-#warning NEED TO MAKE THIS A SCROLL VIEW
         UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 55, 50, 15)];
         titleLabel.backgroundColor=[UIColor clearColor];
         titleLabel.text=@"Ticker";
@@ -101,7 +100,6 @@
 }
 -(void)refresh{
     UIFont *tickerFont=[UIFont stockSimulatorFontWithSize:12];
-#warning its less bad now
     NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
     if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
         for (UIView *subview in [self.view subviews]) {
