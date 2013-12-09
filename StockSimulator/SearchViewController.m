@@ -13,13 +13,19 @@
 #import "EditCurrentStocks.h"
 #import "TickerCell.h"
 #import "StockSimulatorConstants.h"
+#import "PortfolioSummaryView.h"
 
-@interface SearchViewController (){    
+#warning get rid of add/sell view, make it in extend out of the tableviewcell that you click on
+
+@interface SearchViewController (){
     AddTickerView *addItemView;
     EditCurrentStocks *editView;
+    PortfolioSummaryView *pSv;
     
     NSDictionary *results;
     UILabel *indexLabel;
+    
+    UIActivityIndicatorView  *av;
 }
 
 @end
@@ -28,44 +34,23 @@
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-- (id)init
-{
+- (id)init{
     self = [super init];
     if (self) {
 #warning add loading animation
         // Custom initialization
         self.view.backgroundColor=[UIColor stockSimulatorLightGrey];
-        _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-60) style:UITableViewStyleGrouped];
+        _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, self.view.frame.size.height-205) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
         [_table setDelegate:self];
-        _table.backgroundColor=[UIColor stockSimulatorLightGrey];
+        _table.backgroundColor=[UIColor clearColor];
         [_table registerClass:[TickerCell class] forCellReuseIdentifier:@"MyIdentifier"];
         [_table setShowsVerticalScrollIndicator:NO];
+        _table.contentInset=UIEdgeInsetsMake(-35, 0, 0, 0);
         [self.view addSubview:_table];
         
         UIView *topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-        topView.backgroundColor=[UIColor stockSimulatorDarkGrey];
-        
-        UIButton *backButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        backButton.frame=CGRectMake(5, 20, 60, 40);
-        [backButton setTitle:@"Back" forState:UIControlStateNormal];
-        backButton.titleLabel.font=[UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-        [backButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
-        [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-        [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-        //[topView addSubview:backButton];
-        
-        UIButton *editButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        editButton.frame=CGRectMake(0, 60, self.view.frame.size.width, 60);
-        editButton.backgroundColor=[UIColor blackColor];
-        [editButton setTitle:@"Edit" forState:UIControlStateNormal];
-        [editButton setTitle:@"Done" forState:UIControlStateSelected];
-        editButton.titleLabel.font=[UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-        [editButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
-        [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-        [editButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-        //[self.view addSubview:editButton];
-        
+        topView.backgroundColor=[UIColor stockSimulatorDarkGrey];        
         
         UIButton *addButton=[UIButton buttonWithType:UIButtonTypeCustom];
         addButton.frame=CGRectMake(self.view.frame.size.width-35, 25, 25, 25);
@@ -83,12 +68,24 @@
         
         [self.view addSubview:topView];
         [self.view addSubview:marquee];
+        pSv=[[PortfolioSummaryView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-100,self.view.frame.size.width, 100)];
+        [self.view addSubview:pSv];
         [self refresh];
         [self animateMarquee];
-        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
     return self;
 }
+//-(void)startLoadingAnimation{
+//    av = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+//    av.frame=CGRectMake(145, 160, 25, 25);
+//    [self.view addSubview:av];
+//    [av startAnimating];
+//}
+//-(void)stopLoadingAnimation{
+//    [av removeFromSuperview];
+//    
+//}
 -(void)animateMarquee{
     [UIView animateWithDuration:25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         [indexLabel setFrame:CGRectMake(-indexLabel.frame.size.width, 2, indexLabel.frame.size.width, indexLabel.frame.size.height)];
@@ -97,10 +94,9 @@
         [self animateMarquee];
     }];
 }
+
 -(void)refresh{
-#warning make sure this is actually refreshing the table view
     results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
-    [_table reloadData];
     NSDictionary *indexes=[[StockDataManager sharedManager]getIndex];
     NSMutableString *resultsString=[[NSMutableString alloc]init];
     if([indexes valueForKey:@"Name"]!=(id)[NSNull null] && [indexes valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [indexes valueForKey:@"Change"]){
@@ -119,15 +115,27 @@
         }
         indexLabel.text=resultsString;
     }
+    [self populateSummary];
+    [_table reloadData];
 }
--(void)edit:(UIButton *)sender{
-    sender.selected=!sender.selected;
-    if(!sender.selected){
-        [_table setEditing:YES animated:YES];
+-(void)populateSummary{
+    float todayTotal=0;
+    float totalStockValue=0;
+    float totalValue=[[[UserSettings sharedManager]userCash]floatValue];
+    for (int section = 0; section < [_table numberOfSections]; ++section) {
+        for (int row = 0; row < [_table numberOfRowsInSection:section]; ++row) {
+            NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
+            TickerCell* cell = (TickerCell*)[_table cellForRowAtIndexPath:cellPath];
+            NSString* num=cell.numberOfShares.text;
+            num=[num substringFromIndex:1];
+            num=[num substringToIndex:[num length]-1];
+            NSString* currentP=cell.currentPrice.text;
+            totalValue+=[currentP floatValue]*[num floatValue];
+            
+        }
     }
-    else{
-        [_table setEditing:NO animated:YES];
-    }
+    [pSv.totalValue setText:[NSString stringWithFormat:@"$%@",[self formatNumber:totalValue]]];
+    [pSv.totalCash setText:[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]]];
 }
 -(void)add{
     addItemView=[[AddTickerView alloc]initWithFrame:self.view.frame];
@@ -135,17 +143,14 @@
     [self.view addSubview:addItemView];
     
 }
--(void)back{
-    [_parent hideSearch];
-}
 - (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return UITableViewCellEditingStyleDelete;
-}
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return UITableViewCellEditingStyleDelete;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [[[UserSettings sharedManager]stockTickers] count];

@@ -23,7 +23,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-#warning get rid of this stupid top tool bar and make your own!
         self.backgroundColor=[UIColor stockSimulatorLightGrey];
         UIButton *backButton=[UIButton buttonWithType:UIButtonTypeCustom];
         backButton.frame=CGRectMake(10, 32, 25, 25);
@@ -38,6 +37,10 @@
         bar.showsCancelButton=YES;
         bar.placeholder=@"Search for a Ticker";
         [bar becomeFirstResponder];
+        [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor stockSimulatorLightGrey]];
+        [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont stockSimulatorFontWithSize:16]];
+        [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor stockSimulatorRed],                   UITextAttributeTextColor,nil,nil,nil,nil,nil] forState:UIControlStateNormal];
+        [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithWhite:0.5 alpha:0.3],                   UITextAttributeTextColor,nil,nil,nil,nil,nil] forState:UIControlStateDisabled];
         [self addSubview:bar];
         
         UIButton *submit=[UIButton buttonWithType:UIButtonTypeCustom];
