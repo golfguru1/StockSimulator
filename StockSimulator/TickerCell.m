@@ -9,7 +9,9 @@
 #import "TickerCell.h"
 #import "StockSimulatorConstants.h"
 
-@implementation TickerCell
+@implementation TickerCell{
+    UIView *extendBg;
+}
 
 @synthesize tickerTitle,numberOfShares,change,boughtAt,currentPrice;
 
@@ -19,7 +21,7 @@
     if (self) {
         // Initialization code
         [self.contentView setBackgroundColor:[UIColor stockSimulatorDarkGrey]];
-        [self.contentView setFrame:CGRectMake(0, 0, 320, 70)];
+        [self.contentView setFrame:CGRectMake(0, 0, 320, 170)];
         
         tickerTitle=[[UILabel alloc]init];
         [tickerTitle setBackgroundColor:[UIColor clearColor]];
@@ -61,6 +63,10 @@
         [currentPrice sizeToFit];
         [self.contentView addSubview:currentPrice];
         
+        extendBg=[[UIView alloc]init];
+        [extendBg setBackgroundColor:[UIColor stockSimulatorLightGrey]];
+        [self.contentView addSubview:extendBg];
+        
     }
     return self;
 }
@@ -70,6 +76,7 @@
     [change setFrame:CGRectMake(self.contentView.frame.size.width/2, 2, self.contentView.frame.size.width/2-5, 35)];
     [boughtAt setFrame:CGRectMake(15, 35, self.contentView.frame.size.width/2, 35)];
     [currentPrice setFrame:CGRectMake(self.contentView.frame.size.width/2, 35, self.contentView.frame.size.width/2-5, 35)];
+    [extendBg setFrame:CGRectMake(0, 70, self.contentView.frame.size.width, 100)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
