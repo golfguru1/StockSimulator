@@ -135,16 +135,27 @@
             num=[num substringToIndex:[num length]-1];
             NSString* currentP=cell.currentPrice.text;
             totalValue+=[currentP floatValue]*[num floatValue];
+            totalStockValue+=[cell.currentPrice.text floatValue]*[num floatValue];
+            
+            if ([cell.change.text characterAtIndex:0]=='+'){
+                todayTotal+=[[cell.change.text substringFromIndex:1]floatValue];
+            }
+            else{
+                todayTotal-=[[cell.change.text substringFromIndex:1]floatValue];
+            }
             
         }
     }
     [pSv.totalValue setText:[NSString stringWithFormat:@"$%@",[self formatNumber:totalValue]]];
     [pSv.totalCash setText:[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]]];
+    [pSv.totalStockValue setText:[self formatNumber:totalStockValue]];
+    [pSv.todayChange setText:[self formatNumber:todayTotal]];
 }
 -(void)add{
     addItemView=[[AddTickerView alloc]initWithFrame:self.view.frame];
     addItemView.parent=self;
-    [self.view addSubview:addItemView];
+    if (![addItemView superview])
+        [self.view addSubview:addItemView];
     
 }
 - (void)viewDidLoad{
