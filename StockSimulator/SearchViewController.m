@@ -15,8 +15,6 @@
 #import "StockSimulatorConstants.h"
 #import "PortfolioSummaryView.h"
 
-#warning get rid of add/sell view, make it in extend out of the tableviewcell that you click on
-
 @interface SearchViewController (){
     AddTickerView *addItemView;
     EditCurrentStocks *editView;
@@ -56,8 +54,11 @@
         
         UIButton *addButton=[UIButton buttonWithType:UIButtonTypeCustom];
         addButton.frame=CGRectMake(self.view.frame.size.width-35, 25, 25, 25);
-        [addButton setImage:[UIImage imageNamed:@"Plus_03.png"] forState:UIControlStateNormal];
-        [addButton addTarget:self action:@selector(add) forControlEvents:UIControlEventTouchUpInside];
+        [addButton setImage:[UIImage imageNamed:@"Plus_03.png"]
+                   forState:UIControlStateNormal];
+        [addButton addTarget:self
+                      action:@selector(add)
+            forControlEvents:UIControlEventTouchUpInside];
         [topView addSubview:addButton];
         
         UIView *marquee=[[UIView alloc]initWithFrame:CGRectMake(0,70, self.view.frame.size.width,22)];
@@ -118,7 +119,8 @@
         indexLabel.text=resultsString;
     }
     [self populateSummary];
-    [_table reloadData];
+    if ([selectedIndexPaths count]==0)
+        [_table reloadData];
 }
 -(void)populateSummary{
     float todayTotal=0;
@@ -198,27 +200,29 @@
     NSString *name;
     NSString *price;
     NSString *changeSt;
-    if([[[UserSettings sharedManager]stockTickers]count]>1){
-        name=[results valueForKey:@"Symbol"][indexPath.row];
-        price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"][indexPath.row] floatValue]];
-        changeSt=[self formatNumber:[[results valueForKey:@"Change"][indexPath.row] floatValue]];
-    }
-    else{
-        name=[results valueForKey:@"Symbol"];
-        price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"]floatValue]];
-        changeSt=[self formatNumber:[[results valueForKey:@"Change"]floatValue]];;
-    }
-    cell.numberOfShares.text=[NSString stringWithFormat:@"(%@)",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
-    cell.boughtAt.text=[self formatNumber:[[[[UserSettings sharedManager]priceBought]valueForKey:name]floatValue]];
-    cell.currentPrice.text=price;
-    
-    if([changeSt floatValue]>=0){
-        cell.change.textColor=[UIColor stockSimulatorGreen];
-        cell.change.text=[NSString stringWithFormat:@"+%@",changeSt];
-    }
-    else{
-        cell.change.textColor=[UIColor stockSimulatorRed];
-        cell.change.text=[NSString stringWithFormat:@"%@",changeSt];
+    if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
+        if([[[UserSettings sharedManager]stockTickers]count]>1){
+            name=[results valueForKey:@"Symbol"][indexPath.row];
+            price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"][indexPath.row] floatValue]];
+            changeSt=[self formatNumber:[[results valueForKey:@"Change"][indexPath.row] floatValue]];
+        }
+        else{
+            name=[results valueForKey:@"Symbol"];
+            price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"]floatValue]];
+            changeSt=[self formatNumber:[[results valueForKey:@"Change"]floatValue]];;
+        }
+        cell.numberOfShares.text=[NSString stringWithFormat:@"(%@)",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
+        cell.boughtAt.text=[self formatNumber:[[[[UserSettings sharedManager]priceBought]valueForKey:name]floatValue]];
+        cell.currentPrice.text=price;
+        
+        if([changeSt floatValue]>=0){
+            cell.change.textColor=[UIColor stockSimulatorGreen];
+            cell.change.text=[NSString stringWithFormat:@"+%@",changeSt];
+        }
+        else{
+            cell.change.textColor=[UIColor stockSimulatorRed];
+            cell.change.text=[NSString stringWithFormat:@"%@",changeSt];
+        }
     }
     return cell;
 }
@@ -230,10 +234,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!selectedIndexPaths)
         selectedIndexPaths=[[NSMutableArray alloc]init];
-    if ([selectedIndexPaths containsObject:indexPath])
+    if ([selectedIndexPaths containsObject:indexPath]){
         [selectedIndexPaths removeObject:indexPath];
-    else
+    }
+    else{
         [selectedIndexPaths addObject:indexPath];
+    }
     [tableView beginUpdates];
     [tableView endUpdates];
 //    editView=[[EditCurrentStocks alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
@@ -252,19 +258,19 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([selectedIndexPaths containsObject:indexPath]) {
-        return 150;
+        return 160;
     }
     return 70;
 }
--(void)removeEditView{
-    if([editView superview]){
-        [UIView animateWithDuration:0.5 animations:^{
-            editView.frame=CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-        }completion:^(BOOL finished){
-            [editView removeFromSuperview];
-        }];
-    }
-}
+//-(void)removeEditView{
+//    if([editView superview]){
+//        [UIView animateWithDuration:0.5 animations:^{
+//            editView.frame=CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+//        }completion:^(BOOL finished){
+//            [editView removeFromSuperview];
+//        }];
+//    }
+//}
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

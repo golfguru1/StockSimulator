@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TickerCell : UITableViewCell
+@interface TickerCell : UITableViewCell <UITextFieldDelegate>
 @property (nonatomic, strong)UILabel *tickerTitle;
 @property (nonatomic, strong)UILabel *numberOfShares;
 @property (nonatomic, strong)UILabel *change;
 @property (nonatomic, strong)UILabel *boughtAt;
 @property (nonatomic, strong)UILabel *currentPrice;
+@property (nonatomic, strong)UILabel *buyNum;
+@property (nonatomic, strong)UILabel *sellNum;
 @end

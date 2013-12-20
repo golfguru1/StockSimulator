@@ -23,7 +23,7 @@
 //    self.window.rootViewController=mVc;
     SearchViewController *sVc=[[SearchViewController alloc]init];
     self.window.rootViewController=sVc;
-    
+    [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
     return YES;
 }
 

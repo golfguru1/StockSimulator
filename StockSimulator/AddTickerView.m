@@ -103,15 +103,24 @@
         
         _companyLabel=[[UILabel alloc]initWithFrame:CGRectMake(120, 100, 180, 20)];
         _companyLabel.backgroundColor=[UIColor clearColor];
-        _companyLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _companyLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
+        _companyLabel.textColor=[UIColor colorWithRed:253.0/255.0f
+                                                green:198.0/255.0f
+                                                 blue:0/255.0f
+                                                alpha:1.0f];
+        _companyLabel.font=[UIFont fontWithName:@"Helvetica"
+                                           size:14];
         _companyLabel.tag=1;
         [self addSubview:_companyLabel];
         
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonDidPressed)];
-        UIBarButtonItem *flexableItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                  target:self
+                                                                                  action:@selector(doneButtonDidPressed)];
+        UIBarButtonItem *flexableItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                      target:nil
+                                                                                      action:NULL];
         UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 44.0f)];
         [toolbar setItems:[NSArray arrayWithObjects:flexableItem,doneItem, nil]];
+        [toolbar setBackgroundColor:[UIColor blackColor]];
         _numOfShares.inputAccessoryView = toolbar;
         
         UILabel *currentCash=[[UILabel alloc]initWithFrame:CGRectMake(160, 170, 85, 30)];
@@ -148,12 +157,13 @@
     for(UIView *subview in self.subviews)
         if(subview.tag==1)
             subview.hidden=YES;
+    
 }
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
     [bar resignFirstResponder];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    
+    searchBar.text=searchBar.text.uppercaseString;
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
