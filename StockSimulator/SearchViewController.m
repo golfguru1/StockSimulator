@@ -37,8 +37,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-#warning add loading animation
-        // Custom initialization
+                                                                        // add loading animation
         self.view.backgroundColor=[UIColor stockSimulatorLightGrey];
         _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, self.view.frame.size.height-205) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
