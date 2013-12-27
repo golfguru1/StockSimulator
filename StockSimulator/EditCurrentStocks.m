@@ -145,10 +145,6 @@
     }
     return self;
 }
--(void)done{
-    if([self superview])
-        [_parent removeEditView];
-}
 -(void)doneButtonDidPressed:(id)sender{
     [_numOfShares resignFirstResponder];
     [_numOfSharesSell resignFirstResponder];    

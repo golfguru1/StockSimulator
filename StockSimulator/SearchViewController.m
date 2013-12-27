@@ -204,8 +204,8 @@
     
     if (!cell){
         cell = [[TickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
     }
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.tickerTitle.text = [[UserSettings sharedManager]stockTickers][indexPath.row];
     NSString *name;
     NSString *price;
@@ -242,8 +242,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(!selectedIndexPaths)
-        selectedIndexPaths=[[NSMutableArray alloc]init];
+    if(!selectedIndexPaths) selectedIndexPaths=[[NSMutableArray alloc]init];
     if ([selectedIndexPaths containsObject:indexPath]){
         [selectedIndexPaths removeObject:indexPath];
     }
@@ -252,19 +251,6 @@
     }
     [tableView beginUpdates];
     [tableView endUpdates];
-//    editView=[[EditCurrentStocks alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
-//    if(![editView superview]){
-//        NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[selected.tickerTitle.text.uppercaseString]];
-//        [self.view addSubview:editView];
-//        editView.parent=self;
-//        editView.tickerTitle.text=selected.tickerTitle.text;
-//        [UIView animateWithDuration:0.5 animations:^{
-//            editView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-//            [editView.currentPrice setText:[NSString stringWithFormat:@"$%@",[self formatNumber:[[check valueForKey:@"LastTradePriceOnly"]floatValue]]]];
-//            [editView.companyLabel setText:[check valueForKey:@"Name"]];
-//        }];
-//    }
-
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([selectedIndexPaths containsObject:indexPath]) {
@@ -272,15 +258,7 @@
     }
     return 70;
 }
-//-(void)removeEditView{
-//    if([editView superview]){
-//        [UIView animateWithDuration:0.5 animations:^{
-//            editView.frame=CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-//        }completion:^(BOOL finished){
-//            [editView removeFromSuperview];
-//        }];
-//    }
-//}
+
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
