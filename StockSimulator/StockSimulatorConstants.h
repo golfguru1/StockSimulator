@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIColor (PhotoLove)
+@interface UIColor (StockSimulator)
 
 + (UIColor *)stockSimulatorDarkGrey;
 + (UIColor *)stockSimulatorLightGrey;
@@ -21,7 +21,7 @@
 
 @end
 
-@interface UIFont (PhotoLove)
+@interface UIFont (StockSimulator)  
 
 + (UIFont *)stockSimulatorFontWithSize:(int)size;
 
