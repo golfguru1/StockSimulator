@@ -16,4 +16,6 @@
 @property (nonatomic, strong)UILabel *currentPrice;
 @property (nonatomic, strong)UILabel *buyNum;
 @property (nonatomic, strong)UILabel *sellNum;
+//@property (nonatomic, strong)UITextField *buyNum;
+//@property (nonatomic, strong)UITextField *sellNum;
 @end

@@ -12,8 +12,6 @@
 #import "StockSimulatorConstants.h"
 
 @implementation AddTickerView{
-    UISearchBar *bar;
-    
     UIAlertView *alert1;
     UIAlertView *alert2;
 }
@@ -30,18 +28,17 @@
         [backButton addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchDown];
         [self addSubview:backButton];
         
-        bar=[[UISearchBar alloc]initWithFrame:CGRectMake(50, 30, self.frame.size.width-50, 30)];
-        bar.delegate=self;
-        [bar setBackgroundImage:[UIImage new]];
-        [bar setTranslucent:YES];
-        bar.showsCancelButton=YES;
-        bar.placeholder=@"Search for a Ticker";
-        [bar becomeFirstResponder];
+        _bar=[[UISearchBar alloc]initWithFrame:CGRectMake(50, 30, self.frame.size.width-50, 30)];
+        _bar.delegate=self;
+        [_bar setBackgroundImage:[UIImage new]];
+        [_bar setTranslucent:YES];
+        _bar.showsCancelButton=YES;
+        _bar.placeholder=@"Search for a Ticker";
         [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor stockSimulatorLightGrey]];
         [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont stockSimulatorFontWithSize:16]];
-        [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor stockSimulatorRed],                   UITextAttributeTextColor,nil,nil,nil,nil,nil] forState:UIControlStateNormal];
-        [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithWhite:0.5 alpha:0.3],                   UITextAttributeTextColor,nil,nil,nil,nil,nil] forState:UIControlStateDisabled];
-        [self addSubview:bar];
+        [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor stockSimulatorRed],UITextAttributeTextColor,nil,nil,nil,nil,nil] forState:UIControlStateNormal];
+        [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithWhite:0.5 alpha:0.3], UITextAttributeTextColor,nil,nil,nil,nil,nil] forState:UIControlStateDisabled];
+        [self addSubview:_bar];
         
         UIButton *submit=[UIButton buttonWithType:UIButtonTypeCustom];
         submit.backgroundColor=[UIColor stockSimulatorBlue];
@@ -160,7 +157,7 @@
     
 }
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    [bar resignFirstResponder];
+    [searchBar resignFirstResponder];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     searchBar.text=searchBar.text.uppercaseString;
@@ -189,16 +186,16 @@
             [alert1 show];
         }
     }
-    [bar resignFirstResponder];
+    [_bar resignFirstResponder];
     [_parent.table reloadData];
     searchBar.text=@"";
 }
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag==1)
-        [bar becomeFirstResponder];
+        [_bar becomeFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
-    [bar resignFirstResponder];
+    [searchBar resignFirstResponder];
 }
 -(void)done{
     [self removeFromSuperview];
@@ -207,6 +204,7 @@
     int numShares=_numOfShares.text.intValue;
     if (numShares>0){
         NSString *priceString=[_currentPrice.text substringFromIndex:1];
+        NSLog(@"%@",priceString);
         
         double currentCash=[[[UserSettings sharedManager]userCash]doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
@@ -227,7 +225,7 @@
         [[UserSettings sharedManager]setSharesOwned:dict];
         
         NSMutableDictionary *dict2=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]priceBought]copy]];
-        [dict2 setObject:[_currentPrice.text substringFromIndex:1] forKey:_tickerTitle.text];
+        [dict2 setObject:priceString forKey:_tickerTitle.text];
         [[UserSettings sharedManager]setPriceBought:dict2];
     }
     else{

@@ -124,7 +124,7 @@
 -(void)populateSummary{
     float todayTotal=0;
     float totalStockValue=0;
-    float totalValue=[[[UserSettings sharedManager]userCash]floatValue];
+    float totalValue=0;
     for (int section = 0; section < [_table numberOfSections]; ++section) {
         for (int row = 0; row < [_table numberOfRowsInSection:section]; ++row) {
             NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
@@ -133,7 +133,8 @@
             num=[num substringFromIndex:1];
             num=[num substringToIndex:[num length]-1];
             NSString* currentP=cell.currentPrice.text;
-            totalValue+=[currentP floatValue]*[num floatValue];
+            NSString* boughtAt=cell.boughtAt.text;
+            totalValue+=([currentP floatValue]-[boughtAt floatValue])*[num floatValue];
             totalStockValue+=[cell.currentPrice.text floatValue]*[num floatValue];
             
             if ([cell.change.text characterAtIndex:0]=='+'){
@@ -145,26 +146,44 @@
             
         }
     }
-    [pSv.totalValue setText:[NSString stringWithFormat:@"$%@",[self formatNumber:totalValue]]];
-    [pSv.totalCash setText:[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]]];
-    [pSv.totalStockValue setText:[self formatNumber:totalStockValue]];
-    [pSv.todayChange setText:[self formatNumber:todayTotal]];
+    NSString* totalValueString=[self formatNumber:totalValue];
+    if([totalValueString characterAtIndex:0]=='-'){
+        [pSv.totalValue setText:[NSString stringWithFormat:@"- $%@",[totalValueString substringFromIndex:1]]];
+        [pSv.totalValue setBackgroundColor:[UIColor stockSimulatorRed]];
+        [pSv.valueTitle setText:@"Total Loss"];
+    }
+    else{
+        [pSv.totalValue setText:[NSString stringWithFormat:@"+ $%@",totalValueString]];
+        [pSv.totalValue setBackgroundColor:[UIColor stockSimulatorGreen]];
+        [pSv.valueTitle setText:@"Total Gain"];
+    }
+    NSString* currentCashString=[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]];
+    if([currentCashString characterAtIndex:0]=='-'){
+        [pSv.totalCash setText:[NSString stringWithFormat:@"($%@)",[currentCashString substringFromIndex:1]]];
+        [pSv.totalCash setBackgroundColor:[UIColor stockSimulatorRed]];
+    }
+    else{
+        [pSv.totalCash setText:[NSString stringWithFormat:@"$%@",currentCashString]];
+        [pSv.totalCash setBackgroundColor:[UIColor stockSimulatorGreen]];
+    }
+//    [pSv.totalStockValue setText:[self formatNumber:totalStockValue]];
+//    [pSv.todayChange setText:[self formatNumber:todayTotal]];
 }
 -(void)add{
-    addItemView=[[AddTickerView alloc]initWithFrame:self.view.frame];
-    addItemView.parent=self;
+    addItemView=[[AddTickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
     if (![addItemView superview])
         [self.view addSubview:addItemView];
+    [UIView animateWithDuration:0.2 animations:^{
+        [addItemView setFrame:self.view.frame];
+    }];
+    addItemView.parent=self;
+    [addItemView.bar becomeFirstResponder];
     
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
-
-//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return UITableViewCellEditingStyleDelete;
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [[[UserSettings sharedManager]stockTickers] count];
@@ -174,9 +193,9 @@
     return YES;
 }
 
--(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
-}
+//-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return YES;
+//}
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -192,11 +211,11 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
-    NSString *r = [[[UserSettings sharedManager]stockTickers] objectAtIndex:fromIndexPath.row];
-    [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:fromIndexPath.row];
-    [[[UserSettings sharedManager]stockTickers] insertObject:r atIndex:toIndexPath.row];
-}
+//-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
+//    NSString *r = [[[UserSettings sharedManager]stockTickers] objectAtIndex:fromIndexPath.row];
+//    [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:fromIndexPath.row];
+//    [[[UserSettings sharedManager]stockTickers] insertObject:r atIndex:toIndexPath.row];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *MyIdentifier = @"MyIdentifier";
@@ -261,6 +280,7 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    NSLog(@"memory warning");
     // Dispose of any resources that can be recreated.
 }
 -(NSString*)formatNumber:(float)num{
@@ -272,7 +292,6 @@
     [nf setMinimumFractionDigits:2];
     [nf setNumberStyle:NSNumberFormatterDecimalStyle];
     
-    // you should create a string from number
     NSNumber *n = [NSNumber numberWithFloat: num];
     NSString *str = [nf stringFromNumber:n];
     

@@ -36,8 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A703E778181EAF73006BD790 /* EditCurrentStocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCurrentStocks.h; sourceTree = "<group>"; };
-		A703E779181EAF73006BD790 /* EditCurrentStocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCurrentStocks.m; sourceTree = "<group>"; };
+		A703E778181EAF73006BD790 /* EditCurrentStocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditCurrentStocks.h; path = StockSimulator/EditCurrentStocks.h; sourceTree = "<group>"; };
+		A703E779181EAF73006BD790 /* EditCurrentStocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditCurrentStocks.m; path = StockSimulator/EditCurrentStocks.m; sourceTree = "<group>"; };
 		A718C0B01806E8B70040D2CF /* AddTickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTickerView.h; sourceTree = "<group>"; };
 		A718C0B11806E8B70040D2CF /* AddTickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTickerView.m; sourceTree = "<group>"; };
 		A72BAE3E1854087900F8F2AD /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
@@ -96,6 +96,8 @@
 			children = (
 				A74DB3B517E7F0F20056DDA8 /* MainViewController.h */,
 				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
+				A703E778181EAF73006BD790 /* EditCurrentStocks.h */,
+				A703E779181EAF73006BD790 /* EditCurrentStocks.m */,
 				A77871AA17E391E000A4938C /* StockSimulator */,
 				A77871A317E391E000A4938C /* Frameworks */,
 				A77871A217E391E000A4938C /* Products */,
@@ -125,10 +127,6 @@
 			children = (
 				A72BAE401854091800F8F2AD /* PortfolioSummaryView.h */,
 				A72BAE411854091800F8F2AD /* PortfolioSummaryView.m */,
-				A77871B317E391E000A4938C /* appAppDelegate.h */,
-				A77871B417E391E000A4938C /* appAppDelegate.m */,
-				A7B19C511852328000DA51AE /* StockSimulatorConstants.h */,
-				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
 				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
 				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
 				A7B19C5418526B8400DA51AE /* TickerCell.h */,
@@ -139,8 +137,6 @@
 				A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */,
 				A718C0B01806E8B70040D2CF /* AddTickerView.h */,
 				A718C0B11806E8B70040D2CF /* AddTickerView.m */,
-				A703E778181EAF73006BD790 /* EditCurrentStocks.h */,
-				A703E779181EAF73006BD790 /* EditCurrentStocks.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
 			);
 			path = StockSimulator;
@@ -149,6 +145,10 @@
 		A77871AB17E391E000A4938C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A77871B317E391E000A4938C /* appAppDelegate.h */,
+				A77871B417E391E000A4938C /* appAppDelegate.m */,
+				A7B19C511852328000DA51AE /* StockSimulatorConstants.h */,
+				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
 				A7B19C5718528FC500DA51AE /* Download.png */,
 				A7B19C5918528FC500DA51AE /* Green_Button.png */,
 				A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */,
@@ -197,6 +197,11 @@
 				CLASSPREFIX = app;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Mark Hall";
+				TargetAttributes = {
+					A77871A017E391E000A4938C = {
+						DevelopmentTeam = 8M6F65ZU25;
+					};
+				};
 			};
 			buildConfigurationList = A778719C17E391E000A4938C /* Build configuration list for PBXProject "StockSimulator" */;
 			compatibilityVersion = "Xcode 3.2";

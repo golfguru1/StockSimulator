@@ -72,6 +72,9 @@
         [extendBg setBackgroundColor:[UIColor stockSimulatorLightGrey]];
         
         sellNum=[[UILabel alloc]init];
+        //sellNum=[[UITextField alloc]init];
+        //[sellNum setPlaceholder:@"Sell Shares"];
+        //[sellNum setKeyboardType:UIKeyboardTypeNumberPad];
         [sellNum setBackgroundColor:[UIColor stockSimulatorRed]];
         [sellNum setTextColor:[UIColor stockSimulatorDarkGrey]];
         [sellNum.layer setCornerRadius:4];
@@ -82,6 +85,9 @@
         [extendBg addSubview:sellNum];
         
         buyNum=[[UILabel alloc]init];
+//        buyNum=[[UITextField alloc]init];
+//        [buyNum setPlaceholder:@"Buy Shares"];
+//        [buyNum setKeyboardType:UIKeyboardTypeNumberPad];
         [buyNum setBackgroundColor:[UIColor stockSimulatorGreen]];
         [buyNum setTextColor:[UIColor stockSimulatorDarkGrey]];
         [buyNum.layer setCornerRadius:4];
@@ -106,7 +112,7 @@
         [buyStepper addTarget:self action:@selector(buyStepperPressed:) forControlEvents:UIControlEventValueChanged];
         [extendBg addSubview:buyStepper];
         
-#warning add maximum value as the number of shares they own
+        //add maximum value as the number of shares they own
         sellStepper=[[UIStepper alloc]init];
         [sellStepper setTintColor:[UIColor stockSimulatorRed]];
         [sellStepper setMinimumValue:0.0];
