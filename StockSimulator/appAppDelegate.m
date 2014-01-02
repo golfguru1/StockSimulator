@@ -8,20 +8,19 @@
 
 #import "appAppDelegate.h"
 #import "MainViewController.h"
+#import "SearchViewController.h"
 
 @implementation appAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    MainViewController *mVc=[[MainViewController alloc]init];
-    self.window.rootViewController=mVc;
-    
-    
+    SearchViewController *sVc=[[SearchViewController alloc]init];
+    self.window.rootViewController=sVc;
+    [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
     return YES;
 }
 

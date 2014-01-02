@@ -14,6 +14,6 @@
 @property MainViewController *parent;
 @property (nonatomic, retain)UITableView *table;
 
--(void)removeEditView;
+-(void)refresh;
 
 @end

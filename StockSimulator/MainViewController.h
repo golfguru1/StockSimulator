@@ -11,5 +11,5 @@
 @interface MainViewController : UIViewController
 
 -(void)hideSearch;
-
+@property (nonatomic, retain)UITableView *table;
 @end

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A703E77A181EAF73006BD790 /* EditCurrentStocks.m in Sources */ = {isa = PBXBuildFile; fileRef = A703E779181EAF73006BD790 /* EditCurrentStocks.m */; };
 		A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A718C0B11806E8B70040D2CF /* AddTickerView.m */; };
+		A72BAE3F1854087900F8F2AD /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = A72BAE3E1854087900F8F2AD /* Back.png */; };
+		A72BAE421854091800F8F2AD /* PortfolioSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = A72BAE411854091800F8F2AD /* PortfolioSummaryView.m */; };
 		A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74DB3B617E7F0F20056DDA8 /* MainViewController.m */; };
 		A77871A517E391E000A4938C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A417E391E000A4938C /* UIKit.framework */; };
 		A77871A717E391E000A4938C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A617E391E000A4938C /* Foundation.framework */; };
@@ -20,18 +22,29 @@
 		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
 		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
 		A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C521852328000DA51AE /* StockSimulatorConstants.m */; };
+		A7B19C5618526B8400DA51AE /* TickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C5518526B8400DA51AE /* TickerCell.m */; };
+		A7B19C5E18528FC500DA51AE /* Download.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5718528FC500DA51AE /* Download.png */; };
+		A7B19C6018528FC500DA51AE /* Green_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5918528FC500DA51AE /* Green_Button.png */; };
+		A7B19C6118528FC500DA51AE /* LightBlue_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */; };
+		A7B19C6318528FC500DA51AE /* Red_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5C18528FC500DA51AE /* Red_Button.png */; };
+		A7B19C6418528FC500DA51AE /* Textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5D18528FC500DA51AE /* Textbox.png */; };
+		A7B19C66185292B300DA51AE /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C65185292B300DA51AE /* Gear.png */; };
+		A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C67185292BD00DA51AE /* Plus_03.png */; };
 		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
 		A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */; };
 		A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A703E778181EAF73006BD790 /* EditCurrentStocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCurrentStocks.h; sourceTree = "<group>"; };
-		A703E779181EAF73006BD790 /* EditCurrentStocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCurrentStocks.m; sourceTree = "<group>"; };
+		A703E778181EAF73006BD790 /* EditCurrentStocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditCurrentStocks.h; path = StockSimulator/EditCurrentStocks.h; sourceTree = "<group>"; };
+		A703E779181EAF73006BD790 /* EditCurrentStocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditCurrentStocks.m; path = StockSimulator/EditCurrentStocks.m; sourceTree = "<group>"; };
 		A718C0B01806E8B70040D2CF /* AddTickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTickerView.h; sourceTree = "<group>"; };
 		A718C0B11806E8B70040D2CF /* AddTickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTickerView.m; sourceTree = "<group>"; };
-		A74DB3B517E7F0F20056DDA8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		A74DB3B617E7F0F20056DDA8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		A72BAE3E1854087900F8F2AD /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
+		A72BAE401854091800F8F2AD /* PortfolioSummaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortfolioSummaryView.h; sourceTree = "<group>"; };
+		A72BAE411854091800F8F2AD /* PortfolioSummaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortfolioSummaryView.m; sourceTree = "<group>"; };
+		A74DB3B517E7F0F20056DDA8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = StockSimulator/MainViewController.h; sourceTree = "<group>"; };
+		A74DB3B617E7F0F20056DDA8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = StockSimulator/MainViewController.m; sourceTree = "<group>"; };
 		A77871A117E391E000A4938C /* StockSimulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockSimulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77871A417E391E000A4938C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A77871A617E391E000A4938C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -47,6 +60,15 @@
 		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A7B19C511852328000DA51AE /* StockSimulatorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSimulatorConstants.h; sourceTree = "<group>"; };
 		A7B19C521852328000DA51AE /* StockSimulatorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSimulatorConstants.m; sourceTree = "<group>"; };
+		A7B19C5418526B8400DA51AE /* TickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerCell.h; sourceTree = "<group>"; };
+		A7B19C5518526B8400DA51AE /* TickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickerCell.m; sourceTree = "<group>"; };
+		A7B19C5718528FC500DA51AE /* Download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Download.png; sourceTree = "<group>"; };
+		A7B19C5918528FC500DA51AE /* Green_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_Button.png; sourceTree = "<group>"; };
+		A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightBlue_Button.png; sourceTree = "<group>"; };
+		A7B19C5C18528FC500DA51AE /* Red_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Red_Button.png; sourceTree = "<group>"; };
+		A7B19C5D18528FC500DA51AE /* Textbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Textbox.png; sourceTree = "<group>"; };
+		A7B19C65185292B300DA51AE /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Gear.png; path = ../../../Dropbox/images/Gear.png; sourceTree = "<group>"; };
+		A7B19C67185292BD00DA51AE /* Plus_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Plus_03.png; sourceTree = "<group>"; };
 		A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDataManager.h; sourceTree = "<group>"; };
@@ -72,6 +94,10 @@
 		A778719817E391E000A4938C = {
 			isa = PBXGroup;
 			children = (
+				A74DB3B517E7F0F20056DDA8 /* MainViewController.h */,
+				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
+				A703E778181EAF73006BD790 /* EditCurrentStocks.h */,
+				A703E779181EAF73006BD790 /* EditCurrentStocks.m */,
 				A77871AA17E391E000A4938C /* StockSimulator */,
 				A77871A317E391E000A4938C /* Frameworks */,
 				A77871A217E391E000A4938C /* Products */,
@@ -99,22 +125,18 @@
 		A77871AA17E391E000A4938C /* StockSimulator */ = {
 			isa = PBXGroup;
 			children = (
-				A77871B317E391E000A4938C /* appAppDelegate.h */,
-				A77871B417E391E000A4938C /* appAppDelegate.m */,
-				A74DB3B517E7F0F20056DDA8 /* MainViewController.h */,
-				A74DB3B617E7F0F20056DDA8 /* MainViewController.m */,
-				A7B19C511852328000DA51AE /* StockSimulatorConstants.h */,
-				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
+				A72BAE401854091800F8F2AD /* PortfolioSummaryView.h */,
+				A72BAE411854091800F8F2AD /* PortfolioSummaryView.m */,
 				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
 				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
+				A7B19C5418526B8400DA51AE /* TickerCell.h */,
+				A7B19C5518526B8400DA51AE /* TickerCell.m */,
 				A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */,
 				A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */,
 				A7DBDA6E17EBDC220082ACC4 /* UserSettings.h */,
 				A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */,
 				A718C0B01806E8B70040D2CF /* AddTickerView.h */,
 				A718C0B11806E8B70040D2CF /* AddTickerView.m */,
-				A703E778181EAF73006BD790 /* EditCurrentStocks.h */,
-				A703E779181EAF73006BD790 /* EditCurrentStocks.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
 			);
 			path = StockSimulator;
@@ -123,6 +145,18 @@
 		A77871AB17E391E000A4938C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A77871B317E391E000A4938C /* appAppDelegate.h */,
+				A77871B417E391E000A4938C /* appAppDelegate.m */,
+				A7B19C511852328000DA51AE /* StockSimulatorConstants.h */,
+				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
+				A7B19C5718528FC500DA51AE /* Download.png */,
+				A7B19C5918528FC500DA51AE /* Green_Button.png */,
+				A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */,
+				A7B19C67185292BD00DA51AE /* Plus_03.png */,
+				A72BAE3E1854087900F8F2AD /* Back.png */,
+				A7B19C65185292B300DA51AE /* Gear.png */,
+				A7B19C5C18528FC500DA51AE /* Red_Button.png */,
+				A7B19C5D18528FC500DA51AE /* Textbox.png */,
 				A77871AC17E391E000A4938C /* StockSimulator-Info.plist */,
 				A77871AD17E391E000A4938C /* InfoPlist.strings */,
 				A77871B017E391E000A4938C /* main.m */,
@@ -163,6 +197,11 @@
 				CLASSPREFIX = app;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Mark Hall";
+				TargetAttributes = {
+					A77871A017E391E000A4938C = {
+						DevelopmentTeam = 8M6F65ZU25;
+					};
+				};
 			};
 			buildConfigurationList = A778719C17E391E000A4938C /* Build configuration list for PBXProject "StockSimulator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -186,6 +225,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A72BAE3F1854087900F8F2AD /* Back.png in Resources */,
+				A7B19C6418528FC500DA51AE /* Textbox.png in Resources */,
+				A7B19C6318528FC500DA51AE /* Red_Button.png in Resources */,
+				A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */,
+				A7B19C66185292B300DA51AE /* Gear.png in Resources */,
+				A7B19C5E18528FC500DA51AE /* Download.png in Resources */,
+				A7B19C6118528FC500DA51AE /* LightBlue_Button.png in Resources */,
+				A7B19C6018528FC500DA51AE /* Green_Button.png in Resources */,
 				A77871AF17E391E000A4938C /* InfoPlist.strings in Resources */,
 				A77871B717E391E000A4938C /* Default.png in Resources */,
 				A77871B917E391E000A4938C /* Default@2x.png in Resources */,
@@ -206,7 +253,9 @@
 				A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */,
 				A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */,
 				A74DB3B717E7F0F20056DDA8 /* MainViewController.m in Sources */,
+				A72BAE421854091800F8F2AD /* PortfolioSummaryView.m in Sources */,
 				A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */,
+				A7B19C5618526B8400DA51AE /* TickerCell.m in Sources */,
 				A703E77A181EAF73006BD790 /* EditCurrentStocks.m in Sources */,
 				A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */,
 			);

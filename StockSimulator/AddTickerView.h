@@ -16,5 +16,6 @@
 @property (nonatomic, retain)UILabel *companyLabel;
 @property (nonatomic, retain)SearchViewController *parent;
 @property (nonatomic, retain)UILabel *cash;
+@property (nonatomic, strong)UISearchBar *bar;
 
 @end
