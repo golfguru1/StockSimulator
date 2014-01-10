@@ -7,8 +7,8 @@
 //
 
 #import "appAppDelegate.h"
-#import "MainViewController.h"
-#import "SearchViewController.h"
+#import "LoginViewController.h"
+#import "Parse/Parse.h"
 
 @implementation appAppDelegate
 
@@ -17,9 +17,11 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
-    SearchViewController *sVc=[[SearchViewController alloc]init];
-    self.window.rootViewController=sVc;
+    [Parse setApplicationId:@"vse0rtMsfWfB0LYzeh1YrKaj6CGEqBVGAH5n8rdW"
+                  clientKey:@"rxEeQX6hLlTUpav6she73DlVl2dNky1omYFPjHLO"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    LoginViewController *lVc=[[LoginViewController alloc]init];
+    self.window.rootViewController=lVc;
     [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
     return YES;
 }

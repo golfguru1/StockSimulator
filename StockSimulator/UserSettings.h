@@ -15,10 +15,6 @@
 @property (nonatomic, strong)NSMutableDictionary *priceBought;
 
 + (id)sharedManager;
--(void)setStockList:(NSMutableArray *)stockTickers;
 -(void)loadUserSettings;
--(void)setUserCash:(NSNumber*)cash;
--(void)setSharesOwned:(NSMutableDictionary *)sharesOwned;
--(void)setPriceBought:(NSMutableDictionary*)priceBought;
 
 @end

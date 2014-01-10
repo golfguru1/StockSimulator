@@ -9,7 +9,7 @@
 #import "AddTickerView.h"
 #import "StockDataManager.h"
 #import "UserSettings.h"
-#import "StockSimulatorConstants.h"
+#import "Stock.h"
 
 @implementation AddTickerView{
     UIAlertView *alert1;
@@ -164,12 +164,13 @@
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-    if([stocks containsObject:searchBar.text.uppercaseString]){
-        alert2=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You already own some of these stocks." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert2 show];
-        alert2.tag=1;
+    BOOL found=NO;
+    for(Stock* stock in stocks){
+        if([stock.ticker isEqualToString:_tickerTitle.text.uppercaseString]){
+            found=YES;
+        }
     }
-    else{
+    if(!found){
         NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
         if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
             for(UIView *subview in self.subviews)
@@ -185,6 +186,12 @@
             alert1.tag=1;
             [alert1 show];
         }
+
+    }
+    else{
+        alert2=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You already own some of these stocks." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert2 show];
+        alert2.tag=1;
     }
     [_bar resignFirstResponder];
     [_parent.table reloadData];
@@ -204,29 +211,26 @@
     int numShares=_numOfShares.text.intValue;
     if (numShares>0){
         NSString *priceString=[_currentPrice.text substringFromIndex:1];
-        NSLog(@"%@",priceString);
         
         double currentCash=[[[UserSettings sharedManager]userCash]doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
         [[UserSettings sharedManager]setUserCash:[NSNumber numberWithDouble:newCash]];
         
         NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-        if(![stocks containsObject:_tickerTitle.text.uppercaseString]){
-            [stocks addObject:[NSString stringWithFormat:@"%@",_tickerTitle.text.uppercaseString]];
-            [[UserSettings sharedManager]setStockList:stocks];
+        BOOL found=NO;
+        for(Stock* stock in stocks){
+            if([stock.ticker isEqualToString:_tickerTitle.text.uppercaseString]){
+                found=YES;
+            }
+        }
+        if(!found){
+            [stocks addObject:[[Stock alloc]initWithTicker:_tickerTitle.text.uppercaseString withPriceBoughtAt:[_currentPrice.text floatValue] withShares:numShares]];
+            [[UserSettings sharedManager]setStockTickers:stocks];
         }
         
         [self removeFromSuperview];
         [_parent refresh];
         [_parent.table reloadData];
-        
-        NSMutableDictionary *dict=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]sharesOwned]copy]];
-        [dict setObject:_numOfShares.text forKey:_tickerTitle.text];
-        [[UserSettings sharedManager]setSharesOwned:dict];
-        
-        NSMutableDictionary *dict2=[[NSMutableDictionary alloc]initWithDictionary:[[[UserSettings sharedManager]priceBought]copy]];
-        [dict2 setObject:priceString forKey:_tickerTitle.text];
-        [[UserSettings sharedManager]setPriceBought:dict2];
     }
     else{
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a valid number of stocks." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -248,13 +252,5 @@
     
     return str;
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

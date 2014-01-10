@@ -13,7 +13,7 @@
 }
 
 +(StockDataManager *)sharedManager;
-- (NSDictionary *)fetchQuotesFor:(NSArray *)tickers;
+-(NSDictionary *)fetchQuotesFor:(NSArray *)tickers;
 -(NSDictionary *)getIndex;
 
 @end

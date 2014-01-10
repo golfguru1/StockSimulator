@@ -12,15 +12,14 @@
 #import "AddTickerView.h"
 #import "EditCurrentStocks.h"
 #import "TickerCell.h"
-#import "StockSimulatorConstants.h"
 #import "PortfolioSummaryView.h"
+#import "Stock.h"
 
 @interface SearchViewController (){
     AddTickerView *addItemView;
     EditCurrentStocks *editView;
     PortfolioSummaryView *pSv;
     
-    NSDictionary *results;
     UILabel *indexLabel;
     
     UIActivityIndicatorView  *av;
@@ -37,7 +36,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-                                                                        // add loading animation
+                                                                    // add loading animation
         self.view.backgroundColor=[UIColor stockSimulatorLightGrey];
         _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, self.view.frame.size.height-205) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
@@ -98,28 +97,47 @@
 }
 
 -(void)refresh{
-    results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
-    NSDictionary *indexes=[[StockDataManager sharedManager]getIndex];
-    NSMutableString *resultsString=[[NSMutableString alloc]init];
-    if([indexes valueForKey:@"Name"]!=(id)[NSNull null] && [indexes valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [indexes valueForKey:@"Change"]){
-        for(int i=0;i<[indexes count];++i){
-            [resultsString appendString:[indexes valueForKey:@"Name"][i]];
-            [resultsString appendString:@" "];
-            NSString *price=[self formatNumber:[[indexes valueForKey:@"LastTradePriceOnly"][i]floatValue]];
-            [resultsString appendString:price];
-            [resultsString appendString:@" ("];
-            NSString *changeString=[self formatNumber:[[indexes valueForKey:@"Change"][i]floatValue]];
-            if ([changeString floatValue]>0)
-                [resultsString appendString:[NSString stringWithFormat:@"+%@",changeString]];
-            else
-                [resultsString appendString:[NSString stringWithFormat:@"%@",changeString]];
-            [resultsString appendString:@")   "];
+    if ([selectedIndexPaths count]==0){
+        NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
+        if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
+            NSMutableArray* stockCopy=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+            if([[[UserSettings sharedManager]stockTickers]count]>1){
+                int i=0;
+                for(Stock* stock in stockCopy){
+                    stock.currentPrice=[[results valueForKey:@"LastTradePriceOnly"][i] floatValue];
+                    stock.change=[[results valueForKey:@"Change"][i] floatValue];
+                    i++;
+                }
+            }
+            else{
+                for(Stock* stock in stockCopy){
+                    stock.currentPrice=[[results valueForKey:@"LastTradePriceOnly"]floatValue];
+                    stock.change=[[results valueForKey:@"Change"]floatValue];
+                }
+            }
+            [[UserSettings sharedManager]setStockTickers:stockCopy];
         }
-        indexLabel.text=resultsString;
-    }
-    [self populateSummary];
-    if ([selectedIndexPaths count]==0)
+        NSDictionary *indexes=[[StockDataManager sharedManager]getIndex];
+        NSMutableString *resultsString=[[NSMutableString alloc]init];
+        if([indexes valueForKey:@"Name"]!=(id)[NSNull null] && [indexes valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [indexes valueForKey:@"Change"]){
+            for(int i=0;i<[indexes count];++i){
+                [resultsString appendString:[indexes valueForKey:@"Name"][i]];
+                [resultsString appendString:@" "];
+                NSString *price=[self formatNumber:[[indexes valueForKey:@"LastTradePriceOnly"][i]floatValue]];
+                [resultsString appendString:price];
+                [resultsString appendString:@" ("];
+                NSString *changeString=[self formatNumber:[[indexes valueForKey:@"Change"][i]floatValue]];
+                if ([changeString floatValue]>0)
+                    [resultsString appendString:[NSString stringWithFormat:@"+%@",changeString]];
+                else
+                    [resultsString appendString:[NSString stringWithFormat:@"%@",changeString]];
+                [resultsString appendString:@")   "];
+            }
+            indexLabel.text=resultsString;
+        }
+        [self populateSummary];
         [_table reloadData];
+    }
 }
 -(void)populateSummary{
     float todayTotal=0;
@@ -166,8 +184,6 @@
         [pSv.totalCash setText:[NSString stringWithFormat:@"$%@",currentCashString]];
         [pSv.totalCash setBackgroundColor:[UIColor stockSimulatorGreen]];
     }
-//    [pSv.totalStockValue setText:[self formatNumber:totalStockValue]];
-//    [pSv.todayChange setText:[self formatNumber:todayTotal]];
 }
 -(void)add{
     addItemView=[[AddTickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
@@ -202,7 +218,7 @@
         TickerCell *selected=(TickerCell*)[tableView cellForRowAtIndexPath:indexPath];
         NSMutableArray *stocks= [[[UserSettings sharedManager]stockTickers]mutableCopy];
         [stocks removeObjectAtIndex:indexPath.row];
-        [[UserSettings sharedManager]setStockList:stocks];
+        [[UserSettings sharedManager]setStockTickers:stocks];
         NSMutableDictionary *owned=[[[UserSettings sharedManager]sharesOwned]mutableCopy];
         [owned removeObjectForKey:selected.tickerTitle.text];
         [[UserSettings sharedManager]setSharesOwned:owned];
@@ -225,35 +241,17 @@
         cell = [[TickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    cell.tickerTitle.text = [[UserSettings sharedManager]stockTickers][indexPath.row];
-    NSString *name;
-    NSString *price;
-    NSString *changeSt;
-    if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
-        if([[[UserSettings sharedManager]stockTickers]count]>1){
-            name=[results valueForKey:@"Symbol"][indexPath.row];
-            price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"][indexPath.row] floatValue]];
-            changeSt=[self formatNumber:[[results valueForKey:@"Change"][indexPath.row] floatValue]];
-        }
-        else{
-            name=[results valueForKey:@"Symbol"];
-            price=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"]floatValue]];
-            changeSt=[self formatNumber:[[results valueForKey:@"Change"]floatValue]];;
-        }
-        cell.numberOfShares.text=[NSString stringWithFormat:@"(%@)",[[[UserSettings sharedManager]sharesOwned]valueForKey:name]];
-        cell.boughtAt.text=[self formatNumber:[[[[UserSettings sharedManager]priceBought]valueForKey:name]floatValue]];
-        cell.currentPrice.text=price;
-        
-        if([changeSt floatValue]>=0){
-            cell.change.textColor=[UIColor stockSimulatorGreen];
-            cell.change.text=[NSString stringWithFormat:@"+%@",changeSt];
-        }
-        else{
-            cell.change.textColor=[UIColor stockSimulatorRed];
-            cell.change.text=[NSString stringWithFormat:@"%@",changeSt];
-        }
-    }
-    return cell;
+    Stock* stock=[[UserSettings sharedManager]stockTickers][indexPath.row];
+    cell.tickerTitle.text =stock.ticker;
+//    if([changeSt floatValue]>=0){
+//        cell.change.textColor=[UIColor stockSimulatorGreen];
+//        cell.change.text=[NSString stringWithFormat:@"+%@",changeSt];
+//    }
+//    else{
+//        cell.change.textColor=[UIColor stockSimulatorRed];
+//        cell.change.text=[NSString stringWithFormat:@"%@",changeSt];
+//    }
+        return cell;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -262,7 +260,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!selectedIndexPaths) selectedIndexPaths=[[NSMutableArray alloc]init];
+    TickerCell *cell=(TickerCell*)[tableView cellForRowAtIndexPath:indexPath];
     if ([selectedIndexPaths containsObject:indexPath]){
+        [cell.sellNum resignFirstResponder];
+        [cell.buyNum resignFirstResponder];
         [selectedIndexPaths removeObject:indexPath];
     }
     else{
