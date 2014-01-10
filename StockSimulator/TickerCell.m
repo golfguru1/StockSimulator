@@ -71,36 +71,36 @@
         extendBg=[[UIView alloc]init];
         [extendBg setBackgroundColor:[UIColor stockSimulatorLightGrey]];
         
-        sellNum=[[UILabel alloc]init];
-        //sellNum=[[UITextField alloc]init];
-        //[sellNum setPlaceholder:@"Sell Shares"];
-        //[sellNum setKeyboardType:UIKeyboardTypeNumberPad];
+        //sellNum=[[UILabel alloc]init];
+        sellNum=[[UITextField alloc]init];
+        [sellNum setPlaceholder:@"Sell Shares"];
+        [sellNum setKeyboardType:UIKeyboardTypeNumberPad];
         [sellNum setBackgroundColor:[UIColor stockSimulatorRed]];
-        [sellNum setTextColor:[UIColor stockSimulatorDarkGrey]];
+        [sellNum setTextColor:[UIColor whiteColor]];
         [sellNum.layer setCornerRadius:4];
         [sellNum setFont:[UIFont stockSimulatorFontWithSize:14]];
         [sellNum setTextAlignment:NSTextAlignmentCenter];
-        [sellNum setText:@"Sell Shares"];
+        //[sellNum setText:@"Sell Shares"];
         sellNum.tag=1;
         [extendBg addSubview:sellNum];
         
-        buyNum=[[UILabel alloc]init];
-//        buyNum=[[UITextField alloc]init];
-//        [buyNum setPlaceholder:@"Buy Shares"];
-//        [buyNum setKeyboardType:UIKeyboardTypeNumberPad];
+        //buyNum=[[UILabel alloc]init];
+        buyNum=[[UITextField alloc]init];
+        [buyNum setPlaceholder:@"Buy Shares"];
+        [buyNum setKeyboardType:UIKeyboardTypeNumberPad];
         [buyNum setBackgroundColor:[UIColor stockSimulatorGreen]];
-        [buyNum setTextColor:[UIColor stockSimulatorDarkGrey]];
+        [buyNum setTextColor:[UIColor whiteColor]];
         [buyNum.layer setCornerRadius:4];
         [buyNum setFont:[UIFont stockSimulatorFontWithSize:14]];
         [buyNum setTextAlignment:NSTextAlignmentCenter];
-        [buyNum setText:@"Buy Shares"];
+        //[buyNum setText:@"Buy Shares"];
         buyNum.tag=2;
         [extendBg addSubview:buyNum];
         
         submitButton=[UIButton buttonWithType:UIButtonTypeCustom];
         [submitButton setBackgroundImage:[UIImage imageNamed:@"LightBlue_Button.png"] forState:UIControlStateNormal];
         [submitButton setTitle:@"Submit" forState:UIControlStateNormal];
-        [submitButton setTitleColor:[UIColor stockSimulatorDarkBlue] forState:UIControlStateNormal];
+        [submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [submitButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
         [submitButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
         [submitButton addTarget:self action:@selector(submit) forControlEvents:UIControlEventTouchDown];
@@ -110,20 +110,21 @@
         [buyStepper setTintColor:[UIColor stockSimulatorGreen]];
         [buyStepper setMinimumValue:0.0];
         [buyStepper addTarget:self action:@selector(buyStepperPressed:) forControlEvents:UIControlEventValueChanged];
-        [extendBg addSubview:buyStepper];
+        //[extendBg addSubview:buyStepper];
         
         //add maximum value as the number of shares they own
         sellStepper=[[UIStepper alloc]init];
         [sellStepper setTintColor:[UIColor stockSimulatorRed]];
         [sellStepper setMinimumValue:0.0];
         [sellStepper addTarget:self action:@selector(sellStepperPressed:) forControlEvents:UIControlEventValueChanged];
-        [extendBg addSubview:sellStepper];
+        //[extendBg addSubview:sellStepper];
         
         [self.contentView addSubview:extendBg];
         
     }
     return self;
 }
+
 -(void)layoutSubviews{
     [tickerTitle setFrame:CGRectMake(10, 2, 80, 35)];
     [numberOfShares setFrame:CGRectMake(tickerTitle.frame.size.width+10, 5, self.contentView.frame.size.width/2, 20)];
@@ -131,8 +132,10 @@
     [boughtAt setFrame:CGRectMake(15, 35, self.contentView.frame.size.width/2, 35)];
     [currentPrice setFrame:CGRectMake(self.contentView.frame.size.width/2, 35, self.contentView.frame.size.width/2-5, 35)];
 
-    [sellNum setFrame:CGRectMake(10, 7, 94, 30)];
-    [buyNum setFrame:CGRectMake(120, 7, 94, 30)];
+    [sellNum setFrame:CGRectMake(10, 7, 120, 30)];
+    [sellNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [buyNum setFrame:CGRectMake(10, 45, 120, 30)];
+    [buyNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [sellStepper setFrame:CGRectMake(10, 45, 80, 30)];
     [buyStepper setFrame:CGRectMake(120, 45, 80, 30)];
     [submitButton setFrame:CGRectMake(extendBg.frame.size.width-80-7, 7, 80, 68)];
