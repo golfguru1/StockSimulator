@@ -1,16 +1,17 @@
 //
-//  appAppDelegate.m
+//  AppDelegate.m
 //  StockSimulator
 //
 //  Created by Mark Hall on 2013-09-13.
 //  Copyright (c) 2013 Mark Hall. All rights reserved.
 //
 
-#import "appAppDelegate.h"
+#import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "Parse/Parse.h"
+#import "SearchViewController.h"
 
-@implementation appAppDelegate
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -20,12 +21,35 @@
     [Parse setApplicationId:@"vse0rtMsfWfB0LYzeh1YrKaj6CGEqBVGAH5n8rdW"
                   clientKey:@"rxEeQX6hLlTUpav6she73DlVl2dNky1omYFPjHLO"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    LoginViewController *lVc=[[LoginViewController alloc]init];
-    self.window.rootViewController=lVc;
+    
+    if ( [PFUser currentUser] ) {
+        [AppDelegate launchMainScreen];
+    }
+    else {
+        [AppDelegate launchLoginScreen];
+    }
+
+    
     [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
     return YES;
 }
-
++ (void)launchMainScreen
+{
+    AppDelegate *inst = [[UIApplication sharedApplication] delegate];
+    
+     SearchViewController *vC = [[SearchViewController alloc] init];
+    inst.window.rootViewController = vC;
+}
++ (void)launchLoginScreen
+{
+    AppDelegate *me = [[UIApplication sharedApplication] delegate];
+    
+    LoginViewController *signup = [[LoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:signup];
+    nav.navigationBarHidden = YES;
+    
+    me.window.rootViewController = nav;
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

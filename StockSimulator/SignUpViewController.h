@@ -1,5 +1,5 @@
 //
-//  LoginViewController.h
+//  SignUpViewController.h
 //  StockSimulator
 //
 //  Created by Mark Hall on 1/10/2014.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate>
+@interface SignUpViewController : UIViewController
 
 @end

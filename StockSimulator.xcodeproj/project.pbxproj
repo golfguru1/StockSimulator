@@ -18,6 +18,7 @@
 		A70253971880B27400199015 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A702538F1880B27400199015 /* StoreKit.framework */; };
 		A70253981880B27400199015 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70253901880B27400199015 /* SystemConfiguration.framework */; };
 		A702539B1880B38500199015 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A702539A1880B38500199015 /* LoginViewController.m */; };
+		A702539E1880EA9900199015 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A702539D1880EA9900199015 /* SignUpViewController.m */; };
 		A7161AC1187B937D00A98B6F /* Stock.m in Sources */ = {isa = PBXBuildFile; fileRef = A7161AC0187B937D00A98B6F /* Stock.m */; };
 		A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A718C0B11806E8B70040D2CF /* AddTickerView.m */; };
 		A72BAE3F1854087900F8F2AD /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = A72BAE3E1854087900F8F2AD /* Back.png */; };
@@ -27,7 +28,7 @@
 		A77871A917E391E000A4938C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77871A817E391E000A4938C /* CoreGraphics.framework */; };
 		A77871AF17E391E000A4938C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A77871AD17E391E000A4938C /* InfoPlist.strings */; };
 		A77871B117E391E000A4938C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A77871B017E391E000A4938C /* main.m */; };
-		A77871B517E391E000A4938C /* appAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A77871B417E391E000A4938C /* appAppDelegate.m */; };
+		A77871B517E391E000A4938C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A77871B417E391E000A4938C /* AppDelegate.m */; };
 		A77871B717E391E000A4938C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B617E391E000A4938C /* Default.png */; };
 		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
 		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
@@ -58,6 +59,8 @@
 		A70253901880B27400199015 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A70253991880B38500199015 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A702539A1880B38500199015 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		A702539C1880EA9900199015 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		A702539D1880EA9900199015 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		A7161ABF187B937D00A98B6F /* Stock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stock.h; sourceTree = "<group>"; };
 		A7161AC0187B937D00A98B6F /* Stock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stock.m; sourceTree = "<group>"; };
 		A718C0B01806E8B70040D2CF /* AddTickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTickerView.h; sourceTree = "<group>"; };
@@ -73,8 +76,8 @@
 		A77871AE17E391E000A4938C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A77871B017E391E000A4938C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A77871B217E391E000A4938C /* StockSimulator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockSimulator-Prefix.pch"; sourceTree = "<group>"; };
-		A77871B317E391E000A4938C /* appAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = appAppDelegate.h; sourceTree = "<group>"; };
-		A77871B417E391E000A4938C /* appAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = appAppDelegate.m; sourceTree = "<group>"; };
+		A77871B317E391E000A4938C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A77871B417E391E000A4938C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A77871B617E391E000A4938C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		A77871B817E391E000A4938C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -161,8 +164,10 @@
 		A77871AA17E391E000A4938C /* StockSimulator */ = {
 			isa = PBXGroup;
 			children = (
-				A77871B317E391E000A4938C /* appAppDelegate.h */,
-				A77871B417E391E000A4938C /* appAppDelegate.m */,
+				A77871B317E391E000A4938C /* AppDelegate.h */,
+				A77871B417E391E000A4938C /* AppDelegate.m */,
+				A702539C1880EA9900199015 /* SignUpViewController.h */,
+				A702539D1880EA9900199015 /* SignUpViewController.m */,
 				A70253991880B38500199015 /* LoginViewController.h */,
 				A702539A1880B38500199015 /* LoginViewController.m */,
 				A72BAE401854091800F8F2AD /* PortfolioSummaryView.h */,
@@ -288,7 +293,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A77871B117E391E000A4938C /* main.m in Sources */,
-				A77871B517E391E000A4938C /* appAppDelegate.m in Sources */,
+				A77871B517E391E000A4938C /* AppDelegate.m in Sources */,
+				A702539E1880EA9900199015 /* SignUpViewController.m in Sources */,
 				A702539B1880B38500199015 /* LoginViewController.m in Sources */,
 				A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */,
 				A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */,

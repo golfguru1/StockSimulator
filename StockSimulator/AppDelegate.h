@@ -1,5 +1,5 @@
 //
-//  appAppDelegate.h
+//  AppDelegate.h
 //  StockSimulator
 //
 //  Created by Mark Hall on 2013-09-13.
@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface appAppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
++ (void)launchLoginScreen;
++ (void)launchMainScreen;
 @end

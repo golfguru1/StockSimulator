@@ -211,6 +211,7 @@
     int numShares=_numOfShares.text.intValue;
     if (numShares>0){
         NSString *priceString=[_currentPrice.text substringFromIndex:1];
+        PFUser *currentUser=[PFUser currentUser];
         
         double currentCash=[[[UserSettings sharedManager]userCash]doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
@@ -224,12 +225,17 @@
             }
         }
         if(!found){
-            [stocks addObject:[[Stock alloc]initWithTicker:_tickerTitle.text.uppercaseString withPriceBoughtAt:[_currentPrice.text floatValue] withShares:numShares]];
-            [[UserSettings sharedManager]setStockTickers:stocks];
+            [stocks addObject:[[Stock alloc]initWithTicker:_tickerTitle.text.uppercaseString withPriceBoughtAt:[priceString floatValue] withShares:numShares]];
+            PFObject *stock=[PFObject objectWithClassName:@"Stock"];
+            stock[@"ticker"]=_tickerTitle.text.uppercaseString;
+            stock[@"priceBoughtAt"]=[NSNumber numberWithFloat:[priceString floatValue]];
+            stock[@"shares"]=[NSNumber numberWithInt:numShares];
+            stock[@"user"]=currentUser.username;
+            [stock saveInBackground];
         }
         
         [self removeFromSuperview];
-        [_parent refresh];
+        [_parent query];
         [_parent.table reloadData];
     }
     else{

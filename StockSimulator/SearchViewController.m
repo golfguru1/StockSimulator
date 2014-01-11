@@ -10,14 +10,13 @@
 #import "UserSettings.h"
 #import "StockDataManager.h"
 #import "AddTickerView.h"
-#import "EditCurrentStocks.h"
 #import "TickerCell.h"
 #import "PortfolioSummaryView.h"
 #import "Stock.h"
+#import "AppDelegate.h"
 
 @interface SearchViewController (){
     AddTickerView *addItemView;
-    EditCurrentStocks *editView;
     PortfolioSummaryView *pSv;
     
     UILabel *indexLabel;
@@ -25,14 +24,13 @@
     UIActivityIndicatorView  *av;
     
     NSMutableArray* selectedIndexPaths;
+    
+    NSDictionary* results;
 }
 
 @end
 
 @implementation SearchViewController
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
 - (id)init{
     self = [super init];
     if (self) {
@@ -59,6 +57,14 @@
             forControlEvents:UIControlEventTouchUpInside];
         [topView addSubview:addButton];
         
+        UIButton *logoutButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        logoutButton.frame=CGRectMake(10, 25, 50, 25);
+        [logoutButton setTitleColor:[UIColor stockSimulatorRed] forState:UIControlStateNormal];
+        [logoutButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:14]];
+        [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+        [logoutButton addTarget:self  action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+        [topView addSubview:logoutButton];
+        
         UIView *marquee=[[UIView alloc]initWithFrame:CGRectMake(0,70, self.view.frame.size.width,22)];
         marquee.backgroundColor=[UIColor stockSimulatorOrange];
         
@@ -73,7 +79,7 @@
         [self.view addSubview:pSv];
         [self refresh];
         [self animateMarquee];
-        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+//        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -87,6 +93,10 @@
 //    [av removeFromSuperview];
 //    
 //}
+-(void)logout{
+    [PFUser logOut];
+    [AppDelegate launchLoginScreen];
+}
 -(void)animateMarquee{
     [UIView animateWithDuration:25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         [indexLabel setFrame:CGRectMake(-indexLabel.frame.size.width, 2, indexLabel.frame.size.width, indexLabel.frame.size.height)];
@@ -98,25 +108,11 @@
 
 -(void)refresh{
     if ([selectedIndexPaths count]==0){
-        NSDictionary *results=[[StockDataManager sharedManager] fetchQuotesFor:[[UserSettings sharedManager]stockTickers]];
-        if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
-            NSMutableArray* stockCopy=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-            if([[[UserSettings sharedManager]stockTickers]count]>1){
-                int i=0;
-                for(Stock* stock in stockCopy){
-                    stock.currentPrice=[[results valueForKey:@"LastTradePriceOnly"][i] floatValue];
-                    stock.change=[[results valueForKey:@"Change"][i] floatValue];
-                    i++;
-                }
-            }
-            else{
-                for(Stock* stock in stockCopy){
-                    stock.currentPrice=[[results valueForKey:@"LastTradePriceOnly"]floatValue];
-                    stock.change=[[results valueForKey:@"Change"]floatValue];
-                }
-            }
-            [[UserSettings sharedManager]setStockTickers:stockCopy];
+        NSMutableArray *stocks=[[NSMutableArray alloc]init];;
+        for (id obj in self.userStocks){
+            [stocks addObject:[obj valueForKey:@"ticker"]];
         }
+        results=[[StockDataManager sharedManager] fetchQuotesFor:[stocks copy]];
         NSDictionary *indexes=[[StockDataManager sharedManager]getIndex];
         NSMutableString *resultsString=[[NSMutableString alloc]init];
         if([indexes valueForKey:@"Name"]!=(id)[NSNull null] && [indexes valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [indexes valueForKey:@"Change"]){
@@ -198,11 +194,20 @@
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self query];
+
+}
+-(void)viewWillAppear:(BOOL)animated{
+//    NSLog(@"view iwll apprea");
+//    [super viewWillAppear:animated];
+//    PFUser *currentUser=[PFUser currentUser];
+//    PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
+//    [query whereKey:@"user" equalTo:currentUser.username];
+//    self.userStocks = [[query findObjects]mutableCopy];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[[UserSettings sharedManager]stockTickers] count];
+    return [self.userStocks count];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -241,16 +246,29 @@
         cell = [[TickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    Stock* stock=[[UserSettings sharedManager]stockTickers][indexPath.row];
-    cell.tickerTitle.text =stock.ticker;
-//    if([changeSt floatValue]>=0){
-//        cell.change.textColor=[UIColor stockSimulatorGreen];
-//        cell.change.text=[NSString stringWithFormat:@"+%@",changeSt];
-//    }
-//    else{
-//        cell.change.textColor=[UIColor stockSimulatorRed];
-//        cell.change.text=[NSString stringWithFormat:@"%@",changeSt];
-//    }
+    id stock=self.userStocks[indexPath.row];
+    cell.tickerTitle.text =[stock valueForKey:@"ticker"];
+    cell.boughtAt.text=[NSString stringWithFormat:@"%@",[stock valueForKey:@"priceBoughtAt"]];
+    cell.numberOfShares.text=[NSString stringWithFormat:@"(%@)",[stock valueForKey:@"shares"]];
+    NSString* changeSt;
+    if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
+        if([self.userStocks count]>1){
+            cell.currentPrice.text=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"][indexPath.row] floatValue]];
+            changeSt=[self formatNumber:[[results valueForKey:@"Change"][indexPath.row] floatValue]];
+        }
+        else{
+            cell.currentPrice.text=[self formatNumber:[[results valueForKey:@"LastTradePriceOnly"]floatValue]];
+            changeSt=[self formatNumber:[[results valueForKey:@"Change"]floatValue]];
+        }
+    }
+    if([changeSt floatValue]>=0){
+        cell.change.textColor=[UIColor stockSimulatorGreen];
+        cell.change.text=[NSString stringWithFormat:@"+%@",changeSt];
+    }
+    else{
+        cell.change.textColor=[UIColor stockSimulatorRed];
+        cell.change.text=[NSString stringWithFormat:@"%@",changeSt];
+    }
         return cell;
 }
 
@@ -298,5 +316,10 @@
     
     return str;
 }
-
+-(void)query{
+    PFUser *currentUser=[PFUser currentUser];
+    PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
+    [query whereKey:@"user" equalTo:currentUser.username];
+    self.userStocks = [[query findObjects]mutableCopy];
+}
 @end

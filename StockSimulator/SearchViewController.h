@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainViewController.h"
 #import <Parse/Parse.h>
 
 @interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property MainViewController *parent;
 @property (nonatomic, retain)UITableView *table;
-
+@property (nonatomic,strong)NSMutableArray *userStocks;
 -(void)refresh;
+-(void)query;
 
 @end
