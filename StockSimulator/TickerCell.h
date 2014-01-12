@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SearchViewController.h"
 @interface TickerCell : UITableViewCell <UITextFieldDelegate>
 @property (nonatomic, strong)UILabel *tickerTitle;
 @property (nonatomic, strong)UILabel *numberOfShares;
@@ -18,4 +18,5 @@
 //@property (nonatomic, strong)UILabel *sellNum;
 @property (nonatomic, strong)UITextField *buyNum;
 @property (nonatomic, strong)UITextField *sellNum;
+@property (nonatomic, strong)UIButton *submitButton;
 @end

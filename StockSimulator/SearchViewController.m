@@ -36,14 +36,20 @@
     if (self) {
                                                                     // add loading animation
         self.view.backgroundColor=[UIColor stockSimulatorLightGrey];
-        _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, self.view.frame.size.height-205) style:UITableViewStyleGrouped];
+        _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-170) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
         [_table setDelegate:self];
         _table.backgroundColor=[UIColor clearColor];
         [_table registerClass:[TickerCell class] forCellReuseIdentifier:@"MyIdentifier"];
         [_table setShowsVerticalScrollIndicator:NO];
-        _table.contentInset=UIEdgeInsetsMake(-35, 0, 0, 0);
+        //_table.contentInset=UIEdgeInsetsMake(-35, 0, 0, 0);
         [self.view addSubview:_table];
+        
+        UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+        refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+        [refresh setTintColor:[UIColor stockSimulatorGreen]];
+        [refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+        [_table addSubview:refresh];
         
         UIView *topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
         topView.backgroundColor=[UIColor stockSimulatorDarkGrey];        
@@ -58,9 +64,9 @@
         [topView addSubview:addButton];
         
         UIButton *logoutButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        logoutButton.frame=CGRectMake(10, 25, 50, 25);
+        logoutButton.frame=CGRectMake(10, 25, 70, 25);
         [logoutButton setTitleColor:[UIColor stockSimulatorRed] forState:UIControlStateNormal];
-        [logoutButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:14]];
+        [logoutButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
         [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
         [logoutButton addTarget:self  action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
         [topView addSubview:logoutButton];
@@ -246,6 +252,8 @@
         cell = [[TickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    [cell.submitButton addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    cell.submitButton.tag=indexPath.row;
     id stock=self.userStocks[indexPath.row];
     cell.tickerTitle.text =[stock valueForKey:@"ticker"];
     cell.boughtAt.text=[NSString stringWithFormat:@"%@",[stock valueForKey:@"priceBoughtAt"]];
@@ -296,7 +304,16 @@
     }
     return 70;
 }
+-(void)refreshView:(UIRefreshControl *)refresh {
+    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
 
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMM d, h:mm a"];
+    NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@",[formatter stringFromDate:[NSDate date]]];
+    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
+    [refresh endRefreshing];
+    [self refresh];
+}
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     NSLog(@"memory warning");
@@ -321,5 +338,16 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
     [query whereKey:@"user" equalTo:currentUser.username];
     self.userStocks = [[query findObjects]mutableCopy];
+}
+-(void)submit:(UIButton*)sender{
+    TickerCell *cell=(TickerCell*)[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+    if ([selectedIndexPaths containsObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]]){
+        [cell.sellNum resignFirstResponder];
+        [cell.buyNum resignFirstResponder];
+        [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+    }
+    [self.table beginUpdates];
+    [self.table endUpdates];
+    
 }
 @end

@@ -7,15 +7,14 @@
 //
 
 #import "TickerCell.h"
-#import "StockSimulatorConstants.h"
+
 
 @implementation TickerCell{
     UIView *extendBg;
     
-    UIButton *submitButton;
-    
     UIStepper *buyStepper;
     UIStepper *sellStepper;
+    
 }
 
 @synthesize tickerTitle,numberOfShares,change,boughtAt,currentPrice,sellNum,buyNum;
@@ -97,14 +96,13 @@
         buyNum.tag=2;
         [extendBg addSubview:buyNum];
         
-        submitButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        [submitButton setBackgroundImage:[UIImage imageNamed:@"LightBlue_Button.png"] forState:UIControlStateNormal];
-        [submitButton setTitle:@"Submit" forState:UIControlStateNormal];
-        [submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [submitButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
-        [submitButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
-        [submitButton addTarget:self action:@selector(submit) forControlEvents:UIControlEventTouchDown];
-        [extendBg addSubview:submitButton];
+        _submitButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_submitButton setBackgroundImage:[UIImage imageNamed:@"LightBlue_Button.png"] forState:UIControlStateNormal];
+        [_submitButton setTitle:@"Submit" forState:UIControlStateNormal];
+        [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_submitButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
+        [_submitButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
+        [extendBg addSubview:_submitButton];
         
         buyStepper=[[UIStepper alloc]init];
         [buyStepper setTintColor:[UIColor stockSimulatorGreen]];
@@ -138,7 +136,7 @@
     [buyNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [sellStepper setFrame:CGRectMake(10, 45, 80, 30)];
     [buyStepper setFrame:CGRectMake(120, 45, 80, 30)];
-    [submitButton setFrame:CGRectMake(extendBg.frame.size.width-80-7, 7, 80, 68)];
+    [_submitButton setFrame:CGRectMake(extendBg.frame.size.width-80-7, 7, 80, 68)];
     
     [extendBg setFrame:CGRectMake(0, 70, self.contentView.frame.size.width, 90)];
 }
@@ -167,10 +165,7 @@
 -(void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:NO];
 }
--(void)submit{
-    //Add clearing of textfields
-    //Add re-minimizing of cell
-    NSLog(@"here");
+-(void)sellShares:(NSNumber*)num ofTicker:(NSString*)ticker{
     
 }
 @end
