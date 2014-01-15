@@ -323,6 +323,10 @@
     
 }
 -(void)addObject{
+    CGPoint bottomOffset = CGPointMake(0, self.table.contentSize.height - self.table.bounds.size.height+75);
+    if ( bottomOffset.y > 0 ) {
+        [self.table setContentOffset:bottomOffset animated:YES];
+    }
     [self performSelector:@selector(wait) withObject:nil afterDelay:0.5];
 }
 -(void)wait{
