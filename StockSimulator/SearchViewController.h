@@ -15,5 +15,4 @@
 @property (nonatomic,strong)NSMutableArray *userStocks;
 -(void)refresh;
 -(void)query;
--(void)submit;
 @end

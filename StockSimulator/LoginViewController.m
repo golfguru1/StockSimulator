@@ -79,13 +79,15 @@ UITextField* password;
                                     block:^(PFUser *user, NSError *error)
      {
          if ( user ) {
-             //
-             // Check that the user has completed creating profile
-             //
              [AppDelegate launchMainScreen];
          }
          else {
-             NSLog(@"Login failed");
+             NSString *errorString = [[error userInfo] objectForKey:@"error"];
+             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+             [errorAlertView show];
+             userName.text=nil;
+             password.text=nil;
+             [userName becomeFirstResponder];
          }
      }];
 
@@ -128,5 +130,4 @@ UITextField* password;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end

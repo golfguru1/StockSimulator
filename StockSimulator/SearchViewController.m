@@ -26,6 +26,8 @@
     NSMutableArray* selectedIndexPaths;
     
     NSDictionary* results;
+    
+    NSNumber* userCash;
 }
 
 @end
@@ -34,7 +36,6 @@
 - (id)init{
     self = [super init];
     if (self) {
-                                                                    // add loading animation
         self.view.backgroundColor=[UIColor stockSimulatorLightGrey];
         _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-170) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
@@ -89,16 +90,6 @@
     }
     return self;
 }
-//-(void)startLoadingAnimation{
-//    av = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-//    av.frame=CGRectMake(145, 160, 25, 25);
-//    [self.view addSubview:av];
-//    [av startAnimating];
-//}
-//-(void)stopLoadingAnimation{
-//    [av removeFromSuperview];
-//    
-//}
 -(void)logout{
     [PFUser logOut];
     [AppDelegate launchLoginScreen];
@@ -142,8 +133,6 @@
     }
 }
 -(void)populateSummary{
-    float todayTotal=0;
-    float totalStockValue=0;
     float totalValue=0;
     for (int section = 0; section < [_table numberOfSections]; ++section) {
         for (int row = 0; row < [_table numberOfRowsInSection:section]; ++row) {
@@ -155,15 +144,6 @@
             NSString* currentP=cell.currentPrice.text;
             NSString* boughtAt=cell.boughtAt.text;
             totalValue+=([currentP floatValue]-[boughtAt floatValue])*[num floatValue];
-            totalStockValue+=[cell.currentPrice.text floatValue]*[num floatValue];
-            
-            if ([cell.change.text characterAtIndex:0]=='+'){
-                todayTotal+=[[cell.change.text substringFromIndex:1]floatValue];
-            }
-            else{
-                todayTotal-=[[cell.change.text substringFromIndex:1]floatValue];
-            }
-            
         }
     }
     NSString* totalValueString=[self formatNumber:totalValue];
@@ -177,7 +157,9 @@
         [pSv.totalValue setBackgroundColor:[UIColor stockSimulatorGreen]];
         [pSv.valueTitle setText:@"Total Gain"];
     }
-    NSString* currentCashString=[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]];
+    NSString* currentCashString;
+    if([userCash floatValue])
+        currentCashString=[self formatNumber:[userCash floatValue]];
     if([currentCashString characterAtIndex:0]=='-'){
         [pSv.totalCash setText:[NSString stringWithFormat:@"($%@)",[currentCashString substringFromIndex:1]]];
         [pSv.totalCash setBackgroundColor:[UIColor stockSimulatorRed]];
@@ -201,15 +183,6 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self query];
-
-}
--(void)viewWillAppear:(BOOL)animated{
-//    NSLog(@"view iwll apprea");
-//    [super viewWillAppear:animated];
-//    PFUser *currentUser=[PFUser currentUser];
-//    PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
-//    [query whereKey:@"user" equalTo:currentUser.username];
-//    self.userStocks = [[query findObjects]mutableCopy];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -226,13 +199,10 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        TickerCell *selected=(TickerCell*)[tableView cellForRowAtIndexPath:indexPath];
-        NSMutableArray *stocks= [[[UserSettings sharedManager]stockTickers]mutableCopy];
-        [stocks removeObjectAtIndex:indexPath.row];
-        [[UserSettings sharedManager]setStockTickers:stocks];
-        NSMutableDictionary *owned=[[[UserSettings sharedManager]sharesOwned]mutableCopy];
-        [owned removeObjectForKey:selected.tickerTitle.text];
-        [[UserSettings sharedManager]setSharesOwned:owned];
+        //TickerCell *selected=(TickerCell*)[tableView cellForRowAtIndexPath:indexPath];
+        PFObject *stockDeleted=self.userStocks[indexPath.row];
+        [self.userStocks removeObject:stockDeleted];
+        [stockDeleted deleteInBackground];
         [_table reloadData];
         [self refresh];
     }
@@ -338,6 +308,8 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
     [query whereKey:@"user" equalTo:currentUser.username];
     self.userStocks = [[query findObjects]mutableCopy];
+    
+    userCash=currentUser[@"cash"];
 }
 -(void)submit:(UIButton*)sender{
     TickerCell *cell=(TickerCell*)[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sender.tag inSection:0]];

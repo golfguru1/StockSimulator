@@ -28,6 +28,7 @@
     else {
         [AppDelegate launchLoginScreen];
     }
+    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
 
     
     [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];

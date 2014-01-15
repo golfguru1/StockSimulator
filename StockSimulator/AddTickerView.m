@@ -14,6 +14,7 @@
 @implementation AddTickerView{
     UIAlertView *alert1;
     UIAlertView *alert2;
+    PFUser *currentUser;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -21,6 +22,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        currentUser=[PFUser currentUser];
         self.backgroundColor=[UIColor stockSimulatorLightGrey];
         UIButton *backButton=[UIButton buttonWithType:UIButtonTypeCustom];
         backButton.frame=CGRectMake(10, 32, 25, 25);
@@ -132,7 +134,7 @@
         _cash.backgroundColor=[UIColor clearColor];
         _cash.adjustsFontSizeToFitWidth = YES;
         _cash.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[[[UserSettings sharedManager]userCash]floatValue]]];
+        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[currentUser[@"cash"] floatValue]]];
         _cash.font=[UIFont fontWithName:@"Helvetica" size:14];
         _cash.tag=1;
         [self addSubview:_cash];
@@ -163,19 +165,21 @@
     searchBar.text=searchBar.text.uppercaseString;
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
+    NSMutableArray *stocks=[[self.parent userStocks]mutableCopy];
     BOOL found=NO;
-    for(Stock* stock in stocks){
-        if([stock.ticker isEqualToString:_tickerTitle.text.uppercaseString]){
+    for(id stock in stocks){
+        if([[stock valueForKey:@"ticker"] isEqualToString:_bar.text.uppercaseString]){
             found=YES;
         }
     }
     if(!found){
         NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
         if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
-            for(UIView *subview in self.subviews)
-                if(subview.tag==1)
+            for(UIView *subview in self.subviews){
+                if(subview.tag==1){
                     subview.hidden=NO;
+                }
+            }
             [_tickerTitle setText:searchBar.text.uppercaseString];
             [_currentPrice setText:[NSString stringWithFormat:@"$%@",[self formatNumber:[[check valueForKey:@"LastTradePriceOnly"]floatValue]]]];
             [_companyLabel setText:[check valueForKey:@"Name"]];
@@ -211,32 +215,22 @@
     int numShares=_numOfShares.text.intValue;
     if (numShares>0){
         NSString *priceString=[_currentPrice.text substringFromIndex:1];
-        PFUser *currentUser=[PFUser currentUser];
         
-        double currentCash=[[[UserSettings sharedManager]userCash]doubleValue];
+        double currentCash=[currentUser[@"cash"] doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
-        [[UserSettings sharedManager]setUserCash:[NSNumber numberWithDouble:newCash]];
+        currentUser[@"cash"]=[NSNumber numberWithDouble:newCash];
         
-        NSMutableArray *stocks=[[[UserSettings sharedManager]stockTickers]mutableCopy];
-        BOOL found=NO;
-        for(Stock* stock in stocks){
-            if([stock.ticker isEqualToString:_tickerTitle.text.uppercaseString]){
-                found=YES;
-            }
-        }
-        if(!found){
-            [stocks addObject:[[Stock alloc]initWithTicker:_tickerTitle.text.uppercaseString withPriceBoughtAt:[priceString floatValue] withShares:numShares]];
-            PFObject *stock=[PFObject objectWithClassName:@"Stock"];
-            stock[@"ticker"]=_tickerTitle.text.uppercaseString;
-            stock[@"priceBoughtAt"]=[NSNumber numberWithFloat:[priceString floatValue]];
-            stock[@"shares"]=[NSNumber numberWithInt:numShares];
-            stock[@"user"]=currentUser.username;
-            [stock saveInBackground];
-        }
+        PFObject *stock=[PFObject objectWithClassName:@"Stock"];
+        stock[@"ticker"]=_tickerTitle.text.uppercaseString;
+        stock[@"priceBoughtAt"]=[NSNumber numberWithFloat:[priceString floatValue]];
+        stock[@"shares"]=[NSNumber numberWithInt:numShares];
+        stock[@"user"]=currentUser.username;
+        [stock save];
         
-        [self removeFromSuperview];
-        [_parent query];
+        [_parent.userStocks addObject:stock];
+        [_parent refresh];
         [_parent.table reloadData];
+        [self removeFromSuperview];
     }
     else{
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a valid number of stocks." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
