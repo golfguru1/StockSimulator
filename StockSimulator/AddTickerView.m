@@ -134,7 +134,7 @@
         _cash.backgroundColor=[UIColor clearColor];
         _cash.adjustsFontSizeToFitWidth = YES;
         _cash.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[currentUser[@"cash"] floatValue]]];
+        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[currentUser[@"cash"] doubleValue]]];
         _cash.font=[UIFont fontWithName:@"Helvetica" size:14];
         _cash.tag=1;
         [self addSubview:_cash];
@@ -175,22 +175,26 @@
     if(!found){
         NSDictionary *check=[[StockDataManager sharedManager] fetchQuotesFor:@[searchBar.text.uppercaseString]];
         if([check valueForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]==(id)[NSNull null]){
-            for(UIView *subview in self.subviews){
-                if(subview.tag==1){
-                    subview.hidden=NO;
+            if([check valueForKey:@"Symbol"]!=(id)[NSNull null] && [check valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [check valueForKey:@"Change"]!=(id)[NSNull null]){
+                for(UIView *subview in self.subviews){
+                    if(subview.tag==1){
+                        subview.hidden=NO;
+                    }
                 }
+                [_tickerTitle setText:searchBar.text.uppercaseString];
+                [_currentPrice setText:[NSString stringWithFormat:@"$%@",[self formatNumber:[[check valueForKey:@"LastTradePriceOnly"]floatValue]]]];
+                [_companyLabel setText:[check valueForKey:@"Name"]];
             }
-            [_tickerTitle setText:searchBar.text.uppercaseString];
-            [_currentPrice setText:[NSString stringWithFormat:@"$%@",[self formatNumber:[[check valueForKey:@"LastTradePriceOnly"]floatValue]]]];
-            [_companyLabel setText:[check valueForKey:@"Name"]];
-            
+            else{
+                NSLog(@"you dun goofed");
+            }
         }
         else{
             alert1=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Ticker not Found" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             alert1.tag=1;
             [alert1 show];
         }
-
+        
     }
     else{
         alert2=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You already own some of these stocks." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -218,7 +222,9 @@
         
         double currentCash=[currentUser[@"cash"] doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
+        NSLog(@"%f",newCash);
         currentUser[@"cash"]=[NSNumber numberWithDouble:newCash];
+        [currentUser save];
         
         PFObject *stock=[PFObject objectWithClassName:@"Stock"];
         stock[@"ticker"]=_tickerTitle.text.uppercaseString;

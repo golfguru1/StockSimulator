@@ -26,8 +26,6 @@
     NSMutableArray* selectedIndexPaths;
     
     NSDictionary* results;
-    
-    NSNumber* userCash;
 }
 
 @end
@@ -133,6 +131,7 @@
     }
 }
 -(void)populateSummary{
+    PFUser *currentUser=[PFUser currentUser];
     float totalValue=0;
     for (int section = 0; section < [_table numberOfSections]; ++section) {
         for (int row = 0; row < [_table numberOfRowsInSection:section]; ++row) {
@@ -158,8 +157,8 @@
         [pSv.valueTitle setText:@"Total Gain"];
     }
     NSString* currentCashString;
-    if([userCash floatValue])
-        currentCashString=[self formatNumber:[userCash floatValue]];
+    if([currentUser[@"cash"] floatValue])
+        currentCashString=[self formatNumber:[currentUser[@"cash"] floatValue]];
     if([currentCashString characterAtIndex:0]=='-'){
         [pSv.totalCash setText:[NSString stringWithFormat:@"($%@)",[currentCashString substringFromIndex:1]]];
         [pSv.totalCash setBackgroundColor:[UIColor stockSimulatorRed]];
@@ -308,8 +307,6 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
     [query whereKey:@"user" equalTo:currentUser.username];
     self.userStocks = [[query findObjects]mutableCopy];
-    
-    userCash=currentUser[@"cash"];
 }
 -(void)submit:(UIButton*)sender{
     TickerCell *cell=(TickerCell*)[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
