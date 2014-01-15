@@ -229,8 +229,8 @@
         
         [_parent.userStocks addObject:stock];
         [_parent refresh];
-        [_parent.table reloadData];
         [self removeFromSuperview];
+        [_parent addObject];
     }
     else{
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a valid number of stocks." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];

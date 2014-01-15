@@ -129,7 +129,7 @@
             indexLabel.text=resultsString;
         }
         [self populateSummary];
-        [_table reloadData];
+        //[_table reloadData];
     }
 }
 -(void)populateSummary{
@@ -321,5 +321,14 @@
     [self.table beginUpdates];
     [self.table endUpdates];
     
+}
+-(void)addObject{
+    [self performSelector:@selector(wait) withObject:nil afterDelay:0.5];
+}
+-(void)wait{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.userStocks indexOfObject:[self.userStocks lastObject]] inSection:0];
+    [self.table beginUpdates];
+    [self.table insertRowsAtIndexPaths:@[indexPath]withRowAnimation:UITableViewRowAnimationFade];
+    [self.table endUpdates];
 }
 @end
