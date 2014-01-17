@@ -332,4 +332,7 @@
     [self.table insertRowsAtIndexPaths:@[indexPath]withRowAnimation:UITableViewRowAnimationFade];
     [self.table endUpdates];
 }
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
 @end

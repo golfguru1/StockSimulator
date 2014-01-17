@@ -60,6 +60,10 @@
         [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [backButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:20]];
         [self.view addSubview:backButton];
+        
+        UIImageView* logo=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Stox-Logo.png"]];
+        logo.frame=CGRectMake(20, 15, 280, 280);
+        [self.view addSubview:logo];
     }
     return self;
 }
@@ -116,5 +120,8 @@
 -(void)back{
     [self.view endEditing:YES];
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 @end

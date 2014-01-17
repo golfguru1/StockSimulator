@@ -29,17 +29,15 @@
 		A77871AF17E391E000A4938C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A77871AD17E391E000A4938C /* InfoPlist.strings */; };
 		A77871B117E391E000A4938C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A77871B017E391E000A4938C /* main.m */; };
 		A77871B517E391E000A4938C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A77871B417E391E000A4938C /* AppDelegate.m */; };
-		A77871B717E391E000A4938C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B617E391E000A4938C /* Default.png */; };
-		A77871B917E391E000A4938C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871B817E391E000A4938C /* Default@2x.png */; };
-		A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A77871BA17E391E000A4938C /* Default-568h@2x.png */; };
+		A7A5DF101888F90800AA49F8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A5DF0B1888F90800AA49F8 /* Default-568h@2x.png */; };
+		A7A5DF111888F90800AA49F8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A5DF0C1888F90800AA49F8 /* Default.png */; };
+		A7A5DF121888F90800AA49F8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A5DF0D1888F90800AA49F8 /* Default@2x.png */; };
+		A7A5DF131888F90800AA49F8 /* StoxIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A5DF0E1888F90800AA49F8 /* StoxIcon.png */; };
+		A7A5DF141888F90800AA49F8 /* StoxIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A5DF0F1888F90800AA49F8 /* StoxIcon@2x.png */; };
+		A7A5DF161888FAAB00AA49F8 /* Stox-Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A5DF151888FAAB00AA49F8 /* Stox-Logo.png */; };
 		A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C521852328000DA51AE /* StockSimulatorConstants.m */; };
 		A7B19C5618526B8400DA51AE /* TickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B19C5518526B8400DA51AE /* TickerCell.m */; };
 		A7B19C5E18528FC500DA51AE /* Download.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5718528FC500DA51AE /* Download.png */; };
-		A7B19C6018528FC500DA51AE /* Green_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5918528FC500DA51AE /* Green_Button.png */; };
-		A7B19C6118528FC500DA51AE /* LightBlue_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */; };
-		A7B19C6318528FC500DA51AE /* Red_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5C18528FC500DA51AE /* Red_Button.png */; };
-		A7B19C6418528FC500DA51AE /* Textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C5D18528FC500DA51AE /* Textbox.png */; };
-		A7B19C66185292B300DA51AE /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C65185292B300DA51AE /* Gear.png */; };
 		A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C67185292BD00DA51AE /* Plus_03.png */; };
 		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
 		A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */; };
@@ -79,19 +77,17 @@
 		A77871B217E391E000A4938C /* StockSimulator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockSimulator-Prefix.pch"; sourceTree = "<group>"; };
 		A77871B317E391E000A4938C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A77871B417E391E000A4938C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		A77871B617E391E000A4938C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		A77871B817E391E000A4938C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		A77871BA17E391E000A4938C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A7A5DF0B1888F90800AA49F8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A7A5DF0C1888F90800AA49F8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A7A5DF0D1888F90800AA49F8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		A7A5DF0E1888F90800AA49F8 /* StoxIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StoxIcon.png; sourceTree = "<group>"; };
+		A7A5DF0F1888F90800AA49F8 /* StoxIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StoxIcon@2x.png"; sourceTree = "<group>"; };
+		A7A5DF151888FAAB00AA49F8 /* Stox-Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stox-Logo.png"; sourceTree = "<group>"; };
 		A7B19C511852328000DA51AE /* StockSimulatorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSimulatorConstants.h; sourceTree = "<group>"; };
 		A7B19C521852328000DA51AE /* StockSimulatorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSimulatorConstants.m; sourceTree = "<group>"; };
 		A7B19C5418526B8400DA51AE /* TickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerCell.h; sourceTree = "<group>"; };
 		A7B19C5518526B8400DA51AE /* TickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickerCell.m; sourceTree = "<group>"; };
 		A7B19C5718528FC500DA51AE /* Download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Download.png; sourceTree = "<group>"; };
-		A7B19C5918528FC500DA51AE /* Green_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_Button.png; sourceTree = "<group>"; };
-		A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightBlue_Button.png; sourceTree = "<group>"; };
-		A7B19C5C18528FC500DA51AE /* Red_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Red_Button.png; sourceTree = "<group>"; };
-		A7B19C5D18528FC500DA51AE /* Textbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Textbox.png; sourceTree = "<group>"; };
-		A7B19C65185292B300DA51AE /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Gear.png; path = ../../../Dropbox/images/Gear.png; sourceTree = "<group>"; };
 		A7B19C67185292BD00DA51AE /* Plus_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Plus_03.png; sourceTree = "<group>"; };
 		A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
@@ -197,20 +193,18 @@
 				A7B19C511852328000DA51AE /* StockSimulatorConstants.h */,
 				A7B19C521852328000DA51AE /* StockSimulatorConstants.m */,
 				A7B19C5718528FC500DA51AE /* Download.png */,
-				A7B19C5918528FC500DA51AE /* Green_Button.png */,
-				A7B19C5A18528FC500DA51AE /* LightBlue_Button.png */,
 				A7B19C67185292BD00DA51AE /* Plus_03.png */,
 				A72BAE3E1854087900F8F2AD /* Back.png */,
-				A7B19C65185292B300DA51AE /* Gear.png */,
-				A7B19C5C18528FC500DA51AE /* Red_Button.png */,
-				A7B19C5D18528FC500DA51AE /* Textbox.png */,
 				A77871AC17E391E000A4938C /* StockSimulator-Info.plist */,
+				A7A5DF0B1888F90800AA49F8 /* Default-568h@2x.png */,
+				A7A5DF0C1888F90800AA49F8 /* Default.png */,
+				A7A5DF0D1888F90800AA49F8 /* Default@2x.png */,
+				A7A5DF151888FAAB00AA49F8 /* Stox-Logo.png */,
+				A7A5DF0E1888F90800AA49F8 /* StoxIcon.png */,
+				A7A5DF0F1888F90800AA49F8 /* StoxIcon@2x.png */,
 				A77871AD17E391E000A4938C /* InfoPlist.strings */,
 				A77871B017E391E000A4938C /* main.m */,
 				A77871B217E391E000A4938C /* StockSimulator-Prefix.pch */,
-				A77871B617E391E000A4938C /* Default.png */,
-				A77871B817E391E000A4938C /* Default@2x.png */,
-				A77871BA17E391E000A4938C /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -273,17 +267,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A72BAE3F1854087900F8F2AD /* Back.png in Resources */,
-				A7B19C6418528FC500DA51AE /* Textbox.png in Resources */,
-				A7B19C6318528FC500DA51AE /* Red_Button.png in Resources */,
+				A7A5DF111888F90800AA49F8 /* Default.png in Resources */,
+				A7A5DF161888FAAB00AA49F8 /* Stox-Logo.png in Resources */,
 				A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */,
-				A7B19C66185292B300DA51AE /* Gear.png in Resources */,
 				A7B19C5E18528FC500DA51AE /* Download.png in Resources */,
-				A7B19C6118528FC500DA51AE /* LightBlue_Button.png in Resources */,
-				A7B19C6018528FC500DA51AE /* Green_Button.png in Resources */,
+				A7A5DF141888F90800AA49F8 /* StoxIcon@2x.png in Resources */,
+				A7A5DF101888F90800AA49F8 /* Default-568h@2x.png in Resources */,
+				A7A5DF121888F90800AA49F8 /* Default@2x.png in Resources */,
+				A7A5DF131888F90800AA49F8 /* StoxIcon.png in Resources */,
 				A77871AF17E391E000A4938C /* InfoPlist.strings in Resources */,
-				A77871B717E391E000A4938C /* Default.png in Resources */,
-				A77871B917E391E000A4938C /* Default@2x.png in Resources */,
-				A77871BB17E391E000A4938C /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

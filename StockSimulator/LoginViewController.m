@@ -62,6 +62,10 @@ UITextField* password;
         [signUpButton addTarget:self action:@selector(beginSignup) forControlEvents:UIControlEventTouchUpInside];
         [signUpButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:20]];
         [self.view addSubview:signUpButton];
+        
+        UIImageView* logo=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Stox-Logo.png"]];
+        logo.frame=CGRectMake(20, 15, 280, 280);
+        [self.view addSubview:logo];
     }
     return self;
 }
@@ -129,5 +133,8 @@ UITextField* password;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 @end
