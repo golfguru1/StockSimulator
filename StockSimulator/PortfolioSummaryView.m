@@ -8,7 +8,6 @@
 
 #import "PortfolioSummaryView.h"
 #import "StockSimulatorConstants.h"
-#import "UserSettings.h"
 #import "StockDataManager.h"
 
 @implementation PortfolioSummaryView{
@@ -31,20 +30,6 @@
         bottomView.pagingEnabled=YES;
         bottomView.showsHorizontalScrollIndicator=NO;
         bottomView.delegate=self;
-//        
-//        todayChange=[[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width/2, 0, self.frame.size.width/2, self.frame.size.height/2)];
-//        todayChange.textColor=[UIColor stockSimulatorDarkGrey];
-//        todayChange.textAlignment=NSTextAlignmentCenter;
-//        todayChange.font=[UIFont stockSimulatorFontWithSize:14];
-//        [self addSubview:todayChange];
-//        
-//        totalStockValue=[[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width/2, self.frame.size.height/2, self.frame.size.width/2, self.frame.size.height/2)];
-//        totalStockValue.textColor=[UIColor stockSimulatorDarkGrey];
-//        totalStockValue.backgroundColor=[UIColor stockSimulatorBlue];
-//        totalStockValue.alpha=0.5;
-//        totalStockValue.textAlignment=NSTextAlignmentCenter;
-//        totalStockValue.font=[UIFont stockSimulatorFontWithSize:14];
-//        [self addSubview:totalStockValue];
         
         totalCash=[[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width, 0, self.frame.size.width, self.frame.size.height)];
         totalCash.textColor=[UIColor stockSimulatorDarkGrey];
@@ -89,13 +74,6 @@
     int newPage = (int)(newOffset/(scrollView.frame.size.width));
     [pageControl setCurrentPage:newPage];
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+
 
 @end

@@ -7,12 +7,10 @@
 //
 
 #import "SearchViewController.h"
-#import "UserSettings.h"
 #import "StockDataManager.h"
 #import "AddTickerView.h"
 #import "TickerCell.h"
 #import "PortfolioSummaryView.h"
-#import "Stock.h"
 #import "AppDelegate.h"
 
 @interface SearchViewController (){
@@ -41,7 +39,6 @@
         _table.backgroundColor=[UIColor clearColor];
         [_table registerClass:[TickerCell class] forCellReuseIdentifier:@"MyIdentifier"];
         [_table setShowsVerticalScrollIndicator:NO];
-        //_table.contentInset=UIEdgeInsetsMake(-35, 0, 0, 0);
         [self.view addSubview:_table];
         
         UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
@@ -84,7 +81,6 @@
         [self.view addSubview:pSv];
         [self refresh];
         [self animateMarquee];
-//        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -127,7 +123,6 @@
             indexLabel.text=resultsString;
         }
         [self populateSummary];
-        //[_table reloadData];
     }
 }
 -(void)populateSummary{
@@ -192,13 +187,8 @@
     return YES;
 }
 
-//-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return YES;
-//}
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //TickerCell *selected=(TickerCell*)[tableView cellForRowAtIndexPath:indexPath];
         PFObject *stockDeleted=self.userStocks[indexPath.row];
         [self.userStocks removeObject:stockDeleted];
         [stockDeleted deleteInBackground];
@@ -206,12 +196,6 @@
         [self refresh];
     }
 }
-
-//-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
-//    NSString *r = [[[UserSettings sharedManager]stockTickers] objectAtIndex:fromIndexPath.row];
-//    [[[UserSettings sharedManager]stockTickers] removeObjectAtIndex:fromIndexPath.row];
-//    [[[UserSettings sharedManager]stockTickers] insertObject:r atIndex:toIndexPath.row];
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *MyIdentifier = @"MyIdentifier";

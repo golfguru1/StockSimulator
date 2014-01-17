@@ -11,10 +11,6 @@
 
 @implementation TickerCell{
     UIView *extendBg;
-    
-    UIStepper *buyStepper;
-    UIStepper *sellStepper;
-    
 }
 
 @synthesize tickerTitle,numberOfShares,change,boughtAt,currentPrice,sellNum,buyNum;
@@ -70,7 +66,6 @@
         extendBg=[[UIView alloc]init];
         [extendBg setBackgroundColor:[UIColor stockSimulatorLightGrey]];
         
-        //sellNum=[[UILabel alloc]init];
         sellNum=[[UITextField alloc]init];
         [sellNum setPlaceholder:@"Sell Shares"];
         [sellNum setKeyboardType:UIKeyboardTypeNumberPad];
@@ -79,11 +74,9 @@
         [sellNum.layer setCornerRadius:4];
         [sellNum setFont:[UIFont stockSimulatorFontWithSize:14]];
         [sellNum setTextAlignment:NSTextAlignmentCenter];
-        //[sellNum setText:@"Sell Shares"];
         sellNum.tag=1;
         [extendBg addSubview:sellNum];
         
-        //buyNum=[[UILabel alloc]init];
         buyNum=[[UITextField alloc]init];
         [buyNum setPlaceholder:@"Buy Shares"];
         [buyNum setKeyboardType:UIKeyboardTypeNumberPad];
@@ -92,7 +85,6 @@
         [buyNum.layer setCornerRadius:4];
         [buyNum setFont:[UIFont stockSimulatorFontWithSize:14]];
         [buyNum setTextAlignment:NSTextAlignmentCenter];
-        //[buyNum setText:@"Buy Shares"];
         buyNum.tag=2;
         [extendBg addSubview:buyNum];
         
@@ -103,19 +95,6 @@
         [_submitButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
         [_submitButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
         [extendBg addSubview:_submitButton];
-        
-        buyStepper=[[UIStepper alloc]init];
-        [buyStepper setTintColor:[UIColor stockSimulatorGreen]];
-        [buyStepper setMinimumValue:0.0];
-        [buyStepper addTarget:self action:@selector(buyStepperPressed:) forControlEvents:UIControlEventValueChanged];
-        //[extendBg addSubview:buyStepper];
-        
-        //add maximum value as the number of shares they own
-        sellStepper=[[UIStepper alloc]init];
-        [sellStepper setTintColor:[UIColor stockSimulatorRed]];
-        [sellStepper setMinimumValue:0.0];
-        [sellStepper addTarget:self action:@selector(sellStepperPressed:) forControlEvents:UIControlEventValueChanged];
-        //[extendBg addSubview:sellStepper];
         
         [self.contentView addSubview:extendBg];
         
@@ -134,38 +113,8 @@
     [sellNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [buyNum setFrame:CGRectMake(10, 45, 120, 30)];
     [buyNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [sellStepper setFrame:CGRectMake(10, 45, 80, 30)];
-    [buyStepper setFrame:CGRectMake(120, 45, 80, 30)];
     [_submitButton setFrame:CGRectMake(extendBg.frame.size.width-80-7, 7, 80, 68)];
     
     [extendBg setFrame:CGRectMake(0, 70, self.contentView.frame.size.width, 90)];
-}
--(void)buyStepperPressed:(UIStepper*)stepper{
-    if(stepper.value){
-        [buyNum setText:[NSString stringWithFormat:@"%d",(int)stepper.value]];
-    }
-    else{
-        [buyNum setText:[NSString stringWithFormat:@"Buy Shares"]];
-    }
-}
--(void)sellStepperPressed:(UIStepper*)stepper{
-    if(stepper.value){
-        [sellNum setText:[NSString stringWithFormat:@"%d",(int)stepper.value]];
-    }
-    else{
-        [sellNum setText:[NSString stringWithFormat:@"Sell Shares"]];
-    }
-}
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:NO animated:animated];
-
-    // Configure the view for the selected state
-}
--(void)setHighlighted:(BOOL)highlighted{
-    [super setHighlighted:NO];
-}
--(void)sellShares:(NSNumber*)num ofTicker:(NSString*)ticker{
-    
 }
 @end

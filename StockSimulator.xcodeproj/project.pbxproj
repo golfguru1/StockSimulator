@@ -18,7 +18,6 @@
 		A70253981880B27400199015 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70253901880B27400199015 /* SystemConfiguration.framework */; };
 		A702539B1880B38500199015 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A702539A1880B38500199015 /* LoginViewController.m */; };
 		A702539E1880EA9900199015 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A702539D1880EA9900199015 /* SignUpViewController.m */; };
-		A7161AC1187B937D00A98B6F /* Stock.m in Sources */ = {isa = PBXBuildFile; fileRef = A7161AC0187B937D00A98B6F /* Stock.m */; };
 		A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A718C0B11806E8B70040D2CF /* AddTickerView.m */; };
 		A727C1D018833DA3007D124B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A727C1CF18833DA3007D124B /* Parse.framework */; };
 		A72BAE3F1854087900F8F2AD /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = A72BAE3E1854087900F8F2AD /* Back.png */; };
@@ -41,7 +40,6 @@
 		A7B19C68185292BD00DA51AE /* Plus_03.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B19C67185292BD00DA51AE /* Plus_03.png */; };
 		A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */; };
 		A7DBDA6D17EBD9EB0082ACC4 /* StockDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */; };
-		A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,8 +57,6 @@
 		A702539A1880B38500199015 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		A702539C1880EA9900199015 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		A702539D1880EA9900199015 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
-		A7161ABF187B937D00A98B6F /* Stock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stock.h; sourceTree = "<group>"; };
-		A7161AC0187B937D00A98B6F /* Stock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stock.m; sourceTree = "<group>"; };
 		A718C0B01806E8B70040D2CF /* AddTickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTickerView.h; sourceTree = "<group>"; };
 		A718C0B11806E8B70040D2CF /* AddTickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTickerView.m; sourceTree = "<group>"; };
 		A727C1CF18833DA3007D124B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = StockSimulator/Parse.framework; sourceTree = "<group>"; };
@@ -93,8 +89,6 @@
 		A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDataManager.h; sourceTree = "<group>"; };
 		A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockDataManager.m; sourceTree = "<group>"; };
-		A7DBDA6E17EBDC220082ACC4 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
-		A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,14 +166,10 @@
 				A72BAE411854091800F8F2AD /* PortfolioSummaryView.m */,
 				A7DBDA6817EB35F70082ACC4 /* SearchViewController.h */,
 				A7DBDA6917EB35F70082ACC4 /* SearchViewController.m */,
-				A7161ABF187B937D00A98B6F /* Stock.h */,
-				A7161AC0187B937D00A98B6F /* Stock.m */,
 				A7B19C5418526B8400DA51AE /* TickerCell.h */,
 				A7B19C5518526B8400DA51AE /* TickerCell.m */,
 				A7DBDA6B17EBD9EB0082ACC4 /* StockDataManager.h */,
 				A7DBDA6C17EBD9EB0082ACC4 /* StockDataManager.m */,
-				A7DBDA6E17EBDC220082ACC4 /* UserSettings.h */,
-				A7DBDA6F17EBDC220082ACC4 /* UserSettings.m */,
 				A718C0B01806E8B70040D2CF /* AddTickerView.h */,
 				A718C0B11806E8B70040D2CF /* AddTickerView.m */,
 				A77871AB17E391E000A4938C /* Supporting Files */,
@@ -291,9 +281,7 @@
 				A702539E1880EA9900199015 /* SignUpViewController.m in Sources */,
 				A702539B1880B38500199015 /* LoginViewController.m in Sources */,
 				A7DBDA6A17EB35F70082ACC4 /* SearchViewController.m in Sources */,
-				A7DBDA7017EBDC220082ACC4 /* UserSettings.m in Sources */,
 				A7B19C531852328000DA51AE /* StockSimulatorConstants.m in Sources */,
-				A7161AC1187B937D00A98B6F /* Stock.m in Sources */,
 				A72BAE421854091800F8F2AD /* PortfolioSummaryView.m in Sources */,
 				A718C0B21806E8B70040D2CF /* AddTickerView.m in Sources */,
 				A7B19C5618526B8400DA51AE /* TickerCell.m in Sources */,

@@ -7,7 +7,6 @@
 //
 #import "AppDelegate.h"
 #import "SignUpViewController.h"
-#import "Stock.h"
 @interface SignUpViewController (){
     UITextField* userName;
     UITextField* password;

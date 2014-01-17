@@ -7,7 +7,6 @@
 //
 
 #import "StockDataManager.h"
-#import "UserSettings.h"
 
 #define QUOTE_QUERY_PREFIX @"http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20("
 #define QUOTE_QUERY_SUFFIX @")&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
@@ -26,7 +25,7 @@
 {
     self = [super init];
     if ( self ) {
-        stockTickers=[[[NSUserDefaults standardUserDefaults]objectForKey:@"stocks"]mutableCopy];
+//        stockTickers=[[[NSUserDefaults standardUserDefaults]objectForKey:@"stocks"]mutableCopy];
     }
     
     return self;

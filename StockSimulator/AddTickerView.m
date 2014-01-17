@@ -8,20 +8,18 @@
 
 #import "AddTickerView.h"
 #import "StockDataManager.h"
-#import "UserSettings.h"
-#import "Stock.h"
 
 @implementation AddTickerView{
     UIAlertView *alert1;
     UIAlertView *alert2;
     PFUser *currentUser;
+    BOOL searchBarEditing;
 }
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
         currentUser=[PFUser currentUser];
         self.backgroundColor=[UIColor stockSimulatorLightGrey];
         UIButton *backButton=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -51,65 +49,65 @@
         submit.tag=1;
         [self addSubview:submit];
         
-        _tickerTitle=[[UILabel alloc]initWithFrame:CGRectMake(10, 80, 100, 40)];
-        _tickerTitle.backgroundColor=[UIColor clearColor];
-        _tickerTitle.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _tickerTitle.font=[UIFont fontWithName:@"Helvetica" size:32];
+        _tickerTitle=[[UILabel alloc]initWithFrame:CGRectMake(0, 95, self.frame.size.width, 100)];
+        _tickerTitle.backgroundColor=[UIColor stockSimulatorDarkGrey];
+        _tickerTitle.textColor=[UIColor stockSimulatorOrange];
+        _tickerTitle.font=[UIFont stockSimulatorFontWithSize:65];
+        _tickerTitle.textAlignment=NSTextAlignmentCenter;
         _tickerTitle.tag=1;
         [self addSubview:_tickerTitle];
         
-        UILabel *priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 130, 90, 30)];
-        priceLabel.backgroundColor=[UIColor clearColor];
-        priceLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        priceLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
-        priceLabel.text=@"Current Price";
-        priceLabel.tag=1;
-        [self addSubview:priceLabel];
-        
-        UILabel *buyLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 170, 40, 30)];
-        buyLabel.backgroundColor=[UIColor clearColor];
-        buyLabel.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        buyLabel.font=[UIFont fontWithName:@"Helvetica" size:14];
-        buyLabel.text=@"Buy";
-        buyLabel.tag=1;
-        [self addSubview:buyLabel];
-        
-        UILabel *buyLabel2=[[UILabel alloc]initWithFrame:CGRectMake(100, 170, 90, 30)];
-        buyLabel2.backgroundColor=[UIColor clearColor];
-        buyLabel2.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        buyLabel2.font=[UIFont fontWithName:@"Helvetica" size:14];
-        buyLabel2.text=@"shares";
-        buyLabel2.tag=1;
-        [self addSubview:buyLabel2];
-        
-        _currentPrice=[[UILabel alloc]initWithFrame:CGRectMake(100, 130, 80, 30)];
-        _currentPrice.backgroundColor=[UIColor clearColor];
-        _currentPrice.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _currentPrice.font=[UIFont fontWithName:@"Helvetica" size:14];
+        _currentPrice=[[UILabel alloc]initWithFrame:CGRectMake(0, 270, self.frame.size.width/2, 100)];
+        _currentPrice.backgroundColor=[UIColor stockSimulatorDarkGrey];
+        _currentPrice.textAlignment=NSTextAlignmentCenter;
+        _currentPrice.textColor=[UIColor stockSimulatorGreen];
+        _currentPrice.font=[UIFont stockSimulatorFontWithSize:30];
         _currentPrice.tag=1;
+        
+        UILabel *price=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, _currentPrice.frame.size.width, 20)];
+        price.text=@"Price";
+        price.textColor=[UIColor stockSimulatorGreen];
+        price.font=[UIFont stockSimulatorFontWithSize:12];
+        price.textAlignment=NSTextAlignmentCenter;
+        [_currentPrice addSubview:price];
         [self addSubview:_currentPrice];
         
-        _numOfShares=[[UITextField alloc]initWithFrame:CGRectMake(43, 170, 50, 30)];
+        
+        _numOfShares=[[UITextField alloc]initWithFrame:CGRectMake(80, 400, self.frame.size.width-160, 40)];
         _numOfShares.delegate=self;
         _numOfShares.keyboardAppearance=UIKeyboardAppearanceDark;
         _numOfShares.keyboardType=UIKeyboardTypeNumberPad;
         _numOfShares.backgroundColor=[UIColor whiteColor];
         _numOfShares.layer.cornerRadius=5;
-        _numOfShares.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _numOfShares.font=[UIFont fontWithName:@"Helvetica" size:14];
+        _numOfShares.textColor=[UIColor stockSimulatorDarkGrey];
+        _numOfShares.font=[UIFont stockSimulatorFontWithSize:25];
         _numOfShares.tag=1;
+        _numOfShares.textAlignment=NSTextAlignmentCenter;
         [self addSubview:_numOfShares];
         
-        _companyLabel=[[UILabel alloc]initWithFrame:CGRectMake(120, 100, 180, 20)];
-        _companyLabel.backgroundColor=[UIColor clearColor];
-        _companyLabel.textColor=[UIColor colorWithRed:253.0/255.0f
-                                                green:198.0/255.0f
-                                                 blue:0/255.0f
-                                                alpha:1.0f];
-        _companyLabel.font=[UIFont fontWithName:@"Helvetica"
-                                           size:14];
+        _companyLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 170, self.frame.size.width, 100)];
+        _companyLabel.backgroundColor=[UIColor stockSimulatorDarkGrey];
+        _companyLabel.textColor=[UIColor stockSimulatorOrange];
+        _companyLabel.font=[UIFont stockSimulatorFontWithSize:20];
+        _companyLabel.textAlignment=NSTextAlignmentCenter;
         _companyLabel.tag=1;
         [self addSubview:_companyLabel];
+        
+        _cash=[[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width/2, 270, self.frame.size.width/2, 100)];
+        _cash.backgroundColor=[UIColor stockSimulatorDarkGrey];
+        _cash.textColor=[UIColor stockSimulatorBlue];
+        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[currentUser[@"cash"] doubleValue]]];
+        _cash.font=[UIFont stockSimulatorFontWithSize:30];
+        _cash.textAlignment=NSTextAlignmentLeft;
+        _cash.tag=1;
+        
+        UILabel *cashL=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, _cash.frame.size.width, 20)];
+        cashL.text=@"Cash";
+        cashL.textColor=[UIColor stockSimulatorBlue];
+        cashL.font=[UIFont stockSimulatorFontWithSize:12];
+        cashL.textAlignment=NSTextAlignmentCenter;
+        [_cash addSubview:cashL];
+        [self addSubview:_cash];
         
         UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                   target:self
@@ -121,23 +119,6 @@
         [toolbar setItems:[NSArray arrayWithObjects:flexableItem,doneItem, nil]];
         [toolbar setBackgroundColor:[UIColor blackColor]];
         _numOfShares.inputAccessoryView = toolbar;
-        
-        UILabel *currentCash=[[UILabel alloc]initWithFrame:CGRectMake(160, 170, 85, 30)];
-        currentCash.backgroundColor=[UIColor clearColor];
-        currentCash.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        currentCash.font=[UIFont fontWithName:@"Helvetica" size:14];
-        currentCash.text=@"Your Cash:";
-        currentCash.tag=1;
-        [self addSubview:currentCash];
-        
-        _cash=[[UILabel alloc]initWithFrame:CGRectMake(233, 170, 83, 30)];
-        _cash.backgroundColor=[UIColor clearColor];
-        _cash.adjustsFontSizeToFitWidth = YES;
-        _cash.textColor=[UIColor colorWithRed:253.0/255.0f green:198.0/255.0f blue:0/255.0f alpha:1.0f];
-        _cash.text=[NSString stringWithFormat:@"$%@",[self formatNumber:[currentUser[@"cash"] doubleValue]]];
-        _cash.font=[UIFont fontWithName:@"Helvetica" size:14];
-        _cash.tag=1;
-        [self addSubview:_cash];
         
         for(UIView *subview in self.subviews)
             if(subview.tag==1)
@@ -153,12 +134,14 @@
     return YES;
 }
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    searchBarEditing=YES;
     for(UIView *subview in self.subviews)
         if(subview.tag==1)
             subview.hidden=YES;
     
 }
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    searchBarEditing=NO;
     [searchBar resignFirstResponder];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -208,21 +191,32 @@
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag==1)
         [_bar becomeFirstResponder];
+    else if (alertView.tag==2){
+        [_numOfShares becomeFirstResponder];
+    }
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     [searchBar resignFirstResponder];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
 }
 -(void)done{
     [self removeFromSuperview];
+    
 }
 -(void)submit{
     int numShares=_numOfShares.text.intValue;
     if (numShares>0){
+        [self endEditing:YES];
         NSString *priceString=[_currentPrice.text substringFromIndex:1];
         
         double currentCash=[currentUser[@"cash"] doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
-        NSLog(@"%f",newCash);
         currentUser[@"cash"]=[NSNumber numberWithDouble:newCash];
         [currentUser save];
         
@@ -239,7 +233,12 @@
         [_parent addObject];
     }
     else{
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a valid number of stocks." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error"
+                                                     message:@"Please enter a valid number of stocks."
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"OK", nil];
+        alert.tag=2;
         [alert show];
     }
 }
@@ -251,12 +250,52 @@
     [nf setMaximumFractionDigits:2];
     [nf setMinimumFractionDigits:2];
     [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    
-    // you should create a string from number
     NSNumber *n = [NSNumber numberWithFloat: num];
     NSString *str = [nf stringFromNumber:n];
-    
     return str;
 }
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    if(!searchBarEditing){
+        NSDictionary* keyboardInfo = [notification userInfo];
+        NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+        CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+        NSTimeInterval time=[[keyboardInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+        [UIView animateWithDuration:time
+                              delay:0.0f
+                            options:[[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue]
+                         animations:^{
+                             [self setFrame:CGRectMake(0,-keyboardFrameBeginRect.size.height,self.frame.size.width, self.frame.size.height)];
+                         }
+                         completion:nil];
+    }
+}
 
+-(void)keyboardDidHide:(NSNotification *)notification
+{
+    if(!searchBarEditing){
+        NSDictionary* keyboardInfo = [notification userInfo];
+        NSTimeInterval time=[[keyboardInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+        [UIView animateWithDuration:time animations:^{
+            [self setFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
+        }];
+    }
+}
+- (void)willMoveToWindow:(UIWindow *)newWindow {
+    if (newWindow == nil) {
+        // Will be removed from window, similar to -viewDidUnload.
+        // Unsubscribe from any notifications here.
+        [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidShowNotification object:Nil];
+        [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidHideNotification object:Nil];
+    }
+}
+
+- (void)didMoveToWindow {
+    if (self.window) {
+        // Added to a window, similar to -viewDidLoad.
+        // Subscribe to notifications here.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    }
+}
 @end
