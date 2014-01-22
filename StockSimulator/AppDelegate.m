@@ -28,7 +28,7 @@
     else {
         [AppDelegate launchLoginScreen];
     }
-    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
 
     
     [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
@@ -38,15 +38,15 @@
 {
     AppDelegate *inst = [[UIApplication sharedApplication] delegate];
     
-     SearchViewController *vC = [[SearchViewController alloc] init];
+    SearchViewController *vC = [[SearchViewController alloc] init];
     inst.window.rootViewController = vC;
 }
 + (void)launchLoginScreen
 {
     AppDelegate *me = [[UIApplication sharedApplication] delegate];
     
-    LoginViewController *signup = [[LoginViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:signup];
+    LoginViewController *login = [[LoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:login];
     nav.navigationBarHidden = YES;
     
     me.window.rootViewController = nav;

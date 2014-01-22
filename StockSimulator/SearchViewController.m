@@ -33,6 +33,7 @@
     self = [super init];
     if (self) {
         self.view.backgroundColor=[UIColor stockSimulatorLightGrey];
+        
         _table=[[UITableView alloc]initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-170) style:UITableViewStyleGrouped];
         [_table setDataSource:self];
         [_table setDelegate:self];
@@ -171,8 +172,6 @@
         [addItemView setFrame:self.view.frame];
     }];
     addItemView.parent=self;
-    [addItemView.bar becomeFirstResponder];
-    
 }
 - (void)viewDidLoad{
     [super viewDidLoad];

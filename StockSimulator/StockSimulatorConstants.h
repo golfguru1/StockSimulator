@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIColor (PhotoLove) <UITableViewDelegate, UITableViewDataSource>
+@interface UIColor (StockSimulator)
 
 + (UIColor *)stockSimulatorDarkGrey;
 + (UIColor *)stockSimulatorLightGrey;

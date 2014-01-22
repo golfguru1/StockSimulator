@@ -206,7 +206,12 @@
                                                   object:nil];
 }
 -(void)done{
-    [self removeFromSuperview];
+    [self endEditing:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        self.frame=CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height);
+    }completion:^(BOOL finished){
+        [self removeFromSuperview];
+    }];
     
 }
 -(void)submit{
@@ -258,16 +263,17 @@
 {
     if(!searchBarEditing){
         NSDictionary* keyboardInfo = [notification userInfo];
-        NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+        NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
         CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
         NSTimeInterval time=[[keyboardInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey]doubleValue];
         [UIView animateWithDuration:time
-                              delay:0.0f
-                            options:[[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue]
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              [self setFrame:CGRectMake(0,-keyboardFrameBeginRect.size.height,self.frame.size.width, self.frame.size.height)];
                          }
                          completion:nil];
+        
     }
 }
 
@@ -283,8 +289,6 @@
 }
 - (void)willMoveToWindow:(UIWindow *)newWindow {
     if (newWindow == nil) {
-        // Will be removed from window, similar to -viewDidUnload.
-        // Unsubscribe from any notifications here.
         [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidShowNotification object:Nil];
         [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidHideNotification object:Nil];
     }
@@ -292,10 +296,9 @@
 
 - (void)didMoveToWindow {
     if (self.window) {
-        // Added to a window, similar to -viewDidLoad.
-        // Subscribe to notifications here.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+        [_bar becomeFirstResponder];
     }
 }
 @end
