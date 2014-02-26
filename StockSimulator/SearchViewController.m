@@ -40,6 +40,7 @@
         _table.backgroundColor=[UIColor clearColor];
         [_table registerClass:[TickerCell class] forCellReuseIdentifier:@"MyIdentifier"];
         [_table setShowsVerticalScrollIndicator:NO];
+        _table.alwaysBounceVertical=YES;
         [self.view addSubview:_table];
         
         UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
@@ -80,6 +81,7 @@
         [self.view addSubview:marquee];
         pSv=[[PortfolioSummaryView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-100,self.view.frame.size.width, 100)];
         [self.view addSubview:pSv];
+        [self query];
         [self refresh];
         [self animateMarquee];
     }
@@ -175,7 +177,6 @@
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self query];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -204,8 +205,11 @@
         cell = [[TickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    [cell.submitButton addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
-    cell.submitButton.tag=indexPath.row;
+    [cell.submitBuyButton addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.submitSellButton addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    cell.submitBuyButton.tag=indexPath.row;
+    cell.submitSellButton.tag=indexPath.row;
+    
     id stock=self.userStocks[indexPath.row];
     cell.tickerTitle.text =[stock valueForKey:@"ticker"];
     cell.boughtAt.text=[NSString stringWithFormat:@"%@",[stock valueForKey:@"priceBoughtAt"]];
@@ -240,8 +244,8 @@
     if(!selectedIndexPaths) selectedIndexPaths=[[NSMutableArray alloc]init];
     TickerCell *cell=(TickerCell*)[tableView cellForRowAtIndexPath:indexPath];
     if ([selectedIndexPaths containsObject:indexPath]){
-        [cell.sellNum resignFirstResponder];
-        [cell.buyNum resignFirstResponder];
+        [cell.num resignFirstResponder];
+        cell.num.text=nil;
         [selectedIndexPaths removeObject:indexPath];
     }
     else{
@@ -252,7 +256,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([selectedIndexPaths containsObject:indexPath]) {
-        return 160;
+        return 120;
     }
     return 70;
 }
@@ -289,17 +293,57 @@
     PFUser *currentUser=[PFUser currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"Stock"];
     [query whereKey:@"user" equalTo:currentUser.username];
-    self.userStocks = [[query findObjects]mutableCopy];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if(!error){
+            self.userStocks = [objects mutableCopy];
+            [_table reloadData];
+        }
+    }];
 }
 -(void)submit:(UIButton*)sender{
     TickerCell *cell=(TickerCell*)[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
-    if ([selectedIndexPaths containsObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]]){
-        [cell.sellNum resignFirstResponder];
-        [cell.buyNum resignFirstResponder];
-        [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+    int numShares=[[cell.numberOfShares.text substringWithRange:NSMakeRange(1, [cell.numberOfShares.text length]-1)]integerValue];
+    if ([selectedIndexPaths containsObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]] && [cell.num.text length]>0){
+        if([sender.titleLabel.text isEqualToString:@"Sell"]){
+            if ([cell.num.text integerValue]>numShares){
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You don't own that many stocks. Please input a valid number of stocks to sell." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+                cell.num.text=nil;
+            }
+            else{
+                PFObject *selectedStock=self.userStocks[sender.tag];
+                [selectedStock setObject:[NSNumber numberWithInt:numShares-[cell.num.text integerValue]] forKey:@"shares"];
+                [selectedStock saveInBackground];
+                PFUser *currentUser=[PFUser currentUser];
+                [currentUser setObject:[NSNumber numberWithDouble:[currentUser[@"cash"] doubleValue]+([cell.num.text integerValue]*([cell.currentPrice.text doubleValue]))] forKey:@"cash"];
+                [currentUser saveInBackground];
+                
+                if([cell.num.text integerValue]==numShares){
+                    cell.num.text=nil;
+                    [cell.num resignFirstResponder];
+                    [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+                    
+                    PFObject *stockDeleted=self.userStocks[sender.tag];
+                    [self.userStocks removeObject:stockDeleted];
+                    [stockDeleted deleteInBackground];
+                    [_table reloadData];
+                    [self refresh];
+                }
+                else{
+                    [self.table beginUpdates];
+                    [self.table endUpdates];
+                }
+            }
+        }
+        else if([sender.titleLabel.text isEqualToString:@"Buy"]){
+            cell.num.text=nil;
+            [cell.num resignFirstResponder];
+            [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+            [self query];
+            [self.table beginUpdates];
+            [self.table endUpdates];
+        }
     }
-    [self.table beginUpdates];
-    [self.table endUpdates];
     
 }
 -(void)addObject{

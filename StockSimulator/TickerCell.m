@@ -13,7 +13,7 @@
     UIView *extendBg;
 }
 
-@synthesize tickerTitle,numberOfShares,change,boughtAt,currentPrice,sellNum,buyNum;
+@synthesize tickerTitle,numberOfShares,change,boughtAt,currentPrice,num;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -21,7 +21,7 @@
     if (self) {
         // Initialization code
         [self.contentView setBackgroundColor:[UIColor stockSimulatorDarkGrey]];
-        [self.contentView setFrame:CGRectMake(0, 0, 320, 170)];
+        [self.contentView setFrame:CGRectMake(0, 0, 320, 110)];
         
         tickerTitle=[[UILabel alloc]init];
         [tickerTitle setBackgroundColor:[UIColor clearColor]];
@@ -66,41 +66,41 @@
         extendBg=[[UIView alloc]init];
         [extendBg setBackgroundColor:[UIColor stockSimulatorLightGrey]];
         
-        sellNum=[[UITextField alloc]init];
-        [sellNum setPlaceholder:@"Sell Shares"];
-        [sellNum setKeyboardType:UIKeyboardTypeNumberPad];
-        [sellNum setBackgroundColor:[UIColor stockSimulatorRed]];
-        [sellNum setTextColor:[UIColor whiteColor]];
-        [sellNum.layer setCornerRadius:4];
-        [sellNum setFont:[UIFont stockSimulatorFontWithSize:14]];
-        [sellNum setTextAlignment:NSTextAlignmentCenter];
-        sellNum.tag=1;
-        [extendBg addSubview:sellNum];
+        num=[[UITextField alloc]init];
+        [num setPlaceholder:@"# Shares"];
+        [num setKeyboardType:UIKeyboardTypeNumberPad];
+        [num setBackgroundColor:[UIColor stockSimulatorDarkGrey]];
+        [num setTextColor:[UIColor whiteColor]];
+        [num.layer setCornerRadius:4];
+        [num setFont:[UIFont stockSimulatorFontWithSize:14]];
+        [num setTextAlignment:NSTextAlignmentCenter];
+        num.tag=1;
+        [extendBg addSubview:num];
+                
+        _submitBuyButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_submitBuyButton setBackgroundColor:[UIColor stockSimulatorGreen]];
+        [_submitBuyButton.layer setCornerRadius:4];
+        [_submitBuyButton setTitle:@"Buy" forState:UIControlStateNormal];
+        [_submitBuyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_submitBuyButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
+        [_submitBuyButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
+        [extendBg addSubview:_submitBuyButton];
         
-        buyNum=[[UITextField alloc]init];
-        [buyNum setPlaceholder:@"Buy Shares"];
-        [buyNum setKeyboardType:UIKeyboardTypeNumberPad];
-        [buyNum setBackgroundColor:[UIColor stockSimulatorGreen]];
-        [buyNum setTextColor:[UIColor whiteColor]];
-        [buyNum.layer setCornerRadius:4];
-        [buyNum setFont:[UIFont stockSimulatorFontWithSize:14]];
-        [buyNum setTextAlignment:NSTextAlignmentCenter];
-        buyNum.tag=2;
-        [extendBg addSubview:buyNum];
-        
-        _submitButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        [_submitButton setBackgroundImage:[UIImage imageNamed:@"LightBlue_Button.png"] forState:UIControlStateNormal];
-        [_submitButton setTitle:@"Submit" forState:UIControlStateNormal];
-        [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_submitButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
-        [_submitButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
-        [extendBg addSubview:_submitButton];
+        _submitSellButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_submitSellButton setBackgroundColor:[UIColor stockSimulatorRed]];
+        [_submitSellButton.layer setCornerRadius:4];
+        [_submitSellButton setTitle:@"Sell" forState:UIControlStateNormal];
+        [_submitSellButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_submitSellButton setTitleColor:[UIColor stockSimulatorBlue] forState:UIControlStateSelected];
+        [_submitSellButton.titleLabel setFont:[UIFont stockSimulatorFontWithSize:16]];
+        [extendBg addSubview:_submitSellButton];
         
         [self.contentView addSubview:extendBg];
         
     }
     return self;
 }
+
 
 -(void)layoutSubviews{
     [tickerTitle setFrame:CGRectMake(10, 2, 80, 35)];
@@ -109,11 +109,10 @@
     [boughtAt setFrame:CGRectMake(15, 35, self.contentView.frame.size.width/2, 35)];
     [currentPrice setFrame:CGRectMake(self.contentView.frame.size.width/2, 35, self.contentView.frame.size.width/2-5, 35)];
 
-    [sellNum setFrame:CGRectMake(10, 7, 120, 30)];
-    [sellNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [buyNum setFrame:CGRectMake(10, 45, 120, 30)];
-    [buyNum setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [_submitButton setFrame:CGRectMake(extendBg.frame.size.width-80-7, 7, 80, 68)];
+    [num setFrame:CGRectMake(10, 10, 100, 30)];
+    [num setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [_submitBuyButton setFrame:CGRectMake(extendBg.frame.size.width-80-7, 10, 80, 30)];
+    [_submitSellButton setFrame:CGRectMake(extendBg.frame.size.width-165-7, 10, 80, 30)];
     
     [extendBg setFrame:CGRectMake(0, 70, self.contentView.frame.size.width, 90)];
 }

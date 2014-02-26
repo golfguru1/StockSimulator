@@ -223,14 +223,14 @@
         double currentCash=[currentUser[@"cash"] doubleValue];
         double newCash=currentCash-priceString.doubleValue*numShares;
         currentUser[@"cash"]=[NSNumber numberWithDouble:newCash];
-        [currentUser save];
+        [currentUser saveInBackground];
         
         PFObject *stock=[PFObject objectWithClassName:@"Stock"];
         stock[@"ticker"]=_tickerTitle.text.uppercaseString;
         stock[@"priceBoughtAt"]=[NSNumber numberWithFloat:[priceString floatValue]];
         stock[@"shares"]=[NSNumber numberWithInt:numShares];
         stock[@"user"]=currentUser.username;
-        [stock save];
+        [stock saveInBackground];
         
         [_parent.userStocks addObject:stock];
         [_parent refresh];
