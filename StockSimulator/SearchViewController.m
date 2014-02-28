@@ -214,6 +214,7 @@
     cell.tickerTitle.text =[stock valueForKey:@"ticker"];
     cell.boughtAt.text=[NSString stringWithFormat:@"%@",[stock valueForKey:@"priceBoughtAt"]];
     cell.numberOfShares.text=[NSString stringWithFormat:@"(%@)",[stock valueForKey:@"shares"]];
+    
     NSString* changeSt;
     if([results valueForKey:@"Symbol"]!=(id)[NSNull null] && [results valueForKey:@"LastTradePriceOnly"]!=(id)[NSNull null] && [results valueForKey:@"Change"]!=(id)[NSNull null]){
         if([self.userStocks count]>1){
@@ -298,12 +299,16 @@
             self.userStocks = [objects mutableCopy];
             [_table reloadData];
         }
+        else{
+            NSLog(@"%@", [error description]);
+        }
     }];
 }
 -(void)submit:(UIButton*)sender{
     TickerCell *cell=(TickerCell*)[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
     int numShares=[[cell.numberOfShares.text substringWithRange:NSMakeRange(1, [cell.numberOfShares.text length]-1)]integerValue];
     if ([selectedIndexPaths containsObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]] && [cell.num.text length]>0){
+        
         if([sender.titleLabel.text isEqualToString:@"Sell"]){
             if ([cell.num.text integerValue]>numShares){
                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"You don't own that many stocks. Please input a valid number of stocks to sell." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -312,37 +317,66 @@
             }
             else{
                 PFObject *selectedStock=self.userStocks[sender.tag];
-                [selectedStock setObject:[NSNumber numberWithInt:numShares-[cell.num.text integerValue]] forKey:@"shares"];
-                [selectedStock saveInBackground];
                 PFUser *currentUser=[PFUser currentUser];
-                [currentUser setObject:[NSNumber numberWithDouble:[currentUser[@"cash"] doubleValue]+([cell.num.text integerValue]*([cell.currentPrice.text doubleValue]))] forKey:@"cash"];
-                [currentUser saveInBackground];
+                [selectedStock setObject:[NSNumber numberWithInt:numShares-[cell.num.text integerValue]] forKey:@"shares"];
+                [selectedStock saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if(succeeded){
+                        [currentUser setObject:[NSNumber numberWithDouble:[currentUser[@"cash"] doubleValue]+([cell.num.text integerValue]*([cell.currentPrice.text doubleValue]))] forKey:@"cash"];
+                        [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            if(succeeded){
+                                if([cell.num.text integerValue]==numShares){
+                                    cell.num.text=nil;
+                                    [cell.num resignFirstResponder];
+                                    [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+                                    NSLog(@"here");
+                                    PFObject *stockDeleted=self.userStocks[sender.tag];
+                                    [self.userStocks removeObject:stockDeleted];
+                                    [stockDeleted deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                        if(succeeded){
+                                            [self query];
+                                            [_table reloadData];
+                                        }
+                                    }];
+                                }
+                                else{
+                                    cell.num.text=nil;
+                                    [cell.num resignFirstResponder];
+                                    [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+                                    [self query];
+                                    [self.table beginUpdates];
+                                    [self.table endUpdates];
+                                }
+
+                            }
+                        }];
+                    }
+                }];
                 
-                if([cell.num.text integerValue]==numShares){
-                    cell.num.text=nil;
-                    [cell.num resignFirstResponder];
-                    [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
-                    
-                    PFObject *stockDeleted=self.userStocks[sender.tag];
-                    [self.userStocks removeObject:stockDeleted];
-                    [stockDeleted deleteInBackground];
-                    [_table reloadData];
-                    [self refresh];
-                }
-                else{
-                    [self.table beginUpdates];
-                    [self.table endUpdates];
-                }
             }
         }
         else if([sender.titleLabel.text isEqualToString:@"Buy"]){
-            cell.num.text=nil;
-            [cell.num resignFirstResponder];
-            [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
-            [self query];
-            [self.table beginUpdates];
-            [self.table endUpdates];
+            PFObject *selectedStock=self.userStocks[sender.tag];
+            NSLog(@"%@",self.userStocks);
+            PFUser *currentUser=[PFUser currentUser];
+            [selectedStock setObject:[NSNumber numberWithInt:numShares+[cell.num.text integerValue]] forKey:@"shares"];
+            [selectedStock saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if(succeeded){
+                    [currentUser setObject:[NSNumber numberWithDouble:[currentUser[@"cash"] doubleValue]-([cell.num.text integerValue]*([cell.currentPrice.text doubleValue]))] forKey:@"cash"];
+                    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if(succeeded){
+                            cell.num.text=nil;
+                            [cell.num resignFirstResponder];
+                            [selectedIndexPaths removeObject:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
+                            [self query];
+#warning query is making things get rearranged and its really annoying. I don't know how to fix it.
+                        }
+                    }];
+                }
+            }];
         }
+        [self.table beginUpdates];
+        [self.table endUpdates];
+        [self populateSummary];
     }
     
 }
